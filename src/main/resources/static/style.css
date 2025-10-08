@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* 전체 앱 컨테이너 스타일 */
+body {
+    margin: 0;
+}
+
+.app-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #e0f2ff; /* 이미지의 하늘색 배경 */
+    font-family: 'Poppins', sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 질문 카드 스타일 */
+.question-card {
+    background-color: white;
+    border-radius: 20px;
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* 요소 간 간격 */
+    box-sizing: border-box;
+}
+
+/* 상단 진행 상태 점 스타일 */
+.progress-dots {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid black;
+}
+
+.dot.active {
+    background-color: black;
+}
+
+/* 질문 텍스트 영역 스타일 */
+.question-content {
+    text-align: left;
+    line-height: 1.5;
+}
+
+.question-content h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+}
+
+.question-content p {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* 답변 버튼 컨테이너 */
+.answers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* 버튼 사이 간격 */
+}
+
+/* 답변 버튼 스타일 */
+.answer-button {
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    border-radius: 12px;
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    transition: all 0.2s ease-in-out;
+}
+
+/* 버튼에 마우스를 올렸을 때 (이미지의 선택된 스타일) */
+.answer-button:hover {
+    background-color: black;
+    color: white;
+    transform: translateY(-2px); /* 살짝 위로 이동하는 효과 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
