@@ -28,7 +28,7 @@ jobs:
       # 4. Docker 이미지 빌드 및 푸시
       - name: Build and Push Docker Image
         run: |
-          docker build -t junghoonkim/opt-main:latest ./backend
+          docker build -t junghoonkim/opt-main:latest .
           docker push junghoonkim/opt-main:latest
 
       # 5. 배포 서버에 SSH로 접속하여 최신 Docker 이미지 배포
