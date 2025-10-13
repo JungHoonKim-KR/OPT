@@ -1,7 +1,6 @@
-package com.example.dmfp.domain.controller;
+package com.example.opt.domain.controller;
 
-import com.example.dmfp.domain.dto.SurveyDto;
-import com.example.dmfp.domain.service.QuestionService;
+import com.example.opt.domain.service.QuestionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

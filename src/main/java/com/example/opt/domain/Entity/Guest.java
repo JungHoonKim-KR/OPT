@@ -1,4 +1,4 @@
-package com.example.dmfp.domain.Entity;
+package com.example.opt.domain.Entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

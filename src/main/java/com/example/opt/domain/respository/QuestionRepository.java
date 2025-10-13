@@ -1,6 +1,6 @@
-package com.example.dmfp.domain.respository;
+package com.example.opt.domain.respository;
 
-import com.example.dmfp.domain.Entity.Question;
+import com.example.opt.domain.Entity.Question;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

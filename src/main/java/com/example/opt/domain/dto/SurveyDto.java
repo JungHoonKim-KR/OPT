@@ -1,6 +1,6 @@
-package com.example.dmfp.domain.dto;
+package com.example.opt.domain.dto;
 
-import com.example.dmfp.domain.Entity.Guest;
+import com.example.opt.domain.Entity.Guest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
