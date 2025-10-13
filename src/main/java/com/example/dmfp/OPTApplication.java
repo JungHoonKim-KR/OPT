@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DmfpApplication {
+public class OPTApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DmfpApplication.class, args);
+        SpringApplication.run(OPTApplication.class, args);
     }
 
 }
