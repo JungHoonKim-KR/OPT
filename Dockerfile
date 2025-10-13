@@ -17,7 +17,7 @@ RUN gradle build --no-daemon -x test
 
 # ================= STAGE 2: Runtime =================
 # 더 가벼운 JRE 이미지 사용
-FROM openjdk:17-jre-slim
+FROM openjdk:17
 
 WORKDIR /app
 
