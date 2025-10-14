@@ -1,3 +1,20 @@
 spring:
-  application:
-    name: DMFP
+  # 기본으로 활성화할 프로필을 'dev'로 지정
+  profiles:
+    active: dev
+  # JPA 공통 설정
+  jpa:
+    # SQL 쿼리를 콘솔에 예쁘게 포맷하여 출력
+    properties:
+      hibernate:
+        format_sql: true
+        # [중요] Java의 camelCase 필드명을 DB의 snake_case 컬럼명으로 자동 매핑
+        physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    # Open-in-View 설정을 비활성화하여 성능 저하 및 예기치 않은 동작 방지 (권장)
+    open-in-view: false
+
+# 로그 레벨 설정: JPA가 생성하는 SQL 쿼리의 파라미터 값까지 확인 가능
+logging:
+  level:
+    org.hibernate.SQL: debug
+    # org.hibernate.type.descriptor.sql: trace # 이 옵션을 활성화하면 SQL의 ?에 바인딩되는 값까지 보입니다.
