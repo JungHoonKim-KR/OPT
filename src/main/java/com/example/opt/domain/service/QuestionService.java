@@ -1,6 +1,7 @@
 package com.example.opt.domain.service;
 
 import com.example.opt.domain.Entity.OPT;
+import com.example.opt.domain.respository.GuestRepository;
 import com.example.opt.domain.respository.QuestionRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    private final GuestRepository guestRepository;
     /**
      * 각 질문 섹터별 매핑 규칙을 저장하는 리스트.
      * 리스트의 인덱스가 질문의 순서를 의미합니다. (0번 인덱스 = 첫 번째 질문)
@@ -35,12 +37,12 @@ public class QuestionService {
         MAPPING_SECTORS.add(Map.of(0, "P", 1, "A")); // Activity: Passive / Active
     }
 
-    public OPT findByTypeCode(List<Integer> answers) {
-        String resultCode = createResultCode(answers);
+    public OPT createResult(List<Integer> answers) {
+        String resultCode = createOPTCode(answers);
         return questionRepository.findByTypeCode(resultCode);
     }
 
-    private String createResultCode(List<Integer> answers) {
+    private String createOPTCode(List<Integer> answers) {
         // 입력값 유효성 검사
         if (answers == null || answers.size() != MAPPING_SECTORS.size()) {
             throw new IllegalArgumentException("답변의 개수가 올바르지 않습니다. " + MAPPING_SECTORS.size() + "개가 필요합니다.");

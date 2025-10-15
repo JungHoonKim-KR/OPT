@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+@Repository
 public interface QuestionRepository extends JpaRepository<OPT, String> {
     OPT findByTypeCode(String typeCode);
 

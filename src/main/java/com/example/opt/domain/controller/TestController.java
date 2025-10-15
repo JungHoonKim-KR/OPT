@@ -31,7 +31,6 @@ public class TestController {
 
     @GetMapping("/qr/{s}")
     public ResponseEntity<byte[]> qrToTistory(@PathVariable String s) throws WriterException, IOException {
-        System.out.println(s);
         // QR 정보
         int width = 200;
         int height = 200;
