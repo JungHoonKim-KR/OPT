@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +30,10 @@ public class QuestionController {
     @PostMapping("/survey")
     public OPTResponseDto survey(@RequestBody OPTRequestDto optRequestDto) {
         System.out.println(optRequestDto);
-        OPT byTypeCode = questionService.createResult(optRequestDto.getQuestionList());
-        guestService.save(optRequestDto.getGender(), optRequestDto.getAge(), byTypeCode.getTypeCode());
-        return new OPTResponseDto(byTypeCode);
+//        OPT byTypeCode = questionService.createResult(optRequestDto.getQuestionList());
+//        guestService.save(optRequestDto.getGender(), optRequestDto.getAge(), byTypeCode.getTypeCode());
+        String optCode = questionService.createOPTCode(optRequestDto.getQuestionList());
+        return new OPTResponseDto(optCode, "typeName", Arrays.asList("#희정님은", "#오운완", "#혜린님은","오동완","오늘 동물의 숲 완료라는 뜻"), "김정훈 잘생김", "설명글", 10, Arrays.asList(5,55,25,20,0));
     }
 
 }
