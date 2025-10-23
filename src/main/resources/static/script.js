@@ -71,7 +71,6 @@ function renderQuestion() {
 function handleAnswerSelect(event) {
     // 클릭된 버튼의 data-index 값을 숫자로 변환하여 가져옴 (0 또는 1)
     const selectedIndex = parseInt(event.target.dataset.index);
-
     // userAnswers 배열에 선택한 답변(0 또는 1)을 추가
     userAnswers.push(selectedIndex);
 
