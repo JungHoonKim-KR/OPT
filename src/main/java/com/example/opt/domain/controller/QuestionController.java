@@ -28,7 +28,7 @@ public class QuestionController {
     @Operation(summary = "설문 결과 응답", description = "4가지 설문의 응답 데이터를 받고 이에 따른 결과값 반환")
     @PostMapping("/survey")
     public OPTResponseDto survey(@RequestBody OPTRequestDto optRequestDto) {
-
+        System.out.println(optRequestDto);
         OPT byTypeCode = questionService.createResult(optRequestDto.getQuestionList());
         guestService.save(optRequestDto.getGender(), optRequestDto.getAge(), byTypeCode.getTypeCode());
         return new OPTResponseDto(byTypeCode);

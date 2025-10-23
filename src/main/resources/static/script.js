@@ -104,8 +104,11 @@ function sendSurveyData() {
         headers: {
             'Content-Type': 'application/json', // 보내는 데이터의 타입
         },
-        // userAnswers 배열을 JSON 형식의 문자열로 변환하여 body에 담아 전송
-        body: JSON.stringify( userAnswers ),
+        body: JSON.stringify({
+            gender : "남",
+            age : 25,
+            questionList : userAnswers
+        })
     })
         .then(response => {
             // 서버 응답이 정상이 아닐 경우 에러 처리
