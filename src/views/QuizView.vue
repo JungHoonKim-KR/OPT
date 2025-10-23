@@ -1,0 +1,659 @@
+<template>
+  <div class="container">
+    <!-- 모든 콘텐츠를 감싸는 비율 유지 래퍼 -->
+    <div class="aspect-ratio-wrapper">
+      <div class="quiz-scroll-container" ref="scrollContainerRef">
+        <!-- 1. 시작 패널 -->
+        <section class="panel start-panel" ref="startPanelRef">
+          <div class="start-content-wrapper">
+            <img
+              :src="plusImage"
+              alt="decoration"
+              class="plus-sign plus-top-left"
+            />
+            <img
+              :src="plusImage"
+              alt="decoration"
+              class="plus-sign plus-middle-right"
+            />
+            <img
+              :src="plusImage"
+              alt="decoration"
+              class="plus-sign plus-bottom-left"
+            />
+            <img :src="titleImage" alt="What's your OPT?" class="title-image" />
+          </div>
+        </section>
+
+        <!-- 2. 퀴즈 콘텐츠 패널 -->
+        <section class="panel quiz-content-panel" ref="quizPanelRef">
+          <!-- 퀴즈 진행 중 -->
+          <template
+            v-if="!isLoading && !isComplete && currentQuestionIndex >= 0"
+          >
+            <!-- 퀴즈 UI 전체를 감싸는 래퍼 -->
+            <div class="quiz-ui-wrapper">
+              <header class="question-header">
+                <button class="back-button" @click="goBack">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 18L9 12L15 6"
+                      stroke="white"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div class="progress-dots">
+                  <span
+                    v-for="i in quizData.length"
+                    :key="i"
+                    :class="{ active: i <= currentQuestionIndex + 1 }"
+                  ></span>
+                </div>
+              </header>
+
+              <main class="question-card">
+                <div class="card-content">
+                  <span class="question-number"
+                    >Q{{
+                      String(currentQuestionIndex + 1).padStart(2, "0")
+                    }}.</span
+                  >
+                  <div class="question-text">
+                    <transition name="fade" mode="out-in">
+                      <p class="korean" :key="currentQuestionIndex + '-ko'">
+                        {{ currentQuestion.text_ko }}
+                      </p>
+                    </transition>
+                    <transition name="fade" mode="out-in">
+                      <p class="english" :key="currentQuestionIndex + '-en'">
+                        {{ currentQuestion.text_en }}
+                      </p>
+                    </transition>
+                  </div>
+                  <transition name="fade" mode="out-in">
+                    <div class="answer-options" :key="currentQuestionIndex">
+                      <button
+                        @click="selectOption(0)"
+                        :class="{ active: selectedAnswerIndex === 0 }"
+                      >
+                        {{ currentQuestion.answers[0] }}
+                      </button>
+                      <button
+                        @click="selectOption(1)"
+                        :class="{ active: selectedAnswerIndex === 1 }"
+                      >
+                        {{ currentQuestion.answers[1] }}
+                      </button>
+                    </div>
+                  </transition>
+                </div>
+
+                <footer class="card-footer">
+                  <button
+                    class="next-button"
+                    @click="goToNextQuestion"
+                    :disabled="selectedAnswerIndex === null"
+                  >
+                    NEXT
+                  </button>
+                </footer>
+              </main>
+            </div>
+          </template>
+
+          <!-- 로딩 중 -->
+          <template v-else-if="isLoading">
+            <div class="status-message">
+              <h2>전송 중...</h2>
+              <p>설문 결과를 서버로 보내고 있습니다.</p>
+              <div class="loader"></div>
+            </div>
+          </template>
+
+          <!-- 완료 화면 -->
+          <template v-else-if="isComplete">
+            <div
+              class="status-message completion-screen"
+              :class="{ success: completionStatus, error: !completionStatus }"
+            >
+              <h2>{{ completionStatus ? "제출 완료!" : "오류" }}</h2>
+              <p>{{ completionMessage }}</p>
+            </div>
+          </template>
+
+          <!-- [수정됨] 퀴즈 시작 전 빈 상태를 처리할 v-else 블록 추가 -->
+          <template v-else>
+            <div class="initial-placeholder"></div>
+          </template>
+        </section>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
+import { useRouter } from "vue-router";
+// [수정 1] Pinia 스토어를 가져옵니다.
+import { useUserSelectionStore } from "@/stores/userSelection";
+// --- 이미지 임포트 ---
+import titleImage from "@/assets/images/title_whats_your_opt.png";
+import plusImage from "@/assets/images/plus_sign_dotted.png";
+
+const router = useRouter();
+// [수정 2] Pinia 스토어 인스턴스를 생성합니다.
+const userSelectionStore = useUserSelectionStore();
+
+// --- 퀴즈 데이터 ---
+const quizData = ref([
+  {
+    id: 1,
+    q: "Q1.",
+    text_ko: "온라인 속에서 가장 활발한 시간은 언제인가요?",
+    text_en: "When are you most active online?",
+    answers: ["DAY", "NIGHT"],
+  },
+  {
+    id: 2,
+    q: "Q2.",
+    text_ko: "온라인 속 당신의 커뮤니케이션 스타일은?",
+    text_en: "What is your style of communication when you are online?",
+    answers: ["MINIMAL", "EXPRESSIVE"],
+  },
+  {
+    id: 3,
+    q: "Q3.",
+    text_ko: "당신이 끌리는 콘텐츠는 어떤 유형인가요?",
+    text_en: "What type of content interests you?",
+    answers: ["INFORMATIVE", "FUN"],
+  },
+  {
+    id: 4,
+    q: "Q4.",
+    text_ko: "온라인 속 당신의 행동 방식은?",
+    text_en: "How would you describe your online behavior?",
+    answers: ["ACTIVE", "PASSIVE"],
+  },
+]);
+
+const userAnswers = ref(Array(quizData.value.length).fill(null));
+const currentQuestionIndex = ref(-1);
+const scrollContainerRef = ref(null);
+const startPanelRef = ref(null);
+const quizPanelRef = ref(null);
+const isLoading = ref(false);
+const isComplete = ref(false);
+const completionStatus = ref(false); // true: success, false: error
+const completionMessage = ref("");
+const selectedAnswerIndex = ref(null);
+
+const currentQuestion = computed(() => {
+  if (
+    currentQuestionIndex.value >= 0 &&
+    currentQuestionIndex.value < quizData.value.length
+  ) {
+    return quizData.value[currentQuestionIndex.value];
+  }
+  return { q: "", text_ko: "", text_en: "", answers: ["", ""] };
+});
+
+let scrollObserver;
+
+onMounted(() => {
+  // [수정 3] Pinia 스토어 값 확인 (URL 쿼리 대신)
+  console.log(
+    "QuizView - Info from Store:",
+    userSelectionStore.gender,
+    userSelectionStore.age
+  );
+
+  scrollObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(async (entry) => {
+        // 퀴즈 패널이 화면에 보이기 시작하고, 퀴즈가 아직 시작 전(-1)이면
+        if (entry.isIntersecting && currentQuestionIndex.value === -1) {
+          console.log("Quiz panel is intersecting, showing first question.");
+          currentQuestionIndex.value = 0; // 퀴즈 시작
+          if (quizPanelRef.value) {
+            scrollObserver.unobserve(quizPanelRef.value);
+          }
+        }
+      });
+    },
+    { threshold: 0.1 } // 퀴즈 패널이 10% 보였을 때
+  );
+
+  // 퀴즈 패널(quizPanelRef)을 감시 대상으로 등록
+  if (quizPanelRef.value) {
+    scrollObserver.observe(quizPanelRef.value);
+  }
+});
+
+onUnmounted(() => {
+  if (scrollObserver) scrollObserver.disconnect();
+});
+
+// 답변 '선택' 함수
+function selectOption(index) {
+  selectedAnswerIndex.value = index;
+}
+
+// 다음 질문으로 '이동' 함수
+async function goToNextQuestion() {
+  if (selectedAnswerIndex.value === null) return;
+
+  userAnswers.value[currentQuestionIndex.value] = selectedAnswerIndex.value;
+
+  const nextQuestionIndex = currentQuestionIndex.value + 1;
+
+  setTimeout(async () => {
+    if (nextQuestionIndex < quizData.value.length) {
+      currentQuestionIndex.value = nextQuestionIndex;
+      selectedAnswerIndex.value = null;
+    } else {
+      await sendSurveyData();
+    }
+  }, 300);
+}
+
+// [수정 4] 서버로 데이터 전송 함수 (Pinia 스토어 값 포함)
+async function sendSurveyData() {
+  isLoading.value = true;
+
+  // --- 데이터 가공 ---
+  const genderToSend =
+    userSelectionStore.gender === "male"
+      ? "남"
+      : userSelectionStore.gender === "female"
+      ? "여"
+      : "기타";
+  const parsedAge = parseInt(userSelectionStore.age) || 0;
+
+  const surveyPayload = {
+    gender: genderToSend,
+    age: parsedAge,
+    questionList: userAnswers.value,
+  };
+
+  console.log("서버로 전송할 최종 데이터:", surveyPayload);
+
+  // // 시뮬레이션
+  // await new Promise((resolve) => setTimeout(resolve, 1500));
+  // const isSuccess = Math.random() > 0.3;
+
+  // isLoading.value = false;
+  // showCompletionScreen(
+  //   isSuccess,
+  //   isSuccess ? "성공적으로 제출되었습니다." : "제출 중 오류가 발생했습니다."
+  // );
+
+  // [수정 5] 실제 서버 통신 코드
+  try {
+    const response = await fetch("/question/survey", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(surveyPayload),
+    });
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+    console.log("서버 응답:", data);
+    isLoading.value = false;
+    showCompletionScreen(true, "성공적으로 제출되었습니다.");
+  } catch (error) {
+    console.error("데이터 전송 실패:", error);
+    isLoading.value = false;
+    showCompletionScreen(false, "제출 중 오류가 발생했습니다.");
+  }
+}
+
+// 완료 화면 표시 함수
+function showCompletionScreen(isSuccess, message) {
+  completionStatus.value = isSuccess;
+  completionMessage.value = message;
+  isComplete.value = true;
+}
+
+// 뒤로가기 함수
+async function goBack() {
+  if (currentQuestionIndex.value === 0) {
+    startPanelRef.value?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      currentQuestionIndex.value = -1;
+      selectedAnswerIndex.value = null;
+      if (quizPanelRef.value) {
+        scrollObserver.observe(quizPanelRef.value);
+      }
+    }, 500);
+  } else if (currentQuestionIndex.value > 0) {
+    const prevQuestionIndex = currentQuestionIndex.value - 1;
+    selectedAnswerIndex.value = userAnswers.value[prevQuestionIndex];
+    isComplete.value = false;
+    isLoading.value = false;
+    currentQuestionIndex.value = prevQuestionIndex;
+  }
+}
+</script>
+
+<style scoped>
+.container {
+  min-height: 100vh;
+  width: 100vw;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.aspect-ratio-wrapper {
+  position: relative;
+  width: calc(100vh * 9 / 16);
+  height: 100vh;
+  max-width: 100vw;
+  max-height: calc(100vw * 16 / 9);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.quiz-scroll-container {
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  background-color: #000000;
+}
+.panel {
+  height: 100%;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
+  padding: 5vh 5vw;
+}
+
+/* --- 시작 패널 스타일 --- */
+.start-panel {
+  justify-content: center;
+  align-items: center;
+}
+.start-content-wrapper {
+  position: relative;
+  width: 80%;
+  max-width: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1s ease-out forwards;
+}
+.title-image {
+  width: 100%;
+  height: auto;
+}
+.plus-sign {
+  position: absolute;
+  width: 10%;
+  max-width: 80px;
+  height: auto;
+}
+.plus-top-left {
+  top: -10%;
+  left: 0;
+}
+.plus-middle-right {
+  top: 50%;
+  right: -15%;
+  transform: translateY(-50%);
+}
+.plus-bottom-left {
+  bottom: -15%;
+  left: 15%;
+}
+
+/* --- 퀴즈 콘텐츠 패널 스타일 --- */
+.quiz-content-panel {
+  justify-content: flex-start;
+  align-items: center;
+  background-image: radial-gradient(circle at center, #333 1px, transparent 1px),
+    radial-gradient(circle at center, #333 1px, transparent 1px);
+  background-size: 5vh 5vh;
+  background-position: 0 0, 2.5vh 2.5vh;
+}
+
+.quiz-ui-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 90%;
+  color: white;
+  flex-shrink: 0;
+  margin-bottom: 3vh;
+}
+.back-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.back-button svg {
+  width: clamp(18px, 3vh, 30px);
+  height: auto;
+}
+.back-button:hover svg path {
+  stroke: #aaa;
+}
+.progress-dots {
+  display: flex;
+  gap: 1vw;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.progress-dots span {
+  width: 1.8vh;
+  height: 1.8vh;
+  border-radius: 50%;
+  border: 2px solid white;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+.progress-dots span.active {
+  background-color: white;
+}
+
+.question-card {
+  background-color: #e9f7ff;
+  border-radius: 4vh;
+  padding: 4vh 5vw;
+  width: 100%;
+  max-width: 90%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+.card-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5vh;
+}
+.question-number {
+  font-size: clamp(16px, 3vh, 30px);
+  font-weight: bold;
+  color: #1a1a1a;
+  align-self: flex-start;
+  margin-bottom: 2vh;
+}
+.question-text {
+  text-align: left;
+  color: #1a1a1a;
+}
+.question-text p {
+  width: 100%;
+  margin: 0;
+}
+.korean {
+  font-size: clamp(24px, 5vmin, 50px);
+  font-weight: bold;
+  line-height: 1.3;
+  margin-bottom: 1.5vh;
+}
+.english {
+  font-size: clamp(16px, 3vmin, 28px);
+  color: #555;
+  line-height: 1.3;
+}
+.answer-options {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vh;
+  width: 100%;
+}
+.answer-options button {
+  background-color: transparent;
+  color: black;
+  border: 2px solid black;
+  border-radius: 50px;
+  padding: 2.5vh 3vw;
+  font-size: clamp(18px, 3.5vmin, 32px);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+.answer-options button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.answer-options button.active {
+  background-color: #1a1a1a;
+  color: white;
+}
+.card-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 4vh;
+}
+.next-button {
+  background: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 2.5vh 8vw;
+  font-size: clamp(16px, 3vmin, 30px);
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.next-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.next-button:not(:disabled):hover {
+  transform: scale(1.05);
+}
+
+/* 로딩 및 완료 화면 스타일 */
+.status-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  height: 100%;
+  width: 100%;
+}
+.status-message h2 {
+  font-size: clamp(24px, 5vh, 50px);
+  margin-bottom: 2vh;
+}
+.status-message p {
+  font-size: clamp(16px, 3vh, 30px);
+}
+.completion-screen.success h2 {
+  color: #4caf50;
+}
+.completion-screen.error h2 {
+  color: #f44336;
+}
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #ffffff;
+  border-radius: 50%;
+  width: clamp(30px, 5vmin, 50px);
+  height: clamp(30px, 5vmin, 50px);
+  animation: spin 1s linear infinite;
+  margin-top: 3vh;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* [수정됨] 퀴즈 시작 전 빈 공간 스타일 */
+.initial-placeholder {
+  display: block; /* 공간을 차지하지만 내용은 없도록 */
+  width: 100%;
+  height: 100%;
+}
+</style>
+
+<!-- 스크롤바 숨김 -->
+<style>
+::-webkit-scrollbar {
+  display: none;
+}
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+</style>
