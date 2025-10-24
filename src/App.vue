@@ -12,6 +12,7 @@ import { RouterView } from "vue-router";
   <RouterView />
 </template>
 
+
 <style scoped>
 /* scoped 키워드는 이 스타일이 App.vue 컴포넌트 내부에만 적용되도록 합니다.
   하지만 App.vue는 모든 페이지를 감싸고 있으므로,
