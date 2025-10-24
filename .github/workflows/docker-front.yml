@@ -40,9 +40,9 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           # 3. 빌드 컨텍스트 경로 수정 (./front)
-          docker build --no-cache -t junghoonkim/front:latest ./front
+          docker build --no-cache -t junghoonkim/opt-front:latest ./front
           # 4. 이미지 이름 수정 (junghoonkim/front)
-          docker push junghoonkim/front:latest
+          docker push junghoonkim/opt-front:latest
 
 
       # 6. 배포 서버에 SSH로 접속하여 최신 Docker 이미지 배포
