@@ -1,23 +1,45 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 
-// 'userSelection'이라는 이름의 저장소(store)를 정의합니다.
 export const useUserSelectionStore = defineStore("userSelection", () => {
-  // state: 저장하고 싶은 데이터 (ref 사용)
-  const gender = ref(null); // 초기값 null
-  const age = ref(null); // 초기값 null
+  // State
+  const gender = ref(null);
+  const age = ref(null);
+  const quizAnswers = ref(null); // [새로 추가됨] 퀴즈 답변 저장
+  const result = ref(null); // [새로 추가됨] 서버 결과 저장
 
-  // actions: state를 변경하는 함수들
+  // Actions
   function setGender(value) {
     gender.value = value;
-    console.log("Gender set to:", gender.value); // 확인용 로그
+    console.log("Pinia - 성별 저장됨:", gender.value);
   }
 
   function setAge(value) {
     age.value = value;
-    console.log("Age set to:", age.value); // 확인용 로그
+    console.log("Pinia - 연령대 저장됨:", age.value);
   }
 
-  // 저장소에서 사용할 state와 actions를 반환합니다.
-  return { gender, age, setGender, setAge };
+  // [새로 추가됨] 퀴즈 답변을 저장하는 함수
+  function setQuizAnswers(answers) {
+    quizAnswers.value = answers;
+    console.log("Pinia - 퀴즈 답변 저장됨:", quizAnswers.value);
+  }
+
+  // [새로 추가됨] 결과를 저장하는 함수
+  function setResult(data) {
+    result.value = data;
+    console.log("Pinia - 결과 저장됨:", result.value);
+  }
+
+  // 반환 목록에 새 state와 actions 추가
+  return {
+    gender,
+    age,
+    quizAnswers,
+    result,
+    setGender,
+    setAge,
+    setQuizAnswers,
+    setResult,
+  };
 });

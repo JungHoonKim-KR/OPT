@@ -10,7 +10,11 @@
       <!-- 2. 캐릭터 목록과 구분선을 모두 감싸는 메인 영역 -->
       <main class="character-section-wrapper">
         <div class="separator-bar-wrapper">
-          <img :src="backgroundBarImage" alt="separator" class="separator-bar-img" />
+          <img
+            :src="backgroundBarImage"
+            alt="separator"
+            class="separator-bar-img"
+          />
         </div>
         <template v-for="(row, rowIndex) in characterRows" :key="rowIndex">
           <!-- 캐릭터 한 줄 (4개) -->
@@ -24,13 +28,20 @@
               @click="startQuiz"
             >
               <div class="image-wrapper">
-                <img :src="char.isHovered ? char.animatedGif : char.staticImage" :alt="'Character ' + char.id" />
+                <img
+                  :src="char.isHovered ? char.animatedGif : char.staticImage"
+                  :alt="'Character ' + char.id"
+                />
               </div>
             </div>
           </div>
 
           <div class="separator-bar-wrapper">
-            <img :src="backgroundBarImage" alt="separator" class="separator-bar-img" />
+            <img
+              :src="backgroundBarImage"
+              alt="separator"
+              class="separator-bar-img"
+            />
           </div>
         </template>
       </main>
@@ -69,19 +80,19 @@ const characters = ref([
   {
     id: 3,
     staticImage: "/src/assets/images/3.png",
-    animatedGif: "/src/assets/images/testGIF.gif",
+    animatedGif: "/src/assets/images/3.gif",
     isHovered: false,
   },
   {
     id: 4,
     staticImage: "/src/assets/images/4.png",
-    animatedGif: "/src/assets/images/testGIF.gif",
+    animatedGif: "/src/assets/images/4.gif",
     isHovered: false,
   },
   {
     id: 5,
     staticImage: "/src/assets/images/5.png",
-    animatedGif: "/src/assets/images/testGIF.gif",
+    animatedGif: "/src/assets/images/5.gif",
     isHovered: false,
   },
   {
@@ -99,13 +110,13 @@ const characters = ref([
   {
     id: 8,
     staticImage: "/src/assets/images/8.png",
-    animatedGif: "/src/assets/images/testGIF.gif",
+    animatedGif: "/src/assets/images/8.gif",
     isHovered: false,
   },
   {
     id: 9,
     staticImage: "/src/assets/images/9.png",
-    animatedGif: "/src/assets/images/testGIF.gif",
+    animatedGif: "/src/assets/images/9.gif",
     isHovered: false,
   },
   {
@@ -123,7 +134,7 @@ const characters = ref([
   {
     id: 12,
     staticImage: "/src/assets/images/12.png",
-    animatedGif: "/src/assets/images/testGIF.gif",
+    animatedGif: "/src/assets/images/12.gif",
     isHovered: false,
   },
   {
@@ -135,13 +146,13 @@ const characters = ref([
   {
     id: 14,
     staticImage: "/src/assets/images/14.png",
-    animatedGif: "/src/assets/images/testGIF.gif",
+    animatedGif: "/src/assets/images/14.gif",
     isHovered: false,
   },
   {
     id: 15,
     staticImage: "/src/assets/images/15.png",
-    animatedGif: "/src/assets/images/testGIF.gif",
+    animatedGif: "/src/assets/images/15.gif",
     isHovered: false,
   },
   {
@@ -180,7 +191,13 @@ const characterRows = computed(() => {
   height: 100vh;
   max-width: 100vw;
   max-height: calc(100vw * 16 / 9);
-  background: linear-gradient(to bottom, #000000 0%, #000000 30%, #e9f7ff 30%, #e9f7ff 100%);
+  background: linear-gradient(
+    to bottom,
+    #000000 0%,
+    #000000 30%,
+    #e9f7ff 30%,
+    #e9f7ff 100%
+  );
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
