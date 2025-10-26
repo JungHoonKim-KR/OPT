@@ -34,23 +34,6 @@
             <!-- 퀴즈 UI 전체를 감싸는 래퍼 -->
             <div class="quiz-ui-wrapper">
               <header class="question-header">
-                <button class="back-button" @click="goBack">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M15 18L9 12L15 6"
-                      stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </button>
                 <div class="progress-dots">
                   <span
                     v-for="i in quizData.length"
@@ -99,12 +82,15 @@
                 </div>
 
                 <footer class="card-footer">
+                  <button class="back-button" @click="goBack">
+                    <img src="../assets/images/back.png" />
+                  </button>
                   <button
                     class="next-button"
                     @click="goToNextQuestion"
                     :disabled="selectedAnswerIndex === null"
                   >
-                    NEXT
+                    <img src="../assets/images/go.png" />
                   </button>
                 </footer>
               </main>
@@ -161,8 +147,8 @@ const quizData = ref([
   {
     id: 1,
     q: "Q1.",
-    text_ko: "온라인 속에서 가장 활발한 시간은 언제인가요?",
-    text_en: "When are you most active online?",
+    text_ko: "온라인 속 당신의 행동 방식은?",
+    text_en: "How would you describe your online behavior?",
     answers: ["DAY", "NIGHT"],
   },
   {
@@ -391,7 +377,7 @@ async function goBack() {
   flex-direction: column;
   box-sizing: border-box;
   position: relative;
-  padding: 5vh 5vw;
+  padding: 10vh 8vw;
 }
 
 /* --- 시작 패널 스타일 --- */
@@ -466,13 +452,7 @@ async function goBack() {
   display: flex;
   align-items: center;
 }
-.back-button svg {
-  width: clamp(18px, 3vh, 30px);
-  height: auto;
-}
-.back-button:hover svg path {
-  stroke: #aaa;
-}
+
 .progress-dots {
   display: flex;
   gap: 1vw;
@@ -513,9 +493,17 @@ async function goBack() {
   gap: 5vh;
 }
 .question-number {
-  font-size: clamp(16px, 3vh, 30px);
+  font-family: Pretendard;
+  font-weight: 800;
+  font-style: ExtraBold;
+  font-size: 70px;
+  leading-trim: NONE;
+  line-height: 176%;
+  letter-spacing: 0%;
+  color: #000;
+  /* font-size: clamp(16px, 3vh, 30px);
   font-weight: bold;
-  color: #1a1a1a;
+  color: #1a1a1a; */
   align-self: flex-start;
   margin-bottom: 2vh;
 }
@@ -526,6 +514,13 @@ async function goBack() {
 .question-text p {
   width: 100%;
   margin: 0;
+  font-family: Helvetica;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 100px;
+  leading-trim: NONE;
+  line-height: 150px;
+  letter-spacing: 0%;
 }
 .korean {
   font-size: clamp(24px, 5vmin, 50px);
@@ -545,14 +540,22 @@ async function goBack() {
   width: 100%;
 }
 .answer-options button {
+  font-family: Pretendard;
+  font-weight: 900;
+  font-style: Black;
+  font-size: 124.76px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+
   background-color: transparent;
   color: black;
   border: 2px solid black;
   border-radius: 50px;
   padding: 2.5vh 3vw;
-  font-size: clamp(18px, 3.5vmin, 32px);
+  /* font-size: clamp(18px, 3.5vmin, 32px); */
   font-weight: bold;
-  cursor: pointer;
+  /* cursor: pointer; */
   transition: all 0.2s ease;
   text-align: center;
 }
@@ -565,26 +568,16 @@ async function goBack() {
 }
 .card-footer {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin-top: 4vh;
 }
 .next-button {
-  background: #1a1a1a;
-  color: white;
+  background: none;
   border: none;
-  border-radius: 50px;
-  padding: 2.5vh 8vw;
-  font-size: clamp(16px, 3vmin, 30px);
-  font-weight: bold;
+  padding: 0;
   cursor: pointer;
-  transition: transform 0.2s ease;
-}
-.next-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.next-button:not(:disabled):hover {
-  transform: scale(1.05);
+  display: flex;
+  align-items: center;
 }
 
 /* --- 로딩 및 완료 화면 스타일 --- */
