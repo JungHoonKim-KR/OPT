@@ -89,8 +89,7 @@
             <div class="selection-header">
               <p class="main-text">성별, 연령대를 선택해주세요!</p>
               <p class="sub-text">
-                OPT 테스트 결과는 통계 목적으로 활용되며, 개인을 식별하지
-                않습니다.
+                귀하의 정보는 통계 목적으로만 활용되며, 익명으로 처리됩니다.
               </p>
             </div>
 
@@ -199,9 +198,12 @@ const isSmallScreen = computed(() => {
 
 // 두 번째 패널 대화 데이터
 const dialogueMessages = ref([
-  { id: 1, text: "온라인 속 당신의 커뮤니케이션 스타일은?" },
-  { id: 2, text: "어떤 콘텐츠를 주로 소비하시나요?" },
-  { id: 3, text: "당신의 디지털 발자국을 따라가 봅니다." },
+  { id: 1, text: "당신은 하루에 몇 시간을 온라인 공간에서 보내나요?" },
+  { id: 2, text: "온라인 공간에서의 당신은 어떤 사람인가요?" },
+  {
+    id: 3,
+    text: "OPT는 온라인 속에서의 나를 파악하고, 새로운 시선으로 나를 바라보게하는 실험입니다.",
+  },
 ]);
 
 // 퀴즈 페이지로 이동하는 함수 (쿼리 파라미터 제거)
@@ -308,8 +310,6 @@ onUnmounted(() => {
 }
 .header {
   height: 28%;
-  background-color: #000000;
-  padding: clamp(1rem, 3vmin, 3rem) clamp(1rem, 5vmin, 5rem);
   box-sizing: border-box;
   flex-shrink: 0;
   width: 100%;
@@ -327,6 +327,8 @@ onUnmounted(() => {
   justify-content: space-between;
 }
 .header-bars-wrapper {
+  background-image: url("../assets/images/homebackground.png");
+  background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -335,7 +337,6 @@ onUnmounted(() => {
   height: 100%;
 }
 .header-bar {
-  width: 100%;
   height: auto;
 }
 .header-bar:nth-child(1) {
@@ -359,23 +360,29 @@ onUnmounted(() => {
   justify-content: center;
   gap: clamp(1.5rem, 4vmin, 4rem); /* vmin 사용 */
   width: 100%;
-  padding: clamp(1rem, 3vmin, 3rem) clamp(1rem, 5vmin, 5rem);
+  /* padding: clamp(1rem, 3vmin, 3rem) clamp(1rem, 5vmin, 5rem); */
+  padding: 10rem;
   box-sizing: border-box;
   overflow: hidden; /* 내부 스크롤 방지 */
 }
 .title-image {
-  width: 100%;
-  max-width: clamp(250px, 40vmin, 700px); /* vmin 사용 및 최대값 조정 */
-  height: auto;
+  height: 35%;
 }
 .description {
+  font-family: Pretendard;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 45px;
+  line-height: 180%;
+  letter-spacing: 0%;
+
   display: flex;
   flex-direction: column;
   gap: clamp(0.8rem, 2vmin, 2rem); /* vmin 사용 */
   line-height: 1.6;
   text-align: left;
   width: 100%;
-  font-size: clamp(10px, 1.8vmin, 18px); /* vmin 사용, 최소/최대값 조정 */
+  /* font-size: clamp(10px, 1.8vmin, 18px);  */
 }
 .footer-bars-wrapper {
   display: flex;
@@ -388,7 +395,7 @@ onUnmounted(() => {
 }
 .footer-image {
   width: 80%;
-  max-width: 1000px; /* 최대 크기 조정 */
+  /* max-width: 1000px;  */
   height: auto;
 }
 
@@ -517,14 +524,28 @@ onUnmounted(() => {
   text-align: center;
 }
 .main-text {
-  font-size: clamp(18px, 3.5vmin, 35px); /* vmin 사용 */
+  /* font-size: clamp(18px, 3.5vmin, 35px);
   font-weight: bold;
   color: #1a1a1a;
-  margin-bottom: clamp(0.6rem, 1.2vmin, 1.2rem); /* vmin 사용 */
+  margin-bottom: clamp(0.6rem, 1.2vmin, 1.2rem);  */
+  font-family: Pretendard;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 68.29px;
+  leading-trim: NONE;
+  line-height: 155%;
+  letter-spacing: 0%;
 }
 .sub-text {
-  font-size: clamp(10px, 1.6vmin, 16px); /* vmin 사용 */
-  color: #555;
+  /* font-size: clamp(10px, 1.6vmin, 16px);  */
+  color: #6b6b6b;
+  font-family: Pretendard;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 40px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
 }
 .option-group {
   display: flex;
@@ -538,14 +559,29 @@ onUnmounted(() => {
   justify-items: center; /* 아이템 가로 중앙 정렬 */
 }
 .option-button {
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 50px;
-  padding: clamp(0.5rem, 1.2vmin, 1rem) clamp(0.8rem, 2.5vmin, 2rem); /* 패딩 조정 */
-  font-size: clamp(12px, 2.2vmin, 20px); /* 크기 조정 */
+  font-family: Pretendard;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 80px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+  padding: 10px 20px;
+  width: 489;
+  height: 244;
+  opacity: 1;
+  top: 1254px;
+  left: 557px;
+  border-width: 5px;
+  border-radius: 200px;
+  background-color: transparent;
+  background-color: none;
+  border: 5px solid #000000;
+  padding: 3rem 5rem;
+  /* padding: clamp(0.5rem, 1.2vmin, 1rem) clamp(0.8rem, 2.5vmin, 2rem); 패딩 조정 */
+  /* font-size: clamp(12px, 2.2vmin, 20px); 크기 조정 */
   cursor: pointer;
   transition: all 0.2s ease;
-  width: 100%; /* 버튼이 grid 셀 너비 꽉 채우도록 */
   text-align: center;
 }
 .option-button:hover {

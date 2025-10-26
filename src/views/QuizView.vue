@@ -415,20 +415,19 @@ async function goBack() {
 .plus-sign {
   position: absolute;
   width: 10%;
-  max-width: 80px;
   height: auto;
 }
 .plus-top-left {
-  top: -10%;
+  top: -50%;
   left: 0;
 }
 .plus-middle-right {
   top: 50%;
-  right: -15%;
+  right: -5%;
   transform: translateY(-50%);
 }
 .plus-bottom-left {
-  bottom: -15%;
+  bottom: -40%;
   left: 15%;
 }
 

@@ -206,6 +206,7 @@ const characterRows = computed(() => {
   align-items: flex-end; /* 로고를 아래로 */
   justify-content: flex-end; /* 로고를 오른쪽으로 */
   box-sizing: border-box;
+  /*max값min값 조정하자 아니면 미디어쿼리*/
   padding-right: 5rem;
 }
 
@@ -222,6 +223,7 @@ const characterRows = computed(() => {
   align-items: center;
   width: 100%;
   box-sizing: border-box;
+  /*max값 min 값 조정하자 아니면 미디어쿼리 */
   padding: 10rem 3rem;
 }
 
