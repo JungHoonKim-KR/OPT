@@ -3,10 +3,13 @@
     <div class="result-scroll-container" ref="scrollContainerRef">
       <!-- 1. 타입 소개 패널 -->
       <section class="panel type-intro-panel">
+        <div class="type-image"></div>
         <div class="type-intro-content">
-          <p class="intro-text">온라인 공간 속 당신의 유형은,</p>
-          <h1 class="type-code">{{ resultData.typeCode }}</h1>
-          <h2 class="type-name">{{ resultData.typeName }}</h2>
+          <p class="intro-text">{{ resultData.typeName }}</p>
+          <img
+            :src="getTypeImage(resultData.typeCode)"
+            :alt="resultData.typeCode"
+          />
 
           <!-- 타입 캐릭터 이미지 -->
           <div class="character-image">
@@ -33,6 +36,7 @@
             <button class="btn-outline">#공유하기</button>
             <button class="btn-outline">#결과보기</button>
           </div>
+          <h2 class="type-name">{{ resultData.description }}</h2>
         </div>
       </section>
 
@@ -245,7 +249,7 @@ function getCharacterImage(typeCode) {
   if (!typeCode) return "";
   try {
     return new URL(
-      `../assets/images/characters/${typeCode}.png`,
+      `../assets/images/characters/${typeCode}.gif`,
       import.meta.url
     ).href;
   } catch {
@@ -253,7 +257,19 @@ function getCharacterImage(typeCode) {
   }
 }
 
-const clipboardGif = new URL("../assets/images/clipboard.gif", import.meta.url)
+function getTypeImage(typeCode) {
+  if (!typeCode) return "";
+  try {
+    return new URL(
+      `../assets/images/typeNames/${typeCode}.png`,
+      import.meta.url
+    ).href;
+  } catch {
+    return "";
+  }
+}
+
+const clipboardGif = new URL("..\assets\images\print.png", import.meta.url)
   .href;
 const cursorGif = new URL("../assets/images/cursor.gif", import.meta.url).href;
 
@@ -313,7 +329,7 @@ onMounted(() => {
 
 /* --- 1. 타입 소개 패널 --- */
 .type-intro-panel {
-  background: #000;
+  background: #101010;
   color: #fff;
 }
 
@@ -324,9 +340,10 @@ onMounted(() => {
 }
 
 .intro-text {
-  font-size: clamp(14px, 2.5vh, 20px);
-  color: #888;
-  margin-bottom: 2vh;
+  font-family: Pretendard;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 70px;
 }
 
 .type-code {
@@ -347,11 +364,10 @@ onMounted(() => {
 }
 
 .character-image {
-  width: clamp(200px, 30vh, 300px);
-  height: clamp(200px, 30vh, 300px);
+  /* width: clamp(200px, 30vh, 300px);
+  height: clamp(200px, 30vh, 300px); */
   margin: 4vh auto;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -404,7 +420,7 @@ onMounted(() => {
 
 /* --- 2. Match 패널 --- */
 .match-panel {
-  background: linear-gradient(180deg, #b8d8e8 0%, #a8c8d8 100%);
+  background: #aac7dd;
 }
 
 .match-content {
@@ -413,12 +429,13 @@ onMounted(() => {
 }
 
 .panel-title {
-  font-size: clamp(32px, 6vh, 48px);
-  font-weight: bold;
+  font-family: Pretendard;
+  font-weight: 900;
+  color: #ffffff;
+  font-size: 70px;
+  line-height: 120%;
+  letter-spacing: 0.25px;
   text-align: center;
-  color: #000;
-  margin-bottom: 4vh;
-  line-height: 1.2;
 }
 
 .match-card {
@@ -476,11 +493,15 @@ onMounted(() => {
 }
 
 .routine-suggestion {
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 3vh;
   padding: 3vh 4vw;
   margin-top: 3vh;
   text-align: center;
+  opacity: 1;
+  top: 3017px;
+  left: 177px;
+  border-radius: 85px;
+
+  border: 5px solid #ffffff;
 }
 
 .routine-icon {
