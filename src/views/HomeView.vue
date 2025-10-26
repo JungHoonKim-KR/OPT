@@ -191,30 +191,26 @@ const characterRows = computed(() => {
   height: 100vh;
   max-width: 100vw;
   max-height: calc(100vw * 16 / 9);
-  background: linear-gradient(
-    to bottom,
-    #000000 0%,
-    #000000 30%,
-    #e9f7ff 30%,
-    #e9f7ff 100%
-  );
+  background: #e9f7ff;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
 }
 
 .header {
+  background-image: url("../assets/images/homebackground.png");
+  background-size: cover;
   height: 30%;
   flex-shrink: 0;
   display: flex;
   align-items: flex-end; /* 로고를 아래로 */
   justify-content: flex-end; /* 로고를 오른쪽으로 */
-  padding: 2rem;
   box-sizing: border-box;
+  padding-right: 5rem;
 }
 
 .logo {
-  height: 25%;
+  height: 60%;
   width: auto;
 }
 
@@ -226,6 +222,7 @@ const characterRows = computed(() => {
   align-items: center;
   width: 100%;
   box-sizing: border-box;
+  padding: 10rem 3rem;
 }
 
 .character-row {
