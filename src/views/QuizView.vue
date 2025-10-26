@@ -46,9 +46,7 @@
               <main class="question-card">
                 <div class="card-content">
                   <span class="question-number"
-                    >Q{{
-                      String(currentQuestionIndex + 1).padStart(2, "0")
-                    }}.</span
+                    >Q{{ String(currentQuestionIndex + 1) }}.</span
                   >
 
                   <div class="question-text">
