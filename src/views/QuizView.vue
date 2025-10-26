@@ -67,6 +67,7 @@
                       String(currentQuestionIndex + 1).padStart(2, "0")
                     }}.</span
                   >
+
                   <div class="question-text">
                     <transition name="fade" mode="out-in">
                       <p class="korean" :key="currentQuestionIndex + '-ko'">
@@ -115,6 +116,7 @@
             <div class="status-message">
               <h2>전송 중...</h2>
               <p>설문 결과를 서버로 보내고 있습니다.</p>
+              <!-- 간단한 로딩 스피너 (CSS) -->
               <div class="loader"></div>
             </div>
           </template>
@@ -127,6 +129,7 @@
             >
               <h2>{{ completionStatus ? "제출 완료!" : "오류" }}</h2>
               <p>{{ completionMessage }}</p>
+              <!-- 필요하다면 결과 페이지로 이동하는 버튼 등을 추가 -->
             </div>
           </template>
 
@@ -143,14 +146,14 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 import { useRouter } from "vue-router";
-// [수정 1] Pinia 스토어를 가져옵니다.
+// [수정] Pinia 스토어를 가져옵니다.
 import { useUserSelectionStore } from "@/stores/userSelection";
 // --- 이미지 임포트 ---
 import titleImage from "@/assets/images/title_whats_your_opt.png";
 import plusImage from "@/assets/images/plus_sign_dotted.png";
 
 const router = useRouter();
-// [수정 2] Pinia 스토어 인스턴스를 생성합니다.
+// [수정] Pinia 스토어 인스턴스를 생성합니다.
 const userSelectionStore = useUserSelectionStore();
 
 // --- 퀴즈 데이터 ---
@@ -183,6 +186,7 @@ const quizData = ref([
     text_en: "How would you describe your online behavior?",
     answers: ["ACTIVE", "PASSIVE"],
   },
+  // ... (나머지 퀴즈 데이터가 있다면 여기에)
 ]);
 
 const userAnswers = ref(Array(quizData.value.length).fill(null));
@@ -194,7 +198,7 @@ const isLoading = ref(false);
 const isComplete = ref(false);
 const completionStatus = ref(false); // true: success, false: error
 const completionMessage = ref("");
-const selectedAnswerIndex = ref(null);
+const selectedAnswerIndex = ref(null); // 현재 선택한 답변 인덱스
 
 const currentQuestion = computed(() => {
   if (
@@ -209,7 +213,7 @@ const currentQuestion = computed(() => {
 let scrollObserver;
 
 onMounted(() => {
-  // [수정 3] Pinia 스토어 값 확인 (URL 쿼리 대신)
+  // [수정] Pinia 스토어 값 확인 (URL 쿼리 대신)
   console.log(
     "QuizView - Info from Store:",
     userSelectionStore.gender,
@@ -242,7 +246,7 @@ onUnmounted(() => {
   if (scrollObserver) scrollObserver.disconnect();
 });
 
-// 답변 '선택' 함수
+// 답변 '선택' 함수 (NEXT 버튼용)
 function selectOption(index) {
   selectedAnswerIndex.value = index;
 }
@@ -258,18 +262,16 @@ async function goToNextQuestion() {
   setTimeout(async () => {
     if (nextQuestionIndex < quizData.value.length) {
       currentQuestionIndex.value = nextQuestionIndex;
-      selectedAnswerIndex.value = null;
+      selectedAnswerIndex.value = null; // 선택 초기화
     } else {
       await sendSurveyData();
     }
   }, 300);
 }
 
-// [수정 4] 서버로 데이터 전송 함수 (Pinia 스토어 값 포함)
+// [수정됨] 서버로 데이터 전송 함수 (로딩 페이지로 이동 후 결과 페이지로 이동)
 async function sendSurveyData() {
-  isLoading.value = true;
-
-  // --- 데이터 가공 ---
+  // --- 1. 데이터 가공 ---
   const genderToSend =
     userSelectionStore.gender === "male"
       ? "남"
@@ -286,34 +288,43 @@ async function sendSurveyData() {
 
   console.log("서버로 전송할 최종 데이터:", surveyPayload);
 
-  // // 시뮬레이션
-  // await new Promise((resolve) => setTimeout(resolve, 1500));
-  // const isSuccess = Math.random() > 0.3;
+  // --- 2. 로딩 페이지로 이동 ---
+  router.push("/loading");
 
-  // isLoading.value = false;
-  // showCompletionScreen(
-  //   isSuccess,
-  //   isSuccess ? "성공적으로 제출되었습니다." : "제출 중 오류가 발생했습니다."
-  // );
+  // --- 3. 최소 3초 대기와 서버 통신을 병렬 처리 ---
+  const minLoadingTime = new Promise((resolve) => setTimeout(resolve, 3000));
 
-  // [수정 5] 실제 서버 통신 코드
+  const serverRequest = fetch("/question/survey", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(surveyPayload),
+  });
+
   try {
-    const response = await fetch("/question/survey", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(surveyPayload),
-    });
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    // 최소 3초와 서버 응답 둘 다 완료될 때까지 대기
+    const [_, response] = await Promise.all([minLoadingTime, serverRequest]);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const data = await response.json();
     console.log("서버 응답:", data);
-    isLoading.value = false;
-    showCompletionScreen(true, "성공적으로 제출되었습니다.");
+
+    // 서버 응답을 Pinia 스토어에 저장
+    userSelectionStore.setResult(data);
+
+    // 결과 페이지로 이동
+    router.push("/result");
   } catch (error) {
     console.error("데이터 전송 실패:", error);
-    isLoading.value = false;
-    showCompletionScreen(false, "제출 중 오류가 발생했습니다.");
+    // 에러 발생 시에도 최소 3초는 기다린 후 에러 페이지로 이동
+    await minLoadingTime;
+    // 에러 처리 (에러 페이지로 이동하거나 알림 표시)
+    alert("제출 중 오류가 발생했습니다. 다시 시도해주세요.");
+    router.push("/"); // 또는 에러 페이지
   }
 }
 
@@ -577,7 +588,7 @@ async function goBack() {
   transform: scale(1.05);
 }
 
-/* 로딩 및 완료 화면 스타일 */
+/* --- 로딩 및 완료 화면 스타일 --- */
 .status-message {
   display: flex;
   flex-direction: column;
@@ -639,9 +650,8 @@ async function goBack() {
   opacity: 0;
 }
 
-/* [수정됨] 퀴즈 시작 전 빈 공간 스타일 */
 .initial-placeholder {
-  display: block; /* 공간을 차지하지만 내용은 없도록 */
+  display: block;
   width: 100%;
   height: 100%;
 }
