@@ -1,0 +1,25 @@
+
+spring:
+  # 데이터베이스 연결 설정
+  datasource:
+    # 1. JDBC 드라이버 클래스: MySQL 사용을 명시
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 2. DB 연결 URL: RDS 엔드포인트와 포트, 스키마 이름 지정
+    # [YOUR_RDS_HOST_NAME]에 database-1.ct4i0q00cjsj.ap-northeast-2.rds.amazonaws.com 입력
+    url: jdbc:mysql://[RDS_HOST_NAME]:3306/opt?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    # 3. DB 사용자 이름 (RDS 마스터 계정)
+    username: admin
+    # 4. DB 비밀번호 (실제 비밀번호로 대체)
+    password: [RDS_PASSWORD]
+  
+  # JPA/Hibernate 설정 (데이터 소스에 특화된 설정)
+  jpa:
+    hibernate:
+      # DDL(스키마) 자동 생성 전략:
+      # - none: 사용 안 함 (운영 환경 권장)
+      # - validate: 스키마가 일치하는지 확인
+      # - update: 변경 사항만 업데이트 (개발/테스트 환경)
+      # - create: 앱 시작 시 기존 테이블 삭제 후 재생성
+      ddl-auto: update # 개발 환경이므로 update로 설정합니다.
+    
+    show-sql: true # SQL 쿼리를 콘솔에 보여줌 (공통 설정의 format_sql과 함께 사용)

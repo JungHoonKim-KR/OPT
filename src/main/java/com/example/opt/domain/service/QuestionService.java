@@ -37,12 +37,12 @@ public class QuestionService {
         MAPPING_SECTORS.add(Map.of(0, "P", 1, "A")); // Activity: Passive / Active
     }
 
-//    public OPT createResult(List<Integer> answers) {
-//        String resultCode = createOPTCode(answers);
-//        return questionRepository.findByTypeCode(resultCode);
-//    }
+    public OPT createResult(List<Integer> answers) {
+        String resultCode = createOPTCode(answers);
+        return questionRepository.findByTypeCode(resultCode);
+    }
 
-    public String createOPTCode(List<Integer> answers) {
+    private String createOPTCode(List<Integer> answers) {
         // 입력값 유효성 검사
         if (answers == null || answers.size() != MAPPING_SECTORS.size()) {
             throw new IllegalArgumentException("답변의 개수가 올바르지 않습니다. " + MAPPING_SECTORS.size() + "개가 필요합니다.");

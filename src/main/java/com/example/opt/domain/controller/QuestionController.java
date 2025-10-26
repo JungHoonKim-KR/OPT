@@ -29,11 +29,14 @@ public class QuestionController {
     @Operation(summary = "설문 결과 응답", description = "4가지 설문의 응답 데이터를 받고 이에 따른 결과값 반환")
     @PostMapping("/survey")
     public OPTResponseDto survey(@RequestBody OPTRequestDto optRequestDto) {
-        System.out.println(optRequestDto);
-//        OPT byTypeCode = questionService.createResult(optRequestDto.getQuestionList());
-//        guestService.save(optRequestDto.getGender(), optRequestDto.getAge(), byTypeCode.getTypeCode());
-        String optCode = questionService.createOPTCode(optRequestDto.getQuestionList());
-        return new OPTResponseDto(optCode, "typeName", Arrays.asList("#희정님은", "#오운완", "#혜린님은","오동완","오늘 동물의 숲 완료라는 뜻"), "김정훈 잘생김", "설명글", 10, Arrays.asList(5,55,25,20,0));
+        OPT opt = questionService.createResult(optRequestDto.getQuestionList());
+        guestService.save(optRequestDto.getGender(), optRequestDto.getAge(), opt.getTypeCode());
+        int totalCount = guestService.findTotalCount();
+        int[] ageList = guestService.findSurveyListByAge(opt.getTypeCode());
+//        String optCode = questionService.createOPTCode(optRequestDto.getQuestionList());
+//        return new OPTResponseDto(optCode, "typeName", Arrays.asList("#희정님은", "#오운완", "#혜린님은","오동완","오늘 동물의 숲 완료라는 뜻"), "김정훈 잘생김", "설명글", 10, Arrays.asList(5,55,25,20,0));
+
+        return new OPTResponseDto(opt,totalCount, ageList);
     }
 
 }
