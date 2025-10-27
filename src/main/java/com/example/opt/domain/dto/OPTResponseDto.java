@@ -14,5 +14,6 @@ public class OPTResponseDto {
     private OPT opt;
     private int totalCount;
     private int[]surveyListByAge;
-
+    private OPT bestOPT;
+    private OPT worstOPT;
 }

@@ -28,4 +28,7 @@ public class OPT {
     private List<String> hashTags;
     private String summary;
     private String description;
+    private String bestType;
+    private String worstType;
+    private String routineSuggestion;
 }

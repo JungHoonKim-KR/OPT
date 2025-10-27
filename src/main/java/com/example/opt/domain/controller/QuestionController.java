@@ -33,10 +33,9 @@ public class QuestionController {
         guestService.save(optRequestDto.getGender(), optRequestDto.getAge(), opt.getTypeCode());
         int totalCount = guestService.findTotalCount();
         int[] ageList = guestService.findSurveyListByAge(opt.getTypeCode());
-//        String optCode = questionService.createOPTCode(optRequestDto.getQuestionList());
-//        return new OPTResponseDto(optCode, "typeName", Arrays.asList("#희정님은", "#오운완", "#혜린님은","오동완","오늘 동물의 숲 완료라는 뜻"), "김정훈 잘생김", "설명글", 10, Arrays.asList(5,55,25,20,0));
-
-        return new OPTResponseDto(opt,totalCount, ageList);
+        OPT bestCode = questionService.findByTypeCode(opt.getBestType());
+        OPT worstCode = questionService.findByTypeCode(opt.getWorstType());
+        return new OPTResponseDto(opt,totalCount, ageList, bestCode, worstCode);
     }
 
 }

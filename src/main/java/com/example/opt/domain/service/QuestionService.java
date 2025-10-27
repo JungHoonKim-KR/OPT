@@ -1,8 +1,7 @@
 package com.example.opt.domain.service;
 
 import com.example.opt.domain.Entity.OPT;
-import com.example.opt.domain.respository.GuestRepository;
-import com.example.opt.domain.respository.QuestionRepository;
+import com.example.opt.domain.respository.OPTRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +13,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class QuestionService {
-    private final QuestionRepository questionRepository;
-    private final GuestRepository guestRepository;
+    private final OPTRepository questionRepository;
     /**
      * 각 질문 섹터별 매핑 규칙을 저장하는 리스트.
      * 리스트의 인덱스가 질문의 순서를 의미합니다. (0번 인덱스 = 첫 번째 질문)
@@ -42,6 +40,9 @@ public class QuestionService {
         return questionRepository.findByTypeCode(resultCode);
     }
 
+    public OPT findByTypeCode(String typeCode){
+        return questionRepository.findByTypeCode(typeCode);
+    }
     private String createOPTCode(List<Integer> answers) {
         // 입력값 유효성 검사
         if (answers == null || answers.size() != MAPPING_SECTORS.size()) {
