@@ -6,9 +6,21 @@
         <!-- 1. 시작 패널 -->
         <section class="panel start-panel" ref="startPanelRef">
           <div class="start-content-wrapper">
-            <img :src="plusImage" alt="decoration" class="plus-sign plus-top-left" />
-            <img :src="plusImage" alt="decoration" class="plus-sign plus-middle-right" />
-            <img :src="plusImage" alt="decoration" class="plus-sign plus-bottom-left" />
+            <img
+              :src="plusImage"
+              alt="decoration"
+              class="plus-sign plus-top-left"
+            />
+            <img
+              :src="plusImage"
+              alt="decoration"
+              class="plus-sign plus-middle-right"
+            />
+            <img
+              :src="plusImage"
+              alt="decoration"
+              class="plus-sign plus-bottom-left"
+            />
             <img :src="titleImage" alt="What's your OPT?" class="title-image" />
           </div>
         </section>
@@ -19,24 +31,38 @@
           <header class="header">
             <div class="inner-wrapper">
               <div class="header-bars-wrapper">
-                <img v-for="n in 5" :key="n" :src="backgroundBarImageWhite" alt="background bar" class="header-bar" />
+                <img
+                  v-for="n in 5"
+                  :key="n"
+                  :src="backgroundBarImageWhite"
+                  alt="background bar"
+                  class="header-bar"
+                />
               </div>
             </div>
           </header>
 
           <!-- 퀴즈 진행 중 -->
-          <template v-if="!isLoading && !isComplete && currentQuestionIndex >= 0">
+          <template
+            v-if="!isLoading && !isComplete && currentQuestionIndex >= 0"
+          >
             <!-- 퀴즈 UI 전체를 감싸는 래퍼 -->
             <div class="quiz-ui-wrapper">
               <header class="question-header">
                 <div class="progress-dots">
-                  <span v-for="i in quizData.length" :key="i" :class="{ active: i <= currentQuestionIndex + 1 }"></span>
+                  <span
+                    v-for="i in quizData.length"
+                    :key="i"
+                    :class="{ active: i <= currentQuestionIndex + 1 }"
+                  ></span>
                 </div>
               </header>
 
               <main class="question-card">
                 <div class="card-content">
-                  <span class="question-number">Q{{ String(currentQuestionIndex + 1) }}.</span>
+                  <span class="question-number"
+                    >Q{{ String(currentQuestionIndex + 1) }}.</span
+                  >
 
                   <div class="question-text">
                     <transition name="fade" mode="out-in">
@@ -52,11 +78,21 @@
                   </div>
                   <transition name="fade" mode="out-in">
                     <div class="answer-options" :key="currentQuestionIndex">
-                      <button @click="selectOption(0)" :class="{ active: selectedAnswerIndex === 0 }">
-                        {{ currentQuestion.answers[0] }}
+                      <button
+                        @click="selectOption(0)"
+                        :class="{ active: selectedAnswerIndex === 0 }"
+                      >
+                        <span>
+                          {{ currentQuestion.answers[0] }}
+                        </span>
                       </button>
-                      <button @click="selectOption(1)" :class="{ active: selectedAnswerIndex === 1 }">
-                        {{ currentQuestion.answers[1] }}
+                      <button
+                        @click="selectOption(1)"
+                        :class="{ active: selectedAnswerIndex === 1 }"
+                      >
+                        <span>
+                          {{ currentQuestion.answers[1] }}
+                        </span>
                       </button>
                     </div>
                   </transition>
@@ -66,7 +102,11 @@
                   <button class="back-button" @click="goBack">
                     <img src="../assets/images/back.png" />
                   </button>
-                  <button class="next-button" @click="goToNextQuestion" :disabled="selectedAnswerIndex === null">
+                  <button
+                    class="next-button"
+                    @click="goToNextQuestion"
+                    :disabled="selectedAnswerIndex === null"
+                  >
                     <img src="../assets/images/go.png" />
                   </button>
                 </footer>
@@ -104,7 +144,13 @@
           <header class="footer">
             <div class="inner-wrapper">
               <div class="footer-bars-wrapper">
-                <img v-for="n in 5" :key="n" :src="backgroundBarImageWhite" alt="background bar" class="footer-bar" />
+                <img
+                  v-for="n in 5"
+                  :key="n"
+                  :src="backgroundBarImageWhite"
+                  alt="background bar"
+                  class="footer-bar"
+                />
               </div>
             </div>
           </header>
@@ -173,7 +219,10 @@ const completionMessage = ref("");
 const selectedAnswerIndex = ref(null); // 현재 선택한 답변 인덱스
 
 const currentQuestion = computed(() => {
-  if (currentQuestionIndex.value >= 0 && currentQuestionIndex.value < quizData.value.length) {
+  if (
+    currentQuestionIndex.value >= 0 &&
+    currentQuestionIndex.value < quizData.value.length
+  ) {
     return quizData.value[currentQuestionIndex.value];
   }
   return { q: "", text_ko: "", text_en: "", answers: ["", ""] };
@@ -183,7 +232,11 @@ let scrollObserver;
 
 onMounted(() => {
   // [수정] Pinia 스토어 값 확인 (URL 쿼리 대신)
-  console.log("QuizView - Info from Store:", userSelectionStore.gender, userSelectionStore.age);
+  console.log(
+    "QuizView - Info from Store:",
+    userSelectionStore.gender,
+    userSelectionStore.age
+  );
 
   scrollObserver = new IntersectionObserver(
     (entries) => {
@@ -238,7 +291,11 @@ async function goToNextQuestion() {
 async function sendSurveyData() {
   // --- 1. 데이터 가공 ---
   const genderToSend =
-    userSelectionStore.gender === "male" ? "남" : userSelectionStore.gender === "female" ? "여" : "기타";
+    userSelectionStore.gender === "male"
+      ? "남"
+      : userSelectionStore.gender === "female"
+      ? "여"
+      : "기타";
   const parsedAge = parseInt(userSelectionStore.age) || 0;
 
   const surveyPayload = {
@@ -362,6 +419,7 @@ async function goBack() {
   justify-content: space-between;
   width: 100%;
   height: 100%;
+  padding: 85px;
 }
 
 .header-bar {
@@ -408,6 +466,7 @@ async function goBack() {
   justify-content: space-between;
   width: 100%;
   height: 100%;
+  padding: 85px 132px;
 }
 
 .footer-bar {
@@ -518,6 +577,7 @@ async function goBack() {
   z-index: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100%;
   width: 100%;
 }
@@ -632,25 +692,32 @@ async function goBack() {
   display: flex;
   flex-direction: column;
   gap: 2.5vh;
+  align-items: flex-start;
   width: 100%;
 }
 
 .answer-options button {
+  width: auto;
+  padding: 46px 135px;
+  background-color: transparent;
+  color: black;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  text-align: center;
+
+  angle: 0 deg;
+  opacity: 1;
+  border-radius: 166.35px;
+  border-width: 4.16px;
+  border: 4.16px solid #000000;
+}
+.answer-options span {
   font-family: Pretendard;
   font-weight: 900;
   font-style: Black;
   font-size: 124.76px;
-  leading-trim: NONE;
   line-height: 100%;
   letter-spacing: 0%;
-  background-color: transparent;
-  color: black;
-  border: 2px solid black;
-  border-radius: 50px;
-  padding: 2.5vh 3vw;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  text-align: center;
 }
 
 .answer-options button:hover {

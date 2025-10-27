@@ -1,8 +1,13 @@
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
-const Jimp = require("jimp");
-const USB = require("@node-escpos/usb-adapter");
+import express from "express";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import { Jimp } from "jimp";
+import USB from "@node-escpos/usb-adapter";
+import fs from "fs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3001; // 프린터 서버는 3001 포트 사용
@@ -51,7 +56,6 @@ app.post("/api/print", async (req, res) => {
     const imgPath = path.join(__dirname, "print-images", `${typeCode}.png`);
 
     // 이미지 파일 존재 확인
-    const fs = require("fs");
     if (!fs.existsSync(imgPath)) {
       console.error(`❌ 이미지 파일 없음: ${imgPath}`);
       return res.status(404).json({

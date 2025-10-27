@@ -6,16 +6,25 @@
         <div class="type-image"></div>
         <div class="type-intro-content">
           <p class="intro-text">{{ resultData.typeName }}</p>
-          <img :src="getTypeImage(resultData.typeCode)" :alt="resultData.typeCode" />
-
+          <img
+            :src="getTypeImage(resultData.typeCode)"
+            :alt="resultData.typeCode"
+          />
           <!-- 타입 캐릭터 이미지 -->
           <div class="character-image">
-            <img :src="getCharacterGif(resultData.typeCode)" :alt="resultData.typeCode" />
+            <img
+              :src="getCharacterGif(resultData.typeCode)"
+              :alt="resultData.typeCode"
+            />
           </div>
 
           <!-- 해시태그들 -->
           <div class="hashtags">
-            <div v-for="(tag, index) in resultData.hashTags" :key="index" class="hashtag">
+            <div
+              v-for="(tag, index) in resultData.hashTags"
+              :key="index"
+              class="hashtag"
+            >
               {{ tag }}
             </div>
           </div>
@@ -29,46 +38,78 @@
         <div class="match-content">
           <h3 class="panel-title">BEST / WORST<br />MATCH</h3>
 
-          <!-- BEST Match -->
-          <div class="match-card best-match">
-            <div class="match-label">BEST</div>
-            <div class="match-info">
-              <div class="match-character">
-                <img :src="getCharacterImage(resultData.bestMatch?.typeCode)" alt="Best Match" />
-              </div>
-              <div class="match-details">
-                <h4 class="match-type">
-                  {{ resultData.bestMatch?.typeCode || "DEIP" }}
-                </h4>
-                <p class="match-description">
-                  {{ resultData.bestMatch?.description || "최고의 궁합을 가진 타입입니다." }}
-                </p>
-              </div>
-            </div>
-          </div>
+          <div class="match-card-container">
+            <div class="match-card best-match">
+              <div class="match-info">
+                <div>
+                  <div class="match-character">
+                    <div class="match-label">BEST</div>
 
-          <!-- WORST Match -->
-          <div class="match-card worst-match">
-            <div class="match-label">WORST</div>
-            <div class="match-info">
-              <div class="match-character">
-                <img :src="getCharacterImage(resultData.worstMatch?.typeCode)" alt="Worst Match" />
+                    <img
+                      :src="
+                        getCharacterMatchImage(resultData.bestMatch?.typeCode)
+                      "
+                      alt="Best Match"
+                    />
+                  </div>
+                </div>
+
+                <div class="match-details">
+                  <img
+                    :src="
+                      getCharacterMatchTypeImage(resultData.bestMatch?.typeCode)
+                    "
+                    alt="Worst Match"
+                  />
+                  <p class="match-description">
+                    {{
+                      resultData.bestMatch?.description ||
+                      "최고의 궁합을 가진 타입입니다."
+                    }}
+                  </p>
+                </div>
               </div>
-              <div class="match-details">
-                <h4 class="match-type">
-                  {{ resultData.worstMatch?.typeCode || "NEIA" }}
-                </h4>
-                <p class="match-description">
-                  {{ resultData.worstMatch?.description || "다른 성향을 가진 타입입니다." }}
-                </p>
+            </div>
+
+            <!-- WORST Match -->
+            <div class="match-card worst-match">
+              <div class="match-info">
+                <div>
+                  <div class="match-character">
+                    <div class="match-label">WORST</div>
+
+                    <img
+                      :src="
+                        getCharacterMatchImage(resultData.worstMatch?.typeCode)
+                      "
+                      alt="Worst Match"
+                    />
+                  </div>
+                </div>
+
+                <div class="match-details">
+                  <img
+                    :src="
+                      getCharacterMatchTypeImage(
+                        resultData.worstMatch?.typeCode
+                      )
+                    "
+                    alt="Worst Match"
+                  />
+                  <p class="match-description">
+                    {{
+                      resultData.worstMatch?.description ||
+                      "다른 성향을 가진 타입입니다."
+                    }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+          <div class="routine-text">ROUTINE SUGGESTION</div>
 
           <!-- 추천 루틴 -->
           <div class="routine-suggestion">
-            <div class="routine-icon">💡</div>
-            <h5>ROUTINE SUGGESTION</h5>
             <ul class="routine-list">
               <li v-for="(routine, index) in resultData.routines" :key="index">
                 {{ routine }}
@@ -81,19 +122,24 @@
       <!-- 3. 통계 패널 -->
       <section class="panel statistics-panel">
         <div class="statistics-content">
-          <h3 class="statistics-title">
-            성별에 따라면<br />
-            <span class="highlight">결과 ○</span>
-          </h3>
-
-          <p class="statistics-subtitle">나와 같은 OPT 유형인 사람들은...</p>
-
-          <p class="statistics-detail">전체 유형의 <strong>___%</strong></p>
+          <div class="statistics-title">
+            설문에 참여한<br />xx명 중<br /><br />나와 같은 OPT 유형을 가진
+            사람들은...
+            <!-- <span class="highlight">xx명 중</span> -->
+          </div>
+          <div class="statistics-detail">전체 유형의 <strong>___%</strong></div>
 
           <!-- 도넛 차트 -->
           <div class="donut-chart">
             <svg viewBox="0 0 200 200" width="300" height="300">
-              <circle cx="100" cy="100" r="80" fill="none" stroke="#e0e0e0" stroke-width="40" />
+              <circle
+                cx="100"
+                cy="100"
+                r="80"
+                fill="none"
+                stroke="#e0e0e0"
+                stroke-width="40"
+              />
               <circle
                 cx="100"
                 cy="100"
@@ -106,9 +152,13 @@
                 transform="rotate(-90 100 100)"
                 class="donut-segment"
               />
-              <text x="70" y="95" font-size="14" fill="#000">{{ genderPercentage }}%</text>
+              <text x="70" y="95" font-size="14" fill="#000">
+                {{ genderPercentage }}%
+              </text>
               <text x="70" y="115" font-size="12" fill="#666">남성</text>
-              <text x="130" y="95" font-size="14" fill="#000">{{ 100 - genderPercentage }}%</text>
+              <text x="130" y="95" font-size="14" fill="#000">
+                {{ 100 - genderPercentage }}%
+              </text>
               <text x="130" y="115" font-size="12" fill="#666">여성</text>
             </svg>
           </div>
@@ -120,8 +170,16 @@
               <div class="age-bar-container">
                 <div class="age-bar" :style="{ width: data.percentage + '%' }">
                   <span class="age-dots">
-                    <span v-for="i in data.dots" :key="i" class="dot filled"></span>
-                    <span v-for="i in 10 - data.dots" :key="'empty-' + i" class="dot empty"></span>
+                    <span
+                      v-for="i in data.dots"
+                      :key="i"
+                      class="dot filled"
+                    ></span>
+                    <span
+                      v-for="i in 10 - data.dots"
+                      :key="'empty-' + i"
+                      class="dot empty"
+                    ></span>
                   </span>
                 </div>
               </div>
@@ -197,11 +255,34 @@ const ageData = computed(() => {
   });
 });
 
+function getCharacterMatchImage(typeCode) {
+  if (!typeCode) return "";
+  try {
+    return new URL(
+      `../assets/images/matchCharacters/${typeCode}.png`,
+      import.meta.url
+    ).href;
+  } catch {
+    return "";
+  }
+}
+function getCharacterMatchTypeImage(typeCode) {
+  if (!typeCode) return "";
+  try {
+    return new URL(
+      `../assets/images/matchCharactersType/${typeCode}.png`,
+      import.meta.url
+    ).href;
+  } catch {
+    return "";
+  }
+}
+
 // 이미지 경로 함수 - 16개 타입 모두 지원
 function getCharacterImage(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(`../assets/images/characters/${typeCode}.png`, import.meta.url).href;
+    return new URL(`../assets/images/${typeCode}.png`, import.meta.url).href;
   } catch {
     return "";
   }
@@ -210,7 +291,10 @@ function getCharacterImage(typeCode) {
 function getCharacterGif(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(`../assets/images/characters/${typeCode}.gif`, import.meta.url).href;
+    return new URL(
+      `../assets/images/characters/${typeCode}.gif`,
+      import.meta.url
+    ).href;
   } catch {
     return "";
   }
@@ -218,13 +302,17 @@ function getCharacterGif(typeCode) {
 function getTypeImage(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(`../assets/images/typeNames/${typeCode}.png`, import.meta.url).href;
+    return new URL(
+      `../assets/images/typeNames/${typeCode}.png`,
+      import.meta.url
+    ).href;
   } catch {
     return "";
   }
 }
 
-const clipboardGif = new URL("..\assets\images\print.png", import.meta.url).href;
+const clipboardGif = new URL("..\assets\images\print.png", import.meta.url)
+  .href;
 const cursorGif = new URL("../assets/images/cursor.gif", import.meta.url).href;
 
 onMounted(() => {
@@ -376,7 +464,6 @@ onMounted(() => {
 }
 
 .match-content {
-  max-width: 800px;
   width: 100%;
 }
 
@@ -389,20 +476,34 @@ onMounted(() => {
   letter-spacing: 0.25px;
   text-align: center;
 }
+.match-card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 124px;
+}
 
 .match-card {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 3vh;
-  padding: 3vh 4vw;
-  margin-bottom: 3vh;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 72.51px;
+  background: transparent;
+  border: 2px solid #fff;
+  cursor: pointer;
+  padding: 80px;
+  font-family: Pretendard;
+  font-weight: 500;
+  font-size: 33.45px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  color: #fff;
 }
 
 .match-label {
-  font-size: clamp(14px, 2vh, 18px);
-  font-weight: bold;
-  color: #666;
-  margin-bottom: 2vh;
+  font-family: Pretendard;
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: start;
+  color: #ffffff;
 }
 
 .match-info {
@@ -412,20 +513,15 @@ onMounted(() => {
 }
 
 .match-character {
-  width: clamp(80px, 15vh, 120px);
-  height: clamp(80px, 15vh, 120px);
-  border-radius: 50%;
-  background: #f0f0f0;
-  flex-shrink: 0;
+  width: 802px;
+  height: 811px;
+  border-radius: 72.51px;
+  background-color: rgba(255, 255, 255, 0.1); /* 배경만 반투명 */
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-}
-
-.match-character img {
-  width: 70%;
-  height: 70%;
-  object-fit: contain;
+  box-sizing: border-box;
+  padding: 80px;
 }
 
 .match-details {
@@ -439,18 +535,24 @@ onMounted(() => {
 }
 
 .match-description {
-  font-size: clamp(12px, 2vh, 16px);
-  line-height: 1.5;
-  color: #333;
+}
+.routine-text {
+  font-family: Pretendard;
+  font-weight: 900;
+  font-size: 70px;
+  line-height: 140%;
+  letter-spacing: 0.25px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  margin-top: 176px;
+  margin-bottom: 56px;
 }
 
 .routine-suggestion {
   padding: 3vh 4vw;
-  margin-top: 3vh;
   text-align: center;
   opacity: 1;
-  top: 3017px;
-  left: 177px;
   border-radius: 85px;
 
   border: 5px solid #ffffff;
@@ -474,15 +576,12 @@ onMounted(() => {
 }
 
 .routine-list li {
-  font-size: clamp(12px, 2vh, 16px);
-  padding: 1vh 0;
-  color: #333;
-}
-
-.routine-list li::before {
-  content: "○ ";
-  color: #666;
-  margin-right: 1vw;
+  font-family: Pretendard;
+  font-weight: 600;
+  font-size: 50px;
+  line-height: 187%;
+  letter-spacing: 0.25px;
+  color: #ffffff;
 }
 
 /* --- 3. 통계 패널 --- */
@@ -491,17 +590,19 @@ onMounted(() => {
 }
 
 .statistics-content {
-  max-width: 700px;
-  width: 100%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .statistics-title {
-  font-size: clamp(28px, 5vh, 42px);
-  font-weight: bold;
-  color: #000;
-  margin-bottom: 2vh;
-  line-height: 1.3;
+  white-space: nowrap;
+  font-family: Pretendard;
+  font-weight: 700;
+  font-size: 70px;
+  line-height: 100%;
+  text-align: center;
+  margin-bottom: 154px;
 }
 
 .highlight {
@@ -515,15 +616,17 @@ onMounted(() => {
 }
 
 .statistics-detail {
-  font-size: clamp(14px, 2vh, 18px);
-  color: #666;
-  margin-bottom: 4vh;
+  font-family: Pretendard;
+  font-weight: 700;
+  font-size: 70px;
+  line-height: 100%;
+  text-align: center;
 }
 
 .donut-chart {
   width: clamp(250px, 40vh, 350px);
   height: clamp(250px, 40vh, 350px);
-  margin: 0 auto 5vh;
+  margin: 234px;
 }
 
 .donut-segment {
