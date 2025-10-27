@@ -15,6 +15,15 @@
 
         <!-- 2. 퀴즈 콘텐츠 패널 -->
         <section class="panel quiz-content-panel" ref="quizPanelRef">
+          <!-- 헤더를 absolute로 배치하여 뒤에 깔리도록 -->
+          <header class="header">
+            <div class="inner-wrapper">
+              <div class="header-bars-wrapper">
+                <img v-for="n in 5" :key="n" :src="backgroundBarImageWhite" alt="background bar" class="header-bar" />
+              </div>
+            </div>
+          </header>
+
           <!-- 퀴즈 진행 중 -->
           <template v-if="!isLoading && !isComplete && currentQuestionIndex >= 0">
             <!-- 퀴즈 UI 전체를 감싸는 래퍼 -->
@@ -91,6 +100,14 @@
           <template v-else>
             <div class="initial-placeholder"></div>
           </template>
+          <!-- 헤더를 absolute로 배치하여 뒤에 깔리도록 -->
+          <header class="footer">
+            <div class="inner-wrapper">
+              <div class="footer-bars-wrapper">
+                <img v-for="n in 5" :key="n" :src="backgroundBarImageWhite" alt="background bar" class="footer-bar" />
+              </div>
+            </div>
+          </header>
         </section>
       </div>
     </div>
@@ -105,6 +122,7 @@ import { useUserSelectionStore } from "@/stores/userSelection";
 // --- 이미지 임포트 ---
 import titleImage from "@/assets/images/title_whats_your_opt.png";
 import plusImage from "@/assets/images/plus_sign_dotted.png";
+import backgroundBarImageWhite from "@/assets/images/backgroundBar_white.png";
 
 const router = useRouter();
 // [수정] Pinia 스토어 인스턴스를 생성합니다.
@@ -309,6 +327,109 @@ async function goBack() {
   align-items: center;
   overflow: hidden;
 }
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 28%;
+  box-sizing: border-box;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.inner-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header .inner-wrapper {
+  justify-content: space-between;
+}
+
+.header-bars-wrapper {
+  background-image: url("../assets/images/homebackground.png");
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.header-bar {
+  height: auto;
+}
+
+.header-bar:nth-child(2) {
+  opacity: 0.7;
+}
+
+.header-bar:nth-child(3) {
+  opacity: 0.5;
+}
+
+.header-bar:nth-child(4) {
+  opacity: 0.3;
+}
+
+.header-bar:nth-child(5) {
+  opacity: 0.2;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 28%;
+  box-sizing: border-box;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.footer .inner-wrapper {
+  justify-content: space-between;
+}
+
+.footer-bars-wrapper {
+  background-image: url("../assets/images/homebackground.png");
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.footer-bar {
+  height: auto;
+}
+
+.footer-bar:nth-child(4) {
+  opacity: 0.7;
+}
+
+.footer-bar:nth-child(3) {
+  opacity: 0.5;
+}
+
+.footer-bar:nth-child(2) {
+  opacity: 0.3;
+}
+
+.footer-bar:nth-child(1) {
+  opacity: 0.2;
+}
+
 .aspect-ratio-wrapper {
   position: relative;
   width: calc(100vh * 9 / 16);
@@ -327,6 +448,7 @@ async function goBack() {
   scroll-snap-type: y mandatory;
   background-color: #000000;
 }
+
 .panel {
   height: 100%;
   scroll-snap-align: start;
@@ -342,6 +464,7 @@ async function goBack() {
   justify-content: center;
   align-items: center;
 }
+
 .start-content-wrapper {
   position: relative;
   width: 80%;
@@ -351,24 +474,29 @@ async function goBack() {
   align-items: center;
   animation: fadeIn 1s ease-out forwards;
 }
+
 .title-image {
   width: 100%;
   height: auto;
 }
+
 .plus-sign {
   position: absolute;
   width: 10%;
   height: auto;
 }
+
 .plus-top-left {
   top: -50%;
   left: 0;
 }
+
 .plus-middle-right {
   top: 50%;
   right: -5%;
   transform: translateY(-50%);
 }
+
 .plus-bottom-left {
   bottom: -40%;
   left: 15%;
@@ -376,7 +504,8 @@ async function goBack() {
 
 /* --- 퀴즈 콘텐츠 패널 스타일 --- */
 .quiz-content-panel {
-  justify-content: flex-start;
+  position: relative;
+  justify-content: center;
   align-items: center;
   background-image: radial-gradient(circle at center, #333 1px, transparent 1px),
     radial-gradient(circle at center, #333 1px, transparent 1px);
@@ -385,6 +514,8 @@ async function goBack() {
 }
 
 .quiz-ui-wrapper {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -401,6 +532,7 @@ async function goBack() {
   flex-shrink: 0;
   margin-bottom: 3vh;
 }
+
 .back-button {
   background: none;
   border: none;
@@ -417,6 +549,7 @@ async function goBack() {
   left: 50%;
   transform: translateX(-50%);
 }
+
 .progress-dots span {
   width: 1.8vh;
   height: 1.8vh;
@@ -425,6 +558,7 @@ async function goBack() {
   background-color: transparent;
   transition: background-color 0.3s ease;
 }
+
 .progress-dots span.active {
   background-color: white;
 }
@@ -442,6 +576,7 @@ async function goBack() {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
+
 .card-content {
   flex-grow: 1;
   display: flex;
@@ -449,6 +584,7 @@ async function goBack() {
   justify-content: center;
   gap: 5vh;
 }
+
 .question-number {
   font-family: Pretendard;
   font-weight: 800;
@@ -458,16 +594,15 @@ async function goBack() {
   line-height: 176%;
   letter-spacing: 0%;
   color: #000;
-  /* font-size: clamp(16px, 3vh, 30px);
-  font-weight: bold;
-  color: #1a1a1a; */
   align-self: flex-start;
   margin-bottom: 2vh;
 }
+
 .question-text {
   text-align: left;
   color: #1a1a1a;
 }
+
 .question-text p {
   width: 100%;
   margin: 0;
@@ -479,23 +614,27 @@ async function goBack() {
   line-height: 150px;
   letter-spacing: 0%;
 }
+
 .korean {
   font-size: clamp(24px, 5vmin, 50px);
   font-weight: bold;
   line-height: 1.3;
   margin-bottom: 1.5vh;
 }
+
 .english {
   font-size: clamp(16px, 3vmin, 28px);
   color: #555;
   line-height: 1.3;
 }
+
 .answer-options {
   display: flex;
   flex-direction: column;
   gap: 2.5vh;
   width: 100%;
 }
+
 .answer-options button {
   font-family: Pretendard;
   font-weight: 900;
@@ -504,30 +643,31 @@ async function goBack() {
   leading-trim: NONE;
   line-height: 100%;
   letter-spacing: 0%;
-
   background-color: transparent;
   color: black;
   border: 2px solid black;
   border-radius: 50px;
   padding: 2.5vh 3vw;
-  /* font-size: clamp(18px, 3.5vmin, 32px); */
   font-weight: bold;
-  /* cursor: pointer; */
   transition: all 0.2s ease;
   text-align: center;
 }
+
 .answer-options button:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
+
 .answer-options button.active {
   background-color: #1a1a1a;
   color: white;
 }
+
 .card-footer {
   display: flex;
   justify-content: space-between;
   margin-top: 4vh;
 }
+
 .next-button {
   background: none;
   border: none;
@@ -539,6 +679,8 @@ async function goBack() {
 
 /* --- 로딩 및 완료 화면 스타일 --- */
 .status-message {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -548,19 +690,24 @@ async function goBack() {
   height: 100%;
   width: 100%;
 }
+
 .status-message h2 {
   font-size: clamp(24px, 5vh, 50px);
   margin-bottom: 2vh;
 }
+
 .status-message p {
   font-size: clamp(16px, 3vh, 30px);
 }
+
 .completion-screen.success h2 {
   color: #4caf50;
 }
+
 .completion-screen.error h2 {
   color: #f44336;
 }
+
 .loader {
   border: 4px solid #f3f3f3;
   border-top: 4px solid #ffffff;
@@ -570,6 +717,7 @@ async function goBack() {
   animation: spin 1s linear infinite;
   margin-top: 3vh;
 }
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -590,10 +738,12 @@ async function goBack() {
     transform: translateY(0);
   }
 }
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
