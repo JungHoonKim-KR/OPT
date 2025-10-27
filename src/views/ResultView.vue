@@ -229,6 +229,8 @@ import { useUserSelectionStore } from "@/stores/userSelection";
 
 const userSelectionStore = useUserSelectionStore();
 const scrollContainerRef = ref(null);
+const isPrinting = ref(false);
+const printError = ref("");
 
 // 서버에서 받은 결과 데이터 (디폴트 값 포함)
 const resultData = computed(() => userSelectionStore.getResult);
@@ -311,9 +313,48 @@ function getTypeImage(typeCode) {
   }
 }
 
-const clipboardGif = new URL("..\assets\images\print.png", import.meta.url)
+const clipboardGif = new URL("../assets/images/clipboard.gif", import.meta.url)
   .href;
 const cursorGif = new URL("../assets/images/cursor.gif", import.meta.url).href;
+
+// 프린트 핸들러
+async function handlePrint() {
+  if (isPrinting.value) return;
+
+  isPrinting.value = true;
+  printError.value = "";
+
+  try {
+    // 로컬 프린터 서버로 요청 (포트 3001)
+    const response = await fetch("http://localhost:3001/api/print", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        typeCode: resultData.value.typeCode,
+        gender: userSelectionStore.gender,
+        age: userSelectionStore.age,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`프린트 요청 실패: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log("프린트 성공:", result);
+
+    // 성공 피드백 (선택사항)
+    alert("인쇄가 시작되었습니다!");
+  } catch (error) {
+    console.error("프린트 오류:", error);
+    printError.value =
+      "인쇄 중 오류가 발생했습니다. 프린터 서버를 확인해주세요.";
+  } finally {
+    isPrinting.value = false;
+  }
+}
 
 onMounted(() => {
   // 스크롤 애니메이션 관찰
@@ -550,7 +591,9 @@ onMounted(() => {
 }
 
 .routine-suggestion {
+  border-radius: 3vh;
   padding: 3vh 4vw;
+  margin-top: 3vh;
   text-align: center;
   opacity: 1;
   border-radius: 85px;
@@ -719,6 +762,17 @@ onMounted(() => {
 .print-section,
 .save-section {
   margin: 5vh 0;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.print-section:hover,
+.save-section:hover {
+  transform: scale(1.05);
+}
+
+.print-section:active {
+  transform: scale(0.95);
 }
 
 .clipboard-icon,
@@ -732,6 +786,23 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   background: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.clipboard-icon.printing {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    border-color: #fff;
+  }
+  50% {
+    transform: scale(1.05);
+    border-color: #ff4444;
+  }
 }
 
 .clipboard-icon img,
@@ -746,6 +817,18 @@ onMounted(() => {
   font-size: clamp(18px, 3vh, 28px);
   font-weight: bold;
   color: #ff4444;
+}
+
+.print-status {
+  font-size: clamp(14px, 2vh, 18px);
+  color: #ffaa00;
+  margin-top: 1vh;
+}
+
+.print-error {
+  font-size: clamp(12px, 1.8vh, 16px);
+  color: #ff4444;
+  margin-top: 1vh;
 }
 
 /* 스크롤바 숨김 */

@@ -53,7 +53,11 @@ app.post("/api/print", async (req, res) => {
     console.log(`📄 프린트 시작: ${typeCode}`);
 
     // 이미지 경로 (프로젝트 폴더 내 print-images 폴더)
-    const imgPath = path.join(__dirname, "print-images", `${typeCode}.png`);
+    const imgPath = path.join(
+      __dirname,
+      "src/assets/images/print-images",
+      `${typeCode}.png`
+    );
 
     // 이미지 파일 존재 확인
     if (!fs.existsSync(imgPath)) {
@@ -72,8 +76,16 @@ app.post("/api/print", async (req, res) => {
 
     // 이미지 처리
     let img = await Jimp.read(imgPath);
-    img.resize(PRINTER_WIDTH, Jimp.AUTO);
-    img = img.grayscale().contrast(0.5);
+    // img.resize(PRINTER_WIDTH, Jimp.AUTO);
+    // 80번째 줄 근처
+    img.resize({ w: PRINTER_WIDTH, h: Jimp.AUTO }); // ✅ 'w', 'h'로 변경합니다.
+    //     img = img.grayscale().contrast(0.5);
+
+    // let img = await Jimp.read(imgPath);
+    // // 👇 resize 함수 호출을 객체 형태로 변경합니다.
+    // img.resize(PRINTER_WIDTH, Jimp.AUTO); // 👈 이 줄을
+    // img.resize({ width: PRINTER_WIDTH, height: Jimp.AUTO }); // 👈 이렇게 변경하세요.
+    // img = img.grayscale().contrast(0.5);
 
     const width = img.bitmap.width;
     const height = img.bitmap.height;
