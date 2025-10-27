@@ -8,22 +8,12 @@
           <header class="header">
             <div class="inner-wrapper">
               <div class="header-bars-wrapper">
-                <img
-                  v-for="n in 4"
-                  :key="n"
-                  :src="backgroundBarImageWhite"
-                  alt="background bar"
-                  class="header-bar"
-                />
+                <img v-for="n in 4" :key="n" :src="backgroundBarImageWhite" alt="background bar" class="header-bar" />
               </div>
             </div>
           </header>
           <main class="content-wrapper">
-            <img
-              :src="titleImage"
-              alt="Online Persona Type"
-              class="title-image"
-            />
+            <img :src="titleImage" alt="Online Persona Type" class="title-image" />
             <div class="description">
               <!-- 화면 높이에 따라 텍스트 조건부 렌더링 -->
               <template v-if="isSmallScreen">
@@ -35,35 +25,29 @@
               <template v-else>
                 <p>
                   우리는 온라인 속에서 무수히 많은 '나'로 살아갑니다.<br />
-                  이 프로젝트는 언어 습관, 앱 사용 패턴, 콘텐츠 취향, 검색 행동
-                  등<br />
-                  온라인 속에서 나타나는 행동 데이터를 기반으로 16가지의<br />온라인
-                  페르소나 유형을 정의합니다.
+                  이 프로젝트는 언어 습관, 앱 사용 패턴, 콘텐츠 취향, 검색 행동 등<br />
+                  온라인 속에서 나타나는 행동 데이터를 기반으로 16가지의<br />온라인 페르소나 유형을 정의합니다.
                 </p>
                 <p>
-                  OPT (Online Persona Type) 테스트를 통해 관람자는<br />자신의
-                  디지털 성향을 진단받고, 그 결과에 따라 그래픽 캐릭터와<br />
-                  상징 오브제로 구현된 디지털 자아와 마주하게 됩니다. <br />이
-                  프로젝트는 온라인 세계 속의 '나'를 관찰하고 이해하는 실험이자,
-                  <br />지금 이 시대의 자아를 기록하는 아카이브입니다. OPT는
-                  온라인 <br />자아의 정체성을 탐색하고, 스스로를 들여다볼 수
-                  있는 도구가 됩니다.
+                  OPT (Online Persona Type) 테스트를 통해 관람자는<br />자신의 디지털 성향을 진단받고, 그 결과에 따라
+                  그래픽 캐릭터와<br />
+                  상징 오브제로 구현된 디지털 자아와 마주하게 됩니다. <br />이 프로젝트는 온라인 세계 속의 '나'를
+                  관찰하고 이해하는 실험이자, <br />지금 이 시대의 자아를 기록하는 아카이브입니다. OPT는 온라인
+                  <br />자아의 정체성을 탐색하고, 스스로를 들여다볼 수 있는 도구가 됩니다.
                 </p>
               </template>
             </div>
           </main>
           <div class="footer-bars-wrapper">
-            <img
-              :src="backgroundBarImageBlack"
-              alt="Online Persona Type"
-              class="footer-image"
-            />
+            <img :src="backgroundBarImageBlack" alt="Online Persona Type" class="footer-image" />
           </div>
         </section>
 
         <!-- 두 번째 화면 패널 (패턴 & 대화 애니메이션 화면) -->
         <section class="panel pattern-panel" ref="patternPanelRef">
-          <div class="dialogue-wrapper">
+          <img src="/src/assets/images/intro-background.gif" alt="로딩 중" />
+
+          <!-- <div class="dialogue-wrapper">
             <div
               v-for="(message, index) in dialogueMessages"
               :key="index"
@@ -74,13 +58,12 @@
                 <p>{{ message.text }}</p>
               </div>
             </div>
-            <!-- 점 3개 애니메이션 -->
             <div class="loading-dots">
               <span></span>
               <span></span>
               <span></span>
             </div>
-          </div>
+          </div> -->
         </section>
 
         <!-- 세 번째 화면 패널 (선택 화면) -->
@@ -88,9 +71,7 @@
           <div class="selection-content">
             <div class="selection-header">
               <p class="main-text">성별, 연령대를 선택해주세요!</p>
-              <p class="sub-text">
-                귀하의 정보는 통계 목적으로만 활용되며, 익명으로 처리됩니다.
-              </p>
+              <p class="sub-text">귀하의 정보는 통계 목적으로만 활용되며, 익명으로 처리됩니다.</p>
             </div>
 
             <div class="option-group">
@@ -191,9 +172,7 @@ const screenWidth = ref(window.innerWidth);
 
 // 작은 화면 여부 (텍스트 조건부 렌더링 기준)
 const isSmallScreen = computed(() => {
-  return (
-    screenHeight.value < 700 || screenWidth.value / screenHeight.value > 1.2
-  );
+  return screenHeight.value < 700 || screenWidth.value / screenHeight.value > 1.2;
 });
 
 // 두 번째 패널 대화 데이터
@@ -405,8 +384,7 @@ onUnmounted(() => {
   background-image: radial-gradient(circle at center, #aaa 1px, transparent 1px),
     radial-gradient(circle at center, #aaa 1px, transparent 1px);
   background-size: clamp(25px, 4vmin, 40px) clamp(25px, 4vmin, 40px); /* vmin 사용 */
-  background-position: 0 0,
-    calc(clamp(25px, 4vmin, 40px) / 2) calc(clamp(25px, 4vmin, 40px) / 2); /* vmin 사용 */
+  background-position: 0 0, calc(clamp(25px, 4vmin, 40px) / 2) calc(clamp(25px, 4vmin, 40px) / 2); /* vmin 사용 */
   justify-content: center;
   align-items: center;
 }

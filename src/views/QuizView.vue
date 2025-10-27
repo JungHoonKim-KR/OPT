@@ -6,21 +6,9 @@
         <!-- 1. 시작 패널 -->
         <section class="panel start-panel" ref="startPanelRef">
           <div class="start-content-wrapper">
-            <img
-              :src="plusImage"
-              alt="decoration"
-              class="plus-sign plus-top-left"
-            />
-            <img
-              :src="plusImage"
-              alt="decoration"
-              class="plus-sign plus-middle-right"
-            />
-            <img
-              :src="plusImage"
-              alt="decoration"
-              class="plus-sign plus-bottom-left"
-            />
+            <img :src="plusImage" alt="decoration" class="plus-sign plus-top-left" />
+            <img :src="plusImage" alt="decoration" class="plus-sign plus-middle-right" />
+            <img :src="plusImage" alt="decoration" class="plus-sign plus-bottom-left" />
             <img :src="titleImage" alt="What's your OPT?" class="title-image" />
           </div>
         </section>
@@ -28,26 +16,18 @@
         <!-- 2. 퀴즈 콘텐츠 패널 -->
         <section class="panel quiz-content-panel" ref="quizPanelRef">
           <!-- 퀴즈 진행 중 -->
-          <template
-            v-if="!isLoading && !isComplete && currentQuestionIndex >= 0"
-          >
+          <template v-if="!isLoading && !isComplete && currentQuestionIndex >= 0">
             <!-- 퀴즈 UI 전체를 감싸는 래퍼 -->
             <div class="quiz-ui-wrapper">
               <header class="question-header">
                 <div class="progress-dots">
-                  <span
-                    v-for="i in quizData.length"
-                    :key="i"
-                    :class="{ active: i <= currentQuestionIndex + 1 }"
-                  ></span>
+                  <span v-for="i in quizData.length" :key="i" :class="{ active: i <= currentQuestionIndex + 1 }"></span>
                 </div>
               </header>
 
               <main class="question-card">
                 <div class="card-content">
-                  <span class="question-number"
-                    >Q{{ String(currentQuestionIndex + 1) }}.</span
-                  >
+                  <span class="question-number">Q{{ String(currentQuestionIndex + 1) }}.</span>
 
                   <div class="question-text">
                     <transition name="fade" mode="out-in">
@@ -63,16 +43,10 @@
                   </div>
                   <transition name="fade" mode="out-in">
                     <div class="answer-options" :key="currentQuestionIndex">
-                      <button
-                        @click="selectOption(0)"
-                        :class="{ active: selectedAnswerIndex === 0 }"
-                      >
+                      <button @click="selectOption(0)" :class="{ active: selectedAnswerIndex === 0 }">
                         {{ currentQuestion.answers[0] }}
                       </button>
-                      <button
-                        @click="selectOption(1)"
-                        :class="{ active: selectedAnswerIndex === 1 }"
-                      >
+                      <button @click="selectOption(1)" :class="{ active: selectedAnswerIndex === 1 }">
                         {{ currentQuestion.answers[1] }}
                       </button>
                     </div>
@@ -83,11 +57,7 @@
                   <button class="back-button" @click="goBack">
                     <img src="../assets/images/back.png" />
                   </button>
-                  <button
-                    class="next-button"
-                    @click="goToNextQuestion"
-                    :disabled="selectedAnswerIndex === null"
-                  >
+                  <button class="next-button" @click="goToNextQuestion" :disabled="selectedAnswerIndex === null">
                     <img src="../assets/images/go.png" />
                   </button>
                 </footer>
@@ -145,8 +115,8 @@ const quizData = ref([
   {
     id: 1,
     q: "Q1.",
-    text_ko: "온라인 속 당신의 행동 방식은?",
-    text_en: "How would you describe your online behavior?",
+    text_ko: "온라인 속에서 가장 활발한 시간은 언제인가요?",
+    text_en: "When are you most active online?",
     answers: ["DAY", "NIGHT"],
   },
   {
@@ -161,7 +131,7 @@ const quizData = ref([
     q: "Q3.",
     text_ko: "당신이 끌리는 콘텐츠는 어떤 유형인가요?",
     text_en: "What type of content interests you?",
-    answers: ["INFORMATIVE", "FUN"],
+    answers: ["FUN", "INFORMATIVE"],
   },
   {
     id: 4,
@@ -185,10 +155,7 @@ const completionMessage = ref("");
 const selectedAnswerIndex = ref(null); // 현재 선택한 답변 인덱스
 
 const currentQuestion = computed(() => {
-  if (
-    currentQuestionIndex.value >= 0 &&
-    currentQuestionIndex.value < quizData.value.length
-  ) {
+  if (currentQuestionIndex.value >= 0 && currentQuestionIndex.value < quizData.value.length) {
     return quizData.value[currentQuestionIndex.value];
   }
   return { q: "", text_ko: "", text_en: "", answers: ["", ""] };
@@ -198,11 +165,7 @@ let scrollObserver;
 
 onMounted(() => {
   // [수정] Pinia 스토어 값 확인 (URL 쿼리 대신)
-  console.log(
-    "QuizView - Info from Store:",
-    userSelectionStore.gender,
-    userSelectionStore.age
-  );
+  console.log("QuizView - Info from Store:", userSelectionStore.gender, userSelectionStore.age);
 
   scrollObserver = new IntersectionObserver(
     (entries) => {
@@ -257,11 +220,7 @@ async function goToNextQuestion() {
 async function sendSurveyData() {
   // --- 1. 데이터 가공 ---
   const genderToSend =
-    userSelectionStore.gender === "male"
-      ? "남"
-      : userSelectionStore.gender === "female"
-      ? "여"
-      : "기타";
+    userSelectionStore.gender === "male" ? "남" : userSelectionStore.gender === "female" ? "여" : "기타";
   const parsedAge = parseInt(userSelectionStore.age) || 0;
 
   const surveyPayload = {

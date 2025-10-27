@@ -10,11 +10,7 @@
       <!-- 2. 캐릭터 목록과 구분선을 모두 감싸는 메인 영역 -->
       <main class="character-section-wrapper">
         <div class="separator-bar-wrapper">
-          <img
-            :src="backgroundBarImage"
-            alt="separator"
-            class="separator-bar-img"
-          />
+          <img :src="backgroundBarImage" alt="separator" class="separator-bar-img" />
         </div>
         <template v-for="(row, rowIndex) in characterRows" :key="rowIndex">
           <!-- 캐릭터 한 줄 (4개) -->
@@ -28,20 +24,13 @@
               @click="startQuiz"
             >
               <div class="image-wrapper">
-                <img
-                  :src="char.isHovered ? char.animatedGif : char.staticImage"
-                  :alt="'Character ' + char.id"
-                />
+                <img :src="char.isHovered ? char.animatedGif : char.staticImage" :alt="'Character ' + char.id" />
               </div>
             </div>
           </div>
 
           <div class="separator-bar-wrapper">
-            <img
-              :src="backgroundBarImage"
-              alt="separator"
-              class="separator-bar-img"
-            />
+            <img :src="backgroundBarImage" alt="separator" class="separator-bar-img" />
           </div>
         </template>
       </main>
@@ -67,97 +56,97 @@ function startQuiz() {
 const characters = ref([
   {
     id: 1,
-    staticImage: "/src/assets/images/1.png",
+    staticImage: "/src/assets/images/DMFP.png",
     animatedGif: "/src/assets/images/1.gif",
     isHovered: false,
   },
   {
     id: 2,
-    staticImage: "/src/assets/images/2.png",
+    staticImage: "/src/assets/images/DMIP.png",
     animatedGif: "/src/assets/images/2.gif",
     isHovered: false,
   },
   {
     id: 3,
-    staticImage: "/src/assets/images/3.png",
+    staticImage: "/src/assets/images/NMIP.png",
     animatedGif: "/src/assets/images/3.gif",
     isHovered: false,
   },
   {
     id: 4,
-    staticImage: "/src/assets/images/4.png",
+    staticImage: "/src/assets/images/NEIP.png",
     animatedGif: "/src/assets/images/4.gif",
     isHovered: false,
   },
   {
     id: 5,
-    staticImage: "/src/assets/images/5.png",
+    staticImage: "/src/assets/images/NMIA.png",
     animatedGif: "/src/assets/images/5.gif",
     isHovered: false,
   },
   {
     id: 6,
-    staticImage: "/src/assets/images/6.png",
+    staticImage: "/src/assets/images/DEIA.png",
     animatedGif: "/src/assets/images/6.gif",
     isHovered: false,
   },
   {
     id: 7,
-    staticImage: "/src/assets/images/7.png",
+    staticImage: "/src/assets/images/DEIP.png",
     animatedGif: "/src/assets/images/7.gif",
     isHovered: false,
   },
   {
     id: 8,
-    staticImage: "/src/assets/images/8.png",
+    staticImage: "/src/assets/images/DMIA.png",
     animatedGif: "/src/assets/images/8.gif",
     isHovered: false,
   },
   {
     id: 9,
-    staticImage: "/src/assets/images/9.png",
+    staticImage: "/src/assets/images/DEFA.png",
     animatedGif: "/src/assets/images/9.gif",
     isHovered: false,
   },
   {
     id: 10,
-    staticImage: "/src/assets/images/10.png",
+    staticImage: "/src/assets/images/NMFA.png",
     animatedGif: "/src/assets/images/10.gif",
     isHovered: false,
   },
   {
     id: 11,
-    staticImage: "/src/assets/images/11.png",
+    staticImage: "/src/assets/images/DEFP.png",
     animatedGif: "/src/assets/images/11.gif",
     isHovered: false,
   },
   {
     id: 12,
-    staticImage: "/src/assets/images/12.png",
+    staticImage: "/src/assets/images/DMFA.png",
     animatedGif: "/src/assets/images/12.gif",
     isHovered: false,
   },
   {
     id: 13,
-    staticImage: "/src/assets/images/13.png",
+    staticImage: "/src/assets/images/NEFP.png",
     animatedGif: "/src/assets/images/13.gif",
     isHovered: false,
   },
   {
     id: 14,
-    staticImage: "/src/assets/images/14.png",
+    staticImage: "/src/assets/images/NEIA.png",
     animatedGif: "/src/assets/images/14.gif",
     isHovered: false,
   },
   {
     id: 15,
-    staticImage: "/src/assets/images/15.png",
+    staticImage: "/src/assets/images/NEFA.png",
     animatedGif: "/src/assets/images/15.gif",
     isHovered: false,
   },
   {
     id: 16,
-    staticImage: "/src/assets/images/16.png",
+    staticImage: "/src/assets/images/NMFP.png",
     animatedGif: "/src/assets/images/16.gif",
     isHovered: false,
   },

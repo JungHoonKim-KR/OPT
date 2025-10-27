@@ -6,37 +6,21 @@
         <div class="type-image"></div>
         <div class="type-intro-content">
           <p class="intro-text">{{ resultData.typeName }}</p>
-          <img
-            :src="getTypeImage(resultData.typeCode)"
-            :alt="resultData.typeCode"
-          />
+          <img :src="getTypeImage(resultData.typeCode)" :alt="resultData.typeCode" />
 
           <!-- 타입 캐릭터 이미지 -->
           <div class="character-image">
-            <img
-              :src="getCharacterImage(resultData.typeCode)"
-              :alt="resultData.typeCode"
-            />
+            <img :src="getCharacterGif(resultData.typeCode)" :alt="resultData.typeCode" />
           </div>
 
           <!-- 해시태그들 -->
           <div class="hashtags">
-            <span
-              v-for="(tag, index) in resultData.hashTags"
-              :key="index"
-              class="hashtag"
-            >
+            <div v-for="(tag, index) in resultData.hashTags" :key="index" class="hashtag">
               {{ tag }}
-            </span>
+            </div>
           </div>
 
-          <!-- 하단 버튼들 -->
-          <div class="action-buttons">
-            <button class="btn-outline">#테스트하기</button>
-            <button class="btn-outline">#공유하기</button>
-            <button class="btn-outline">#결과보기</button>
-          </div>
-          <h2 class="type-name">{{ resultData.description }}</h2>
+          <div class="type-description">{{ resultData.description }}</div>
         </div>
       </section>
 
@@ -50,20 +34,14 @@
             <div class="match-label">BEST</div>
             <div class="match-info">
               <div class="match-character">
-                <img
-                  :src="getCharacterImage(resultData.bestMatch?.typeCode)"
-                  alt="Best Match"
-                />
+                <img :src="getCharacterImage(resultData.bestMatch?.typeCode)" alt="Best Match" />
               </div>
               <div class="match-details">
                 <h4 class="match-type">
                   {{ resultData.bestMatch?.typeCode || "DEIP" }}
                 </h4>
                 <p class="match-description">
-                  {{
-                    resultData.bestMatch?.description ||
-                    "최고의 궁합을 가진 타입입니다."
-                  }}
+                  {{ resultData.bestMatch?.description || "최고의 궁합을 가진 타입입니다." }}
                 </p>
               </div>
             </div>
@@ -74,20 +52,14 @@
             <div class="match-label">WORST</div>
             <div class="match-info">
               <div class="match-character">
-                <img
-                  :src="getCharacterImage(resultData.worstMatch?.typeCode)"
-                  alt="Worst Match"
-                />
+                <img :src="getCharacterImage(resultData.worstMatch?.typeCode)" alt="Worst Match" />
               </div>
               <div class="match-details">
                 <h4 class="match-type">
                   {{ resultData.worstMatch?.typeCode || "NEIA" }}
                 </h4>
                 <p class="match-description">
-                  {{
-                    resultData.worstMatch?.description ||
-                    "다른 성향을 가진 타입입니다."
-                  }}
+                  {{ resultData.worstMatch?.description || "다른 성향을 가진 타입입니다." }}
                 </p>
               </div>
             </div>
@@ -121,14 +93,7 @@
           <!-- 도넛 차트 -->
           <div class="donut-chart">
             <svg viewBox="0 0 200 200" width="300" height="300">
-              <circle
-                cx="100"
-                cy="100"
-                r="80"
-                fill="none"
-                stroke="#e0e0e0"
-                stroke-width="40"
-              />
+              <circle cx="100" cy="100" r="80" fill="none" stroke="#e0e0e0" stroke-width="40" />
               <circle
                 cx="100"
                 cy="100"
@@ -141,13 +106,9 @@
                 transform="rotate(-90 100 100)"
                 class="donut-segment"
               />
-              <text x="70" y="95" font-size="14" fill="#000">
-                {{ genderPercentage }}%
-              </text>
+              <text x="70" y="95" font-size="14" fill="#000">{{ genderPercentage }}%</text>
               <text x="70" y="115" font-size="12" fill="#666">남성</text>
-              <text x="130" y="95" font-size="14" fill="#000">
-                {{ 100 - genderPercentage }}%
-              </text>
+              <text x="130" y="95" font-size="14" fill="#000">{{ 100 - genderPercentage }}%</text>
               <text x="130" y="115" font-size="12" fill="#666">여성</text>
             </svg>
           </div>
@@ -159,16 +120,8 @@
               <div class="age-bar-container">
                 <div class="age-bar" :style="{ width: data.percentage + '%' }">
                   <span class="age-dots">
-                    <span
-                      v-for="i in data.dots"
-                      :key="i"
-                      class="dot filled"
-                    ></span>
-                    <span
-                      v-for="i in 10 - data.dots"
-                      :key="'empty-' + i"
-                      class="dot empty"
-                    ></span>
+                    <span v-for="i in data.dots" :key="i" class="dot filled"></span>
+                    <span v-for="i in 10 - data.dots" :key="'empty-' + i" class="dot empty"></span>
                   </span>
                 </div>
               </div>
@@ -248,29 +201,30 @@ const ageData = computed(() => {
 function getCharacterImage(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(
-      `../assets/images/characters/${typeCode}.gif`,
-      import.meta.url
-    ).href;
+    return new URL(`../assets/images/characters/${typeCode}.png`, import.meta.url).href;
   } catch {
     return "";
   }
 }
-
+//gif 경로함수 - 16개 타입 모두 지원
+function getCharacterGif(typeCode) {
+  if (!typeCode) return "";
+  try {
+    return new URL(`../assets/images/characters/${typeCode}.gif`, import.meta.url).href;
+  } catch {
+    return "";
+  }
+}
 function getTypeImage(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(
-      `../assets/images/typeNames/${typeCode}.png`,
-      import.meta.url
-    ).href;
+    return new URL(`../assets/images/typeNames/${typeCode}.png`, import.meta.url).href;
   } catch {
     return "";
   }
 }
 
-const clipboardGif = new URL("..\assets\images\print.png", import.meta.url)
-  .href;
+const clipboardGif = new URL("..\assets\images\print.png", import.meta.url).href;
 const cursorGif = new URL("../assets/images/cursor.gif", import.meta.url).href;
 
 onMounted(() => {
@@ -337,6 +291,10 @@ onMounted(() => {
   text-align: center;
   max-width: 600px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .intro-text {
@@ -344,6 +302,7 @@ onMounted(() => {
   font-weight: 700;
   font-style: Bold;
   font-size: 70px;
+  color: #aac7dd;
 }
 
 .type-code {
@@ -357,63 +316,56 @@ onMounted(() => {
   background-clip: text;
 }
 
-.type-name {
-  font-size: clamp(24px, 4vh, 40px);
-  font-weight: 500;
+.type-description {
+  border-radius: 72.51px;
+  padding: 20px 70px;
+  background: transparent;
+  font-family: Pretendard;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 50px;
+  line-height: 155%;
+  letter-spacing: 0.25px;
+  text-align: center;
+
+  color: #aac7dd;
+  border: 2px solid #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
   margin-bottom: 4vh;
+  margin-top: 4vh;
 }
 
 .character-image {
-  /* width: clamp(200px, 30vh, 300px);
-  height: clamp(200px, 30vh, 300px); */
-  margin: 4vh auto;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.character-image img {
-  width: 80%;
-  height: 80%;
-  object-fit: contain;
 }
 
 .hashtags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1vh 2vw;
-  justify-content: center;
-  margin: 4vh 0;
-}
-
-.hashtag {
-  font-size: clamp(14px, 2vh, 18px);
-  color: #aaa;
-  padding: 1vh 2vw;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-}
-
-.action-buttons {
   display: flex;
   gap: 2vw;
   justify-content: center;
   margin-top: 4vh;
 }
 
-.btn-outline {
-  padding: 1.5vh 4vw;
+.hashtag {
+  border-radius: 72.51px;
+  white-space: nowrap;
+  /* padding: 1.5vh 4vw; */
+  padding: 20px 70px;
   background: transparent;
-  color: #fff;
+  font-family: Pretendard;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 60px;
+  line-height: 140%;
+  letter-spacing: 0.25px;
+  color: #aac7dd;
   border: 2px solid #fff;
-  border-radius: 25px;
-  font-size: clamp(12px, 2vh, 16px);
+  /* font-size: clamp(12px, 2vh, 16px); */
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.btn-outline:hover {
+.tashtag:hover {
   background: #fff;
   color: #000;
 }
