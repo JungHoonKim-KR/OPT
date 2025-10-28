@@ -24,6 +24,7 @@ import java.util.Map;
 @RequestMapping("/question")
 @Slf4j
 public class QuestionController {
+
     private final QuestionService questionService;
     private final GuestService guestService;
     @Operation(summary = "설문 결과 응답", description = "4가지 설문의 응답 데이터를 받고 이에 따른 결과값 반환")
