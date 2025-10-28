@@ -2,20 +2,28 @@
   <div class="result-container">
     <div class="result-scroll-container" ref="scrollContainerRef">
       <!-- 1. 타입 소개 패널 -->
-      <p class="intro-text">온라인 공간 속 당신의 유형은</p>
-
       <section class="panel type-intro-panel">
         <div class="type-intro-content">
           <p class="intro-text">{{ resultData.typeName }}</p>
-          <img :src="getTypeImage(resultData.typeCode)" :alt="resultData.typeCode" />
+          <img
+            :src="getTypeImage(resultData.typeCode)"
+            :alt="resultData.typeCode"
+          />
           <!-- 타입 캐릭터 이미지 -->
           <div class="character-image">
-            <img :src="getCharacterGif(resultData.typeCode)" :alt="resultData.typeCode" />
+            <img
+              :src="getCharacterGif(resultData.typeCode)"
+              :alt="resultData.typeCode"
+            />
           </div>
 
           <!-- 해시태그들 -->
           <div class="hashtags">
-            <div v-for="(tag, index) in resultData.hashTags" :key="index" class="hashtag">
+            <div
+              v-for="(tag, index) in resultData.hashTags"
+              :key="index"
+              class="hashtag"
+            >
               {{ tag }}
             </div>
           </div>
@@ -36,14 +44,27 @@
                   <div class="match-character">
                     <div class="match-label">BEST</div>
 
-                    <img :src="getCharacterMatchImage(resultData.bestMatch?.typeCode)" alt="Best Match" />
+                    <img
+                      :src="
+                        getCharacterMatchImage(resultData.bestMatch?.typeCode)
+                      "
+                      alt="Best Match"
+                    />
                   </div>
                 </div>
 
                 <div class="match-details">
-                  <img :src="getCharacterMatchTypeImage(resultData.bestMatch?.typeCode)" alt="Worst Match" />
+                  <img
+                    :src="
+                      getCharacterMatchTypeImage(resultData.bestMatch?.typeCode)
+                    "
+                    alt="Best Match Type"
+                  />
                   <p class="match-description">
-                    {{ resultData.bestMatch?.description || "최고의 궁합을 가진 타입입니다." }}
+                    {{
+                      resultData.bestMatch?.description ||
+                      "최고의 궁합을 가진 타입입니다."
+                    }}
                   </p>
                 </div>
               </div>
@@ -56,14 +77,29 @@
                   <div class="match-character">
                     <div class="match-label">WORST</div>
 
-                    <img :src="getCharacterMatchImage(resultData.worstMatch?.typeCode)" alt="Worst Match" />
+                    <img
+                      :src="
+                        getCharacterMatchImage(resultData.worstMatch?.typeCode)
+                      "
+                      alt="Worst Match"
+                    />
                   </div>
                 </div>
 
                 <div class="match-details">
-                  <img :src="getCharacterMatchTypeImage(resultData.worstMatch?.typeCode)" alt="Worst Match" />
+                  <img
+                    :src="
+                      getCharacterMatchTypeImage(
+                        resultData.worstMatch?.typeCode
+                      )
+                    "
+                    alt="Worst Match Type"
+                  />
                   <p class="match-description">
-                    {{ resultData.worstMatch?.description || "다른 성향을 가진 타입입니다." }}
+                    {{
+                      resultData.worstMatch?.description ||
+                      "다른 성향을 가진 타입입니다."
+                    }}
                   </p>
                 </div>
               </div>
@@ -86,45 +122,84 @@
       <section class="panel statistics-panel">
         <div class="statistics-content">
           <div class="statistics-title">
-            설문에 참여한<br />xx명 중<br /><br />나와 같은 OPT 유형을 가진 사람들은...
-            <!-- <span class="highlight">xx명 중</span> -->
+            설문에 참여한<br />
+            <strong>{{ resultData.totalCount }}명</strong> 중
           </div>
-          <div class="statistics-detail">전체 유형의 <strong>___%</strong></div>
 
-          <!-- 도넛 차트 -->
-          <div class="donut-chart">
-            <svg viewBox="0 0 200 200" width="300" height="300">
-              <circle cx="100" cy="100" r="80" fill="none" stroke="#e0e0e0" stroke-width="40" />
+          <div class="statistics-subtitle">
+            나와 같은 OPT 유형을 가진 사람들은...
+          </div>
+
+          <div class="statistics-detail">
+            전체 유형의 <strong>{{ myTypePercentage }}%</strong>
+          </div>
+
+          <div class="donut-chart-container">
+            <!-- 왼쪽 라벨 (남성) -->
+             <div class="chart-label">
+              <text class="chart-percentage">
+                {{ genderPercentage }}%
+              </text>
+              <text class = "chart-text">● 남성</text>
+             </div>
+              
+               <div class="donut-chart">
+            
+            <svg viewBox="0 0 200 200" width="640" height="640">
+              
+              <!-- 회색 배경 원 -->
               <circle
                 cx="100"
                 cy="100"
-                r="80"
+                r="70"
                 fill="none"
-                stroke="#000"
-                stroke-width="40"
-                :stroke-dasharray="`${genderPercentage * 5.03} 502.4`"
-                stroke-dashoffset="125.6"
+                stroke="#D9D9D9"
+                stroke-width="20"
+              />
+              <!-- 검은색 남성 비율 -->
+              <circle
+                cx="100"
+                cy="100"
+                r="70"
+                fill="none"
+                stroke="#000000"
+                stroke-width="20"
+                :stroke-dasharray="`${genderPercentage * 4.4} 440`"
+                stroke-dashoffset="0"
                 transform="rotate(-90 100 100)"
                 class="donut-segment"
               />
-              <text x="70" y="95" font-size="14" fill="#000">{{ genderPercentage }}%</text>
-              <text x="70" y="115" font-size="12" fill="#666">남성</text>
-              <text x="130" y="95" font-size="14" fill="#000">{{ 100 - genderPercentage }}%</text>
-              <text x="130" y="115" font-size="12" fill="#666">여성</text>
+
+              
+
+             
             </svg>
+             
           </div>
 
-          <!-- 연령대별 막대 그래프 -->
+
+              <!-- 오른쪽 라벨 (여성) -->
+               <div class="chart-label">
+              <text class="chart-percentage">
+                {{100- genderPercentage }}%
+              </text>
+              <text class = "chart-text">● 여성</text>
+             </div>
+          </div>
+          <!-- 도넛 차트 -->
+         
+
+          <!-- 연령대별 동그라미 그래프 -->
           <div class="age-statistics">
             <div v-for="(data, index) in ageData" :key="index" class="age-row">
               <span class="age-label">{{ data.label }}</span>
-              <div class="age-bar-container">
-                <div class="age-bar" :style="{ width: data.percentage + '%' }">
-                  <span class="age-dots">
-                    <span v-for="i in data.dots" :key="i" class="dot filled"></span>
-                    <span v-for="i in 10 - data.dots" :key="'empty-' + i" class="dot empty"></span>
-                  </span>
-                </div>
+              <div class="circle-dots">
+                <span
+                  v-for="i in 10"
+                  :key="i"
+                  class="circle-dot"
+                  :class="{ filled: i <= data.filledDots }"
+                ></span>
               </div>
               <span class="age-percentage">{{ data.percentage }}%</span>
             </div>
@@ -135,13 +210,8 @@
       <!-- 4. QR/프린트 패널 -->
       <section class="panel qr-panel">
         <div class="qr-content">
-          <h1 class="qr-title">
-            SCAN<br />
-            OR<br />
-            PRINT<br />
-            YOUR<br />
-            OPT!
-          </h1>
+                      <img :src="titleImage" alt="print title" class="qr-title" />
+          <h3 class="qr-title">지금 바로 프린트하세요!</h3>
 
           <!-- 클립보드 프린트 섹션 -->
           <div class="print-section" @click="handlePrint">
@@ -169,6 +239,8 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useUserSelectionStore } from "@/stores/userSelection";
+import titleImage from "@/assets/images/print-title.png";
+
 
 const userSelectionStore = useUserSelectionStore();
 const scrollContainerRef = ref(null);
@@ -178,32 +250,49 @@ const printError = ref("");
 // 서버에서 받은 결과 데이터 (디폴트 값 포함)
 const resultData = computed(() => userSelectionStore.getResult);
 
-// 성별 비율 계산 (예시로 60% 설정, 실제로는 서버 데이터 사용)
-const genderPercentage = ref(60);
-
 // 연령대별 데이터 가공
 const ageData = computed(() => {
   const ageLabels = ["10대", "20대", "30대", "40대", "50대", "기타"];
-  const surveyList = resultData.value.surveyListByAge || [5, 55, 25, 20, 0, 0];
-  const total = resultData.value.totalCount || 100;
+  const surveyList = resultData.value.surveyListByAge || [0, 0, 0, 0, 0, 0];
+  const total = Math.max(resultData.value.totalCount, 1);
 
   return ageLabels.map((label, index) => {
     const count = surveyList[index] || 0;
-    const percentage = Math.round((count / total) * 100);
-    const dots = Math.round(percentage / 10);
+    const percentage = total > 0 ? Math.round((count / total) * 100) : 0;
+    const filledDots = Math.round(percentage / 10); // 10개 중 몇 개를 채울지
 
     return {
       label,
+      count,
       percentage,
-      dots: Math.min(dots, 10),
+      filledDots: Math.min(Math.max(filledDots, 0), 10),
     };
   });
+});
+
+// 내 타입의 전체 비율 계산
+const myTypePercentage = computed(() => {
+  const totalResponses = resultData.value.totalCount || 100;
+  const myTypeCount =
+    resultData.value.surveyListByAge?.reduce((sum, count) => sum + count, 0) ||
+    0;
+  return totalResponses > 0
+    ? Math.round((myTypeCount / totalResponses) * 100)
+    : 0;
+});
+
+// 성별 비율 계산
+const genderPercentage = computed(() => {
+  return 60; // 서버에서 성별 데이터가 오면 수정
 });
 
 function getCharacterMatchImage(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(`../assets/images/matchCharacters/${typeCode}.png`, import.meta.url).href;
+    return new URL(
+      `../assets/images/matchCharacters/${typeCode}.png`,
+      import.meta.url
+    ).href;
   } catch {
     return "";
   }
@@ -211,7 +300,10 @@ function getCharacterMatchImage(typeCode) {
 function getCharacterMatchTypeImage(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(`../assets/images/matchCharactersType/${typeCode}.png`, import.meta.url).href;
+    return new URL(
+      `../assets/images/matchCharactersType/${typeCode}.png`,
+      import.meta.url
+    ).href;
   } catch {
     return "";
   }
@@ -230,7 +322,10 @@ function getCharacterImage(typeCode) {
 function getCharacterGif(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(`../assets/images/characters/${typeCode}.gif`, import.meta.url).href;
+    return new URL(
+      `../assets/images/characters/${typeCode}.gif`,
+      import.meta.url
+    ).href;
   } catch {
     return "";
   }
@@ -238,13 +333,17 @@ function getCharacterGif(typeCode) {
 function getTypeImage(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(`../assets/images/typeNames/${typeCode}.png`, import.meta.url).href;
+    return new URL(
+      `../assets/images/typeNames/${typeCode}.png`,
+      import.meta.url
+    ).href;
   } catch {
     return "";
   }
 }
 
-const clipboardGif = new URL("../assets/images/clipboard.gif", import.meta.url).href;
+const clipboardGif = new URL("../assets/images/clipboard.gif", import.meta.url)
+  .href;
 const cursorGif = new URL("../assets/images/cursor.gif", import.meta.url).href;
 
 // 프린트 핸들러
@@ -255,6 +354,8 @@ async function handlePrint() {
   printError.value = "";
 
   try {
+    console.log("프린트 요청:", resultData.value.typeCode);
+
     // 로컬 프린터 서버로 요청 (포트 3001)
     const response = await fetch("http://localhost:3001/api/print", {
       method: "POST",
@@ -275,11 +376,13 @@ async function handlePrint() {
     const result = await response.json();
     console.log("프린트 성공:", result);
 
-    // 성공 피드백 (선택사항)
-    alert("인쇄가 시작되었습니다!");
+    // 성공 피드백
+    alert("인쇄가 시작되었습니다! 🖨️");
   } catch (error) {
     console.error("프린트 오류:", error);
-    printError.value = "인쇄 중 오류가 발생했습니다. 프린터 서버를 확인해주세요.";
+    printError.value =
+      "인쇄 중 오류가 발생했습니다. 프린터 서버를 확인해주세요.";
+    alert("인쇄 실패: " + error.message);
   } finally {
     isPrinting.value = false;
   }
@@ -519,13 +622,10 @@ onMounted(() => {
 }
 
 .routine-suggestion {
-  border-radius: 3vh;
   padding: 3vh 4vw;
-  margin-top: 3vh;
   text-align: center;
   opacity: 1;
   border-radius: 85px;
-
   border: 5px solid #ffffff;
 }
 
@@ -557,7 +657,7 @@ onMounted(() => {
 
 /* --- 3. 통계 패널 --- */
 .statistics-panel {
-  background: #fff;
+  background: #e8f4fa;
 }
 
 .statistics-content {
@@ -567,104 +667,115 @@ onMounted(() => {
 }
 
 .statistics-title {
-  white-space: nowrap;
   font-family: Pretendard;
   font-weight: 700;
-  font-size: 70px;
-  line-height: 100%;
+  font-size: 50px;
+  line-height: 140%;
   text-align: center;
-  margin-bottom: 154px;
-}
-
-.highlight {
-  color: #4a90e2;
+  color: #000;
+  margin-bottom: 30px;
 }
 
 .statistics-subtitle {
-  font-size: clamp(16px, 2.5vh, 22px);
-  color: #333;
-  margin-bottom: 1vh;
+  font-family: Pretendard;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 140%;
+  text-align: center;
+  color: #000;
+  margin-bottom: 20px;
 }
 
 .statistics-detail {
   font-family: Pretendard;
   font-weight: 700;
-  font-size: 70px;
-  line-height: 100%;
+  font-size: 45px;
+  line-height: 140%;
   text-align: center;
+  color: #000;
+  margin-bottom: 60px;
 }
 
+.donut-chart-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 변경 후 */
 .donut-chart {
-  width: clamp(250px, 40vh, 350px);
-  height: clamp(250px, 40vh, 350px);
-  margin: 234px;
+  width: 640px;  /* 250px → 640px */
+  height: 640px; /* 250px → 640px */
+  margin: 60px auto;
+  /* display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center; */
 }
 
 .donut-segment {
   transition: stroke-dasharray 1s ease;
 }
 
+.chart-label{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 40px;
+}
+.chart-label text{
+  white-space: nowrap;
+}
+
 .age-statistics {
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
+  margin: 40px auto 0;
 }
 
 .age-row {
   display: flex;
   align-items: center;
-  margin-bottom: 2vh;
-  gap: 2vw;
+  margin-bottom: 25px;
+  gap: 20px;
 }
 
 .age-label {
-  font-size: clamp(14px, 2vh, 18px);
-  font-weight: bold;
-  width: 60px;
+  font-family: Pretendard;
+  font-weight: 700;
+  font-size: 32px;
+  width: 80px;
   text-align: left;
+  color: #000;
+  white-space: nowrap;
 }
 
-.age-bar-container {
+.circle-dots {
+  display: flex;
+  gap: 8px;
   flex: 1;
-  height: 3vh;
-  background: #f0f0f0;
-  border-radius: 1.5vh;
-  overflow: hidden;
 }
 
-.age-bar {
-  height: 100%;
-  background: #000;
-  display: flex;
-  align-items: center;
-  padding: 0 1vw;
-  transition: width 1s ease;
-}
-
-.age-dots {
-  display: flex;
-  gap: 0.5vw;
-}
-
-.dot {
-  width: 1vh;
-  height: 1vh;
+.circle-dot {
+  width: 94px;
+  height: 94px;
   border-radius: 50%;
+  border: 2px solid #000;
+  background: transparent;
+  transition: background-color 0.3s ease;
 }
 
-.dot.filled {
-  background: #fff;
-}
-
-.dot.empty {
-  background: rgba(255, 255, 255, 0.3);
+.circle-dot.filled {
+  background-color: #000;
 }
 
 .age-percentage {
-  font-size: clamp(12px, 2vh, 16px);
-  font-weight: bold;
-  width: 50px;
+  font-family: Pretendard;
+  font-weight: 700;
+  font-size: 32px;
+  width: 80px;
   text-align: right;
+  color: #000;
 }
 
 /* --- 4. QR 패널 --- */
@@ -679,13 +790,7 @@ onMounted(() => {
   width: 100%;
 }
 
-.qr-title {
-  font-size: clamp(48px, 10vh, 80px);
-  font-weight: bold;
-  letter-spacing: 0.05em;
-  line-height: 1.2;
-  margin-bottom: 6vh;
-}
+.qr-title{}
 
 .print-section,
 .save-section {
