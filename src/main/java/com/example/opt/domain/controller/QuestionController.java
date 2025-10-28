@@ -29,6 +29,7 @@ public class QuestionController {
     @Operation(summary = "설문 결과 응답", description = "4가지 설문의 응답 데이터를 받고 이에 따른 결과값 반환")
     @PostMapping("/survey")
     public OPTResponseDto survey(@RequestBody OPTRequestDto optRequestDto) {
+
         OPT opt = questionService.createResult(optRequestDto.getQuestionList());
         guestService.save(optRequestDto.getGender(), optRequestDto.getAge(), opt.getTypeCode());
         int totalCount = guestService.findTotalCount(opt.getTypeCode());
