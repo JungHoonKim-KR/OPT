@@ -106,10 +106,7 @@
           <!-- 추천 루틴 -->
           <div class="routine-suggestion">
             <ul class="routine-list">
-              <li
-                v-for="(routine, index) in resultData.opt.routineSuggestion"
-                :key="index"
-              >
+              <li v-for="(routine, index) in routineLines" :key="index">
                 {{ routine }}
               </li>
             </ul>
@@ -236,6 +233,12 @@ const printError = ref("");
 
 // 서버에서 받은 결과 데이터 (디폴트 값 포함)
 const resultData = computed(() => userSelectionStore.getResult);
+// 루틴 텍스트를 줄바꿈으로 나누기
+const routineLines = computed(() => {
+  const routineText = resultData.value.opt.routineSuggestion || "";
+  // \n으로 나누고 빈 줄 제거
+  return routineText.split("\n").filter((line) => line.trim() !== "");
+});
 
 // 연령대별 데이터 가공
 const ageData = computed(() => {
