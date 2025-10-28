@@ -6,11 +6,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 2. DB 연결 URL: RDS 엔드포인트와 포트, 스키마 이름 지정
     # [YOUR_RDS_HOST_NAME]에 database-1.ct4i0q00cjsj.ap-northeast-2.rds.amazonaws.com 입력
-    url: jdbc:mysql://[RDS_HOST_NAME]:3306/opt?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://${RDS_HOST_NAME}:3306/opt?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     # 3. DB 사용자 이름 (RDS 마스터 계정)
     username: admin
     # 4. DB 비밀번호 (실제 비밀번호로 대체)
-    password: [RDS_PASSWORD]
+    password: ${RDS_PASSWORD}
   
   # JPA/Hibernate 설정 (데이터 소스에 특화된 설정)
   jpa:
