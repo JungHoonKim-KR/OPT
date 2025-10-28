@@ -4,15 +4,15 @@
       <!-- 1. 타입 소개 패널 -->
       <section class="panel type-intro-panel">
         <div class="type-intro-content">
-          <p class="intro-text">{{ resultData.typeName }}</p>
+          <p class="intro-text">{{ resultData.opt.typeName }}</p>
           <img
-            :src="getTypeImage(resultData.typeCode)"
+            :src="getTypeImage(resultData.opt.typeCode)"
             :alt="resultData.typeCode"
           />
           <!-- 타입 캐릭터 이미지 -->
           <div class="character-image">
             <img
-              :src="getCharacterGif(resultData.typeCode)"
+              :src="getCharacterGif(resultData.opt.typeCode)"
               :alt="resultData.typeCode"
             />
           </div>
@@ -20,15 +20,15 @@
           <!-- 해시태그들 -->
           <div class="hashtags">
             <div
-              v-for="(tag, index) in resultData.hashTags"
+              v-for="(tag, index) in resultData.opt.hashTags"
               :key="index"
               class="hashtag"
             >
               {{ tag }}
             </div>
           </div>
-
-          <div class="type-description">{{ resultData.description }}</div>
+          <div>{{ resultData.opt.summary }}</div>
+          <div class="type-description">{{ resultData.opt.description }}</div>
         </div>
       </section>
 
@@ -46,7 +46,7 @@
 
                     <img
                       :src="
-                        getCharacterMatchImage(resultData.bestMatch?.typeCode)
+                        getCharacterMatchImage(resultData.bestOPT.typeCode)
                       "
                       alt="Best Match"
                     />
@@ -56,13 +56,13 @@
                 <div class="match-details">
                   <img
                     :src="
-                      getCharacterMatchTypeImage(resultData.bestMatch?.typeCode)
+                      getCharacterMatchTypeImage(resultData.bestOPT.typeCode)
                     "
                     alt="Best Match Type"
                   />
                   <p class="match-description">
                     {{
-                      resultData.bestMatch?.description ||
+                      resultData.bestOPT.description ||
                       "최고의 궁합을 가진 타입입니다."
                     }}
                   </p>
@@ -79,7 +79,7 @@
 
                     <img
                       :src="
-                        getCharacterMatchImage(resultData.worstMatch?.typeCode)
+                        getCharacterMatchImage(resultData.worstOPT?.typeCode)
                       "
                       alt="Worst Match"
                     />
@@ -90,14 +90,14 @@
                   <img
                     :src="
                       getCharacterMatchTypeImage(
-                        resultData.worstMatch?.typeCode
+                        resultData.worstOPT?.typeCode
                       )
                     "
                     alt="Worst Match Type"
                   />
                   <p class="match-description">
                     {{
-                      resultData.worstMatch?.description ||
+                      resultData.worstOPT?.description ||
                       "다른 성향을 가진 타입입니다."
                     }}
                   </p>
@@ -110,7 +110,7 @@
           <!-- 추천 루틴 -->
           <div class="routine-suggestion">
             <ul class="routine-list">
-              <li v-for="(routine, index) in resultData.routines" :key="index">
+              <li v-for="(routine, index) in resultData.opt.routineSuggestion" :key="index">
                 {{ routine }}
               </li>
             </ul>
