@@ -211,25 +211,27 @@
       <section class="panel qr-panel">
         <div class="qr-content">
                       <img :src="titleImage" alt="print title" class="qr-title" />
-          <h3 class="qr-title">지금 바로 프린트하세요!</h3>
 
           <!-- 클립보드 프린트 섹션 -->
           <div class="print-section" @click="handlePrint">
             <div class="clipboard-icon" :class="{ printing: isPrinting }">
               <img :src="clipboardGif" alt="Print" />
             </div>
-            <p class="print-label">클립보드 프린트</p>
+                                <h3 class="qr-title">지금 바로 프린트하세요!</h3>
+
             <p v-if="isPrinting" class="print-status">인쇄 중...</p>
             <p v-if="printError" class="print-error">{{ printError }}</p>
           </div>
 
-          <!-- 서울숲 저장 섹션 -->
+
+
+          <!-- 서울숲 저장 섹션
           <div class="save-section">
             <div class="cursor-icon">
               <img :src="cursorGif" alt="Save" />
             </div>
             <p class="save-label">서울숲으로</p>
-          </div>
+          </div> -->
         </div>
       </section>
     </div>
@@ -342,7 +344,7 @@ function getTypeImage(typeCode) {
   }
 }
 
-const clipboardGif = new URL("../assets/images/clipboard.gif", import.meta.url)
+const clipboardGif = new URL("../assets/images/print.png", import.meta.url)
   .href;
 const cursorGif = new URL("../assets/images/cursor.gif", import.meta.url).href;
 
@@ -810,16 +812,7 @@ onMounted(() => {
 
 .clipboard-icon,
 .cursor-icon {
-  width: clamp(120px, 20vh, 180px);
-  height: clamp(120px, 20vh, 180px);
-  margin: 0 auto 2vh;
-  border: 3px solid #fff;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
+  
 }
 
 .clipboard-icon.printing {
