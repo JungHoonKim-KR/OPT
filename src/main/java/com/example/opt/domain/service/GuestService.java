@@ -17,26 +17,45 @@ public class GuestService {
         guestRepository.save(guest);
     }
 
-    public int findTotalCount() {
-        return guestRepository.findTotalCount();
+    public int findTotalCount(String typeCode) {
+        return guestRepository.findAllByTypeCode(typeCode).size();
     }
 
     public int[] findSurveyListByAge(String typeCode) {
-        System.out.println("코드 : " + typeCode);
         List<Guest> allByTypeCode = guestRepository.findAllByTypeCode(typeCode);
-        int[] ageList = new int[6];
+
+        // 전체 Guest의 수를 구합니다.
+        int totalCount = allByTypeCode.size();
+
+        // 나이대별 인원수를 셀 배열 (10대, 20대, 30대, 40대, 50대, 60대 이상)
+        int[] ageCount = new int[6];
 
         for (Guest guest : allByTypeCode) {
-            System.out.println("번호 : " +guest.getRandomNumber());
-            int index = (guest.getAge() / 10) - 1;
-            // 60세 이상은 기타로 분류
-            if (index > 5)
-                index = 6;
+            int age = guest.getAge();
+            int index = (age / 10) - 1;
 
-            ageList[index]++;
+            // 60세 이상은 index 5로 분류
+            if (index < 0) { // 10세 미만
+                index = 5;
+            } else if (index > 4) { // 60세 이상
+                index = 5;
+            }
+
+            ageCount[index]++;
         }
 
-        return ageList;
+        int[] ageRatio = new int[6];
+
+        if (totalCount > 0) {
+            for (int i = 0; i < ageCount.length; i++) {
+                // (나이대별 인원수 / 전체 인원수) * 100.0 (소수점 계산을 위해 100.0을 사용)
+                double ratio = ((double) ageCount[i] / totalCount) * 100.0;
+
+                ageRatio[i] = (int) ratio;
+            }
+        }
+
+        return ageRatio;
     }
 }
 

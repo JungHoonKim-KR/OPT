@@ -31,7 +31,7 @@ public class QuestionController {
     public OPTResponseDto survey(@RequestBody OPTRequestDto optRequestDto) {
         OPT opt = questionService.createResult(optRequestDto.getQuestionList());
         guestService.save(optRequestDto.getGender(), optRequestDto.getAge(), opt.getTypeCode());
-        int totalCount = guestService.findTotalCount();
+        int totalCount = guestService.findTotalCount(opt.getTypeCode());
         int[] ageList = guestService.findSurveyListByAge(opt.getTypeCode());
         OPT bestCode = questionService.findByTypeCode(opt.getBestType());
         OPT worstCode = questionService.findByTypeCode(opt.getWorstType());
