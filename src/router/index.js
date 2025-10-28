@@ -29,74 +29,13 @@ const router = createRouter({
       name: "result",
       component: () => import("../views/ResultView.vue"),
     },
-    //5
     {
-      path: "/DEIA",
-      name: "deia",
-      component: () => import("../views/qrView.vue"),
+      // /qr/NMIA, /qr/DMFP 등의 주소로 접근 가능
+      path: "/qr/:type",
+      name: "qr-view",
+      component: () => import("../views/QrView.vue"), // lazy loading 방식으로 통일
+      props: true, // URL 파라미터(:type)를 props로 전달
     },
-    //6
-    {
-      path: "/DEIP",
-      name: "deip",
-      component: () => import("../views/qrView.vue"),
-    },
-    //7
-    {
-      path: "/DMIA",
-      name: "dmia",
-      component: () => import("../views/qrView.vue"),
-    },
-    //8
-    {
-      path: "/DEFA",
-      name: "defa",
-      component: () => import("../views/qrView.vue"),
-    },
-    //9
-    {
-      path: "/NMFA",
-      name: "nmfa",
-      component: () => import("../views/qrView.vue"),
-    },
-    //10
-    {
-      path: "/DEFP",
-      name: "defp",
-      component: () => import("../views/qrView.vue"),
-    },
-    //11
-    {
-      path: "/DMFA",
-      name: "dmfa",
-      component: () => import("../views/qrView.vue"),
-    },
-    //12
-    {
-      path: "/NEFP",
-      name: "nefp",
-      component: () => import("../views/qrView.vue"),
-    },
-    //13
-    {
-      path: "/NEIA",
-      name: "neia",
-      component: () => import("../views/qrView.vue"),
-    },
-    //14
-    {
-      path: "/NEFA",
-      name: "nefa",
-      component: () => import("../views/qrView.vue"),
-    },
-    //15
-    {
-      path: "/NMFP",
-      name: "nmfp",
-      component: () => import("../views/qrView.vue"),
-    },
-    //16
-    
   ],
 });
 
