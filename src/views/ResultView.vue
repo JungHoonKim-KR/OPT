@@ -2,29 +2,20 @@
   <div class="result-container">
     <div class="result-scroll-container" ref="scrollContainerRef">
       <!-- 1. 타입 소개 패널 -->
+      <p class="intro-text">온라인 공간 속 당신의 유형은</p>
+
       <section class="panel type-intro-panel">
-        <div class="type-image"></div>
         <div class="type-intro-content">
           <p class="intro-text">{{ resultData.typeName }}</p>
-          <img
-            :src="getTypeImage(resultData.typeCode)"
-            :alt="resultData.typeCode"
-          />
+          <img :src="getTypeImage(resultData.typeCode)" :alt="resultData.typeCode" />
           <!-- 타입 캐릭터 이미지 -->
           <div class="character-image">
-            <img
-              :src="getCharacterGif(resultData.typeCode)"
-              :alt="resultData.typeCode"
-            />
+            <img :src="getCharacterGif(resultData.typeCode)" :alt="resultData.typeCode" />
           </div>
 
           <!-- 해시태그들 -->
           <div class="hashtags">
-            <div
-              v-for="(tag, index) in resultData.hashTags"
-              :key="index"
-              class="hashtag"
-            >
+            <div v-for="(tag, index) in resultData.hashTags" :key="index" class="hashtag">
               {{ tag }}
             </div>
           </div>
@@ -45,27 +36,14 @@
                   <div class="match-character">
                     <div class="match-label">BEST</div>
 
-                    <img
-                      :src="
-                        getCharacterMatchImage(resultData.bestMatch?.typeCode)
-                      "
-                      alt="Best Match"
-                    />
+                    <img :src="getCharacterMatchImage(resultData.bestMatch?.typeCode)" alt="Best Match" />
                   </div>
                 </div>
 
                 <div class="match-details">
-                  <img
-                    :src="
-                      getCharacterMatchTypeImage(resultData.bestMatch?.typeCode)
-                    "
-                    alt="Worst Match"
-                  />
+                  <img :src="getCharacterMatchTypeImage(resultData.bestMatch?.typeCode)" alt="Worst Match" />
                   <p class="match-description">
-                    {{
-                      resultData.bestMatch?.description ||
-                      "최고의 궁합을 가진 타입입니다."
-                    }}
+                    {{ resultData.bestMatch?.description || "최고의 궁합을 가진 타입입니다." }}
                   </p>
                 </div>
               </div>
@@ -78,29 +56,14 @@
                   <div class="match-character">
                     <div class="match-label">WORST</div>
 
-                    <img
-                      :src="
-                        getCharacterMatchImage(resultData.worstMatch?.typeCode)
-                      "
-                      alt="Worst Match"
-                    />
+                    <img :src="getCharacterMatchImage(resultData.worstMatch?.typeCode)" alt="Worst Match" />
                   </div>
                 </div>
 
                 <div class="match-details">
-                  <img
-                    :src="
-                      getCharacterMatchTypeImage(
-                        resultData.worstMatch?.typeCode
-                      )
-                    "
-                    alt="Worst Match"
-                  />
+                  <img :src="getCharacterMatchTypeImage(resultData.worstMatch?.typeCode)" alt="Worst Match" />
                   <p class="match-description">
-                    {{
-                      resultData.worstMatch?.description ||
-                      "다른 성향을 가진 타입입니다."
-                    }}
+                    {{ resultData.worstMatch?.description || "다른 성향을 가진 타입입니다." }}
                   </p>
                 </div>
               </div>
@@ -123,8 +86,7 @@
       <section class="panel statistics-panel">
         <div class="statistics-content">
           <div class="statistics-title">
-            설문에 참여한<br />xx명 중<br /><br />나와 같은 OPT 유형을 가진
-            사람들은...
+            설문에 참여한<br />xx명 중<br /><br />나와 같은 OPT 유형을 가진 사람들은...
             <!-- <span class="highlight">xx명 중</span> -->
           </div>
           <div class="statistics-detail">전체 유형의 <strong>___%</strong></div>
@@ -132,14 +94,7 @@
           <!-- 도넛 차트 -->
           <div class="donut-chart">
             <svg viewBox="0 0 200 200" width="300" height="300">
-              <circle
-                cx="100"
-                cy="100"
-                r="80"
-                fill="none"
-                stroke="#e0e0e0"
-                stroke-width="40"
-              />
+              <circle cx="100" cy="100" r="80" fill="none" stroke="#e0e0e0" stroke-width="40" />
               <circle
                 cx="100"
                 cy="100"
@@ -152,13 +107,9 @@
                 transform="rotate(-90 100 100)"
                 class="donut-segment"
               />
-              <text x="70" y="95" font-size="14" fill="#000">
-                {{ genderPercentage }}%
-              </text>
+              <text x="70" y="95" font-size="14" fill="#000">{{ genderPercentage }}%</text>
               <text x="70" y="115" font-size="12" fill="#666">남성</text>
-              <text x="130" y="95" font-size="14" fill="#000">
-                {{ 100 - genderPercentage }}%
-              </text>
+              <text x="130" y="95" font-size="14" fill="#000">{{ 100 - genderPercentage }}%</text>
               <text x="130" y="115" font-size="12" fill="#666">여성</text>
             </svg>
           </div>
@@ -170,16 +121,8 @@
               <div class="age-bar-container">
                 <div class="age-bar" :style="{ width: data.percentage + '%' }">
                   <span class="age-dots">
-                    <span
-                      v-for="i in data.dots"
-                      :key="i"
-                      class="dot filled"
-                    ></span>
-                    <span
-                      v-for="i in 10 - data.dots"
-                      :key="'empty-' + i"
-                      class="dot empty"
-                    ></span>
+                    <span v-for="i in data.dots" :key="i" class="dot filled"></span>
+                    <span v-for="i in 10 - data.dots" :key="'empty-' + i" class="dot empty"></span>
                   </span>
                 </div>
               </div>
@@ -260,10 +203,7 @@ const ageData = computed(() => {
 function getCharacterMatchImage(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(
-      `../assets/images/matchCharacters/${typeCode}.png`,
-      import.meta.url
-    ).href;
+    return new URL(`../assets/images/matchCharacters/${typeCode}.png`, import.meta.url).href;
   } catch {
     return "";
   }
@@ -271,10 +211,7 @@ function getCharacterMatchImage(typeCode) {
 function getCharacterMatchTypeImage(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(
-      `../assets/images/matchCharactersType/${typeCode}.png`,
-      import.meta.url
-    ).href;
+    return new URL(`../assets/images/matchCharactersType/${typeCode}.png`, import.meta.url).href;
   } catch {
     return "";
   }
@@ -293,10 +230,7 @@ function getCharacterImage(typeCode) {
 function getCharacterGif(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(
-      `../assets/images/characters/${typeCode}.gif`,
-      import.meta.url
-    ).href;
+    return new URL(`../assets/images/characters/${typeCode}.gif`, import.meta.url).href;
   } catch {
     return "";
   }
@@ -304,17 +238,13 @@ function getCharacterGif(typeCode) {
 function getTypeImage(typeCode) {
   if (!typeCode) return "";
   try {
-    return new URL(
-      `../assets/images/typeNames/${typeCode}.png`,
-      import.meta.url
-    ).href;
+    return new URL(`../assets/images/typeNames/${typeCode}.png`, import.meta.url).href;
   } catch {
     return "";
   }
 }
 
-const clipboardGif = new URL("../assets/images/clipboard.gif", import.meta.url)
-  .href;
+const clipboardGif = new URL("../assets/images/clipboard.gif", import.meta.url).href;
 const cursorGif = new URL("../assets/images/cursor.gif", import.meta.url).href;
 
 // 프린트 핸들러
@@ -349,8 +279,7 @@ async function handlePrint() {
     alert("인쇄가 시작되었습니다!");
   } catch (error) {
     console.error("프린트 오류:", error);
-    printError.value =
-      "인쇄 중 오류가 발생했습니다. 프린터 서버를 확인해주세요.";
+    printError.value = "인쇄 중 오류가 발생했습니다. 프린터 서버를 확인해주세요.";
   } finally {
     isPrinting.value = false;
   }
@@ -418,7 +347,6 @@ onMounted(() => {
 
 .type-intro-content {
   text-align: center;
-  max-width: 600px;
   width: 100%;
   display: flex;
   flex-direction: column;
