@@ -28,7 +28,6 @@ import java.io.IOException;
 @Slf4j
 public class TestController {
 
-
     @GetMapping("/qr/{s}")
     public ResponseEntity<byte[]> qrToTistory(@PathVariable String s) throws WriterException, IOException {
         // QR 정보
