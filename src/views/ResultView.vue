@@ -45,9 +45,7 @@
                     <div class="match-label">BEST</div>
 
                     <img
-                      :src="
-                        getCharacterMatchImage(resultData.bestOPT.typeCode)
-                      "
+                      :src="getCharacterMatchImage(resultData.bestOPT.typeCode)"
                       alt="Best Match"
                     />
                   </div>
@@ -89,9 +87,7 @@
                 <div class="match-details">
                   <img
                     :src="
-                      getCharacterMatchTypeImage(
-                        resultData.worstOPT?.typeCode
-                      )
+                      getCharacterMatchTypeImage(resultData.worstOPT?.typeCode)
                     "
                     alt="Worst Match Type"
                   />
@@ -110,7 +106,10 @@
           <!-- 추천 루틴 -->
           <div class="routine-suggestion">
             <ul class="routine-list">
-              <li v-for="(routine, index) in resultData.opt.routineSuggestion" :key="index">
+              <li
+                v-for="(routine, index) in resultData.opt.routineSuggestion"
+                :key="index"
+              >
                 {{ routine }}
               </li>
             </ul>
@@ -136,58 +135,47 @@
 
           <div class="donut-chart-container">
             <!-- 왼쪽 라벨 (남성) -->
-             <div class="chart-label">
+            <div class="chart-label">
+              <text class="chart-percentage"> {{ genderPercentage }}% </text>
+              <text class="chart-text">● 남성</text>
+            </div>
+
+            <div class="donut-chart">
+              <svg viewBox="0 0 200 200" width="640" height="640">
+                <!-- 회색 배경 원 -->
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="70"
+                  fill="none"
+                  stroke="#D9D9D9"
+                  stroke-width="20"
+                />
+                <!-- 검은색 남성 비율 -->
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="70"
+                  fill="none"
+                  stroke="#000000"
+                  stroke-width="20"
+                  :stroke-dasharray="`${genderPercentage * 4.4} 440`"
+                  stroke-dashoffset="0"
+                  transform="rotate(-90 100 100)"
+                  class="donut-segment"
+                />
+              </svg>
+            </div>
+
+            <!-- 오른쪽 라벨 (여성) -->
+            <div class="chart-label">
               <text class="chart-percentage">
-                {{ genderPercentage }}%
+                {{ 100 - genderPercentage }}%
               </text>
-              <text class = "chart-text">● 남성</text>
-             </div>
-              
-               <div class="donut-chart">
-            
-            <svg viewBox="0 0 200 200" width="640" height="640">
-              
-              <!-- 회색 배경 원 -->
-              <circle
-                cx="100"
-                cy="100"
-                r="70"
-                fill="none"
-                stroke="#D9D9D9"
-                stroke-width="20"
-              />
-              <!-- 검은색 남성 비율 -->
-              <circle
-                cx="100"
-                cy="100"
-                r="70"
-                fill="none"
-                stroke="#000000"
-                stroke-width="20"
-                :stroke-dasharray="`${genderPercentage * 4.4} 440`"
-                stroke-dashoffset="0"
-                transform="rotate(-90 100 100)"
-                class="donut-segment"
-              />
-
-              
-
-             
-            </svg>
-             
-          </div>
-
-
-              <!-- 오른쪽 라벨 (여성) -->
-               <div class="chart-label">
-              <text class="chart-percentage">
-                {{100- genderPercentage }}%
-              </text>
-              <text class = "chart-text">● 여성</text>
-             </div>
+              <text class="chart-text">● 여성</text>
+            </div>
           </div>
           <!-- 도넛 차트 -->
-         
 
           <!-- 연령대별 동그라미 그래프 -->
           <div class="age-statistics">
@@ -210,20 +198,18 @@
       <!-- 4. QR/프린트 패널 -->
       <section class="panel qr-panel">
         <div class="qr-content">
-                      <img :src="titleImage" alt="print title" class="qr-title" />
+          <img :src="titleImage" alt="print title" class="qr-title" />
 
           <!-- 클립보드 프린트 섹션 -->
           <div class="print-section" @click="handlePrint">
             <div class="clipboard-icon" :class="{ printing: isPrinting }">
               <img :src="clipboardGif" alt="Print" />
             </div>
-                                <h3 class="qr-title">지금 바로 프린트하세요!</h3>
+            <h3 class="qr-title">지금 바로 프린트하세요!</h3>
 
             <p v-if="isPrinting" class="print-status">인쇄 중...</p>
             <p v-if="printError" class="print-error">{{ printError }}</p>
           </div>
-
-
 
           <!-- 서울숲 저장 섹션
           <div class="save-section">
@@ -242,7 +228,6 @@
 import { ref, computed, onMounted } from "vue";
 import { useUserSelectionStore } from "@/stores/userSelection";
 import titleImage from "@/assets/images/print-title.png";
-
 
 const userSelectionStore = useUserSelectionStore();
 const scrollContainerRef = ref(null);
@@ -365,9 +350,7 @@ async function handlePrint() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        typeCode: resultData.value.typeCode,
-        gender: userSelectionStore.gender,
-        age: userSelectionStore.age,
+        typeCode: resultData.value.opt.typeCode,
       }),
     });
 
@@ -698,7 +681,7 @@ onMounted(() => {
   margin-bottom: 60px;
 }
 
-.donut-chart-container{
+.donut-chart-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -707,7 +690,7 @@ onMounted(() => {
 
 /* 변경 후 */
 .donut-chart {
-  width: 640px;  /* 250px → 640px */
+  width: 640px; /* 250px → 640px */
   height: 640px; /* 250px → 640px */
   margin: 60px auto;
   /* display: flex;
@@ -720,13 +703,13 @@ onMounted(() => {
   transition: stroke-dasharray 1s ease;
 }
 
-.chart-label{
+.chart-label {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-right: 40px;
 }
-.chart-label text{
+.chart-label text {
   white-space: nowrap;
 }
 
@@ -792,7 +775,8 @@ onMounted(() => {
   width: 100%;
 }
 
-.qr-title{}
+.qr-title {
+}
 
 .print-section,
 .save-section {
@@ -812,7 +796,6 @@ onMounted(() => {
 
 .clipboard-icon,
 .cursor-icon {
-  
 }
 
 .clipboard-icon.printing {
