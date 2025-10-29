@@ -35,7 +35,7 @@ public class QuestionController {
         guestService.save(optRequestDto.getGender(), optRequestDto.getAge(), opt.getTypeCode());
         int totalCount = guestService.findTotalCount();
         int totalCountOfType = guestService.findTotalCountByType(opt.getTypeCode());
-        int percentOfMan = guestService.findPercentOfGender("남", totalCountOfType);
+        int percentOfMan = guestService.findPercentOfGender("남", opt.getTypeCode(), totalCountOfType);
         int percentOfWoman = 100 - percentOfMan;
 
         int[] ageList = guestService.findSurveyListByAge(opt.getTypeCode());

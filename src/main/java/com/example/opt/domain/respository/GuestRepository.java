@@ -14,6 +14,6 @@ public interface GuestRepository extends JpaRepository<Guest, Long> {
     int findTotalCount();
 
     List<Guest> findAllByTypeCode(String typeCode);
-    @Query("select count(*) from Guest g where g.gender = :gender")
-    int findTotalGender(@PathParam("gender")String gender);
+    @Query("select count(*) from Guest g where g.gender = :gender and g.typeCode = :typeCode")
+    int findTotalGender(@PathParam("gender")String gender, @PathParam("typeCode")String typeCode);
 }

@@ -23,8 +23,11 @@ public class GuestService {
     public int findTotalCountByType(String typeCode) {
         return guestRepository.findAllByTypeCode(typeCode).size();
     }
-    public int findPercentOfGender(String gender, int totalCount) {
-        int count = guestRepository.findTotalGender(gender);
+    public int findPercentOfGender(String gender, String typeCode, int totalCount) {
+        int count = guestRepository.findTotalGender(gender, typeCode);
+
+        System.out.println("count = " + count);;
+        System.out.println("totalCount = " + totalCount);
         return count * 100 / totalCount;
     }
     public int[] findSurveyListByAge(String typeCode) {

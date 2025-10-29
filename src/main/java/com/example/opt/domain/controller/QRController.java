@@ -12,8 +12,6 @@ public class QRController {
     @Value("${service.api.base-url}")
     private String baseUrl;
 
-    @Value("${service.api.qr-path}")
-    private String qrPath;
 
     /**
      * 최종 리다이렉션 URL을 생성하는 헬퍼 메서드
@@ -21,7 +19,7 @@ public class QRController {
      * @return 전체 리다이렉션 URL (예: http://...:80/qr/DEFA)
      */
     private String createRedirectUrl(String mappingName) {
-        return baseUrl + qrPath + mappingName;
+        return "http://" + baseUrl + "/qr/" + mappingName;
     }
 
     // 1행
