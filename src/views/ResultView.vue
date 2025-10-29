@@ -1,6 +1,10 @@
 <template>
   <div class="result-container">
-    <div class="result-scroll-container" ref="scrollContainerRef">
+    <div
+      class="result-scroll-container"
+      ref="scrollContainerRef"
+      :style="{ '--bg-color': dynamicBackgroundColor }"
+    >
       <!-- 1. 타입 소개 패널 -->
       <section class="panel type-intro-panel">
         <div class="type-intro-content">
@@ -27,8 +31,11 @@
               {{ tag }}
             </div>
           </div>
-          <div>{{ resultData.opt.summary }}</div>
-          <div class="type-description">{{ resultData.opt.description }}</div>
+          <div class="type-description">
+            <div class="sumarry-description">{{ resultData.opt.summary }}</div>
+
+            {{ resultData.opt.description }}
+          </div>
         </div>
       </section>
 
@@ -231,6 +238,26 @@ const scrollContainerRef = ref(null);
 const isPrinting = ref(false);
 const printError = ref("");
 
+const typeColorMap = {
+  DEFA: "#E7B9C6",
+  DEFP: "#E7B9C6",
+  DMFA: "#E7B9C6",
+  NMFA: "#E7B9C6",
+  DMIA: "#ABD8D0",
+  DEIP: "#ABD8D0",
+  DEIA: "#ABD8D0",
+  NMIA: "#ABD8D0",
+  DMIP: "#AAC7DD",
+  DMFP: "#AAC7DD",
+  NMIP: "#AAC7DD",
+  NEIP: "#AAC7DD",
+  NEFA: "#D4BDE2",
+  NEFP: "#D4BDE2",
+  NMFP: "#D4BDE2",
+  NEFP: "#D4BDE2",
+  default: "#D9D9D9", // 기본 색상
+};
+
 // 서버에서 받은 결과 데이터 (디폴트 값 포함)
 const resultData = computed(() => userSelectionStore.getResult);
 // 루틴 텍스트를 줄바꿈으로 나누기
@@ -238,6 +265,11 @@ const routineLines = computed(() => {
   const routineText = resultData.value.opt.routineSuggestion || "";
   // \n으로 나누고 빈 줄 제거
   return routineText.split("\n").filter((line) => line.trim() !== "");
+});
+
+const dynamicBackgroundColor = computed(() => {
+  const typeCode = resultData.value.opt.typeCode;
+  return typeColorMap[typeCode] || typeColorMap.default;
 });
 
 // 연령대별 데이터 가공
@@ -450,7 +482,7 @@ onMounted(() => {
   font-weight: 700;
   font-style: Bold;
   font-size: 70px;
-  color: #aac7dd;
+  color: var(--bg-color);
 }
 
 .type-code {
@@ -464,9 +496,26 @@ onMounted(() => {
   background-clip: text;
 }
 
+.sumarry-description {
+  border-radius: 50px;
+  background-color: var(--bg-color);
+  color: #ffffff;
+  font-family: Pretendard;
+  font-weight: 800;
+  font-style: ExtraBold;
+  font-size: 60px;
+  line-height: 140%;
+  letter-spacing: 0.25px;
+  text-align: center;
+  padding: 10px;
+  width: 80%;
+  margin-bottom: 52px;
+}
+
 .type-description {
+  display: flex;
   border-radius: 72.51px;
-  padding: 20px 70px;
+  padding: 112px 70px;
   background: transparent;
   font-family: Pretendard;
   font-weight: 600;
@@ -475,7 +524,9 @@ onMounted(() => {
   line-height: 155%;
   letter-spacing: 0.25px;
   text-align: center;
-
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: #aac7dd;
   border: 2px solid #fff;
   cursor: pointer;
@@ -506,7 +557,7 @@ onMounted(() => {
   font-size: 60px;
   line-height: 140%;
   letter-spacing: 0.25px;
-  color: #aac7dd;
+  color: var(--bg-color);
   border: 2px solid #fff;
   /* font-size: clamp(12px, 2vh, 16px); */
   cursor: pointer;
@@ -520,7 +571,7 @@ onMounted(() => {
 
 /* --- 2. Match 패널 --- */
 .match-panel {
-  background: #aac7dd;
+  background: var(--bg-color);
 }
 
 .match-content {
