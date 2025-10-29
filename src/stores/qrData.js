@@ -13,11 +13,11 @@ export const personaDataMap = {
     bestType: "DEFP",
     bestTypeSummary: "밈 감각이 통하는 즐거운 조합",
     bestTypeDescription:
-      "**빠른 템포의 디지털 콘텐츠를 선호하는 조합**이다. DEFP의 짧은 웃음과 DEFA의 확장력이 만나 시너지를 낸다. 감정의 리듬이 완벽히 맞아떨어져 피드에 활기를 불어넣는 **완벽한 궁합**이다.", // ★ 수정
+      "빠른 템포의 디지털 콘텐츠를 선호하는 조합이다. DEFP의 짧은 웃음과 DEFA의 확장력이 만나 시너지를 낸다. 감정의 리듬이 완벽히 맞아떨어져 피드에 활기를 불어넣는 완벽한 궁합이다.", // ★ 수정
     worstType: "DMIP",
     worstTypeSummary: "표현의 과잉과 분석의 냉정이 부딪히는 조합",
     worstTypeDescription:
-      "DEFA는 감정적이고 즉흥적이며, DMIP는 냉정하고 계획적이다. **DMIP의 냉정함이 DEFA의 에너지를 식히고**, DEFA의 밝음은 DMIP에게 부담을 준다. **극단적으로 다른 템포** 때문에 리듬이 어긋난다.", // ★ 수정
+      "DEFA는 감정적이고 즉흥적이며, DMIP는 냉정하고 계획적이다. DMIP의 냉정함이 DEFA의 에너지를 식히고, DEFA의 밝음은 DMIP에게 부담을 준다. 극단적으로 다른 템포 때문에 리듬이 어긋난다.", // ★ 수정
   },
 
   DEFP: {
@@ -33,12 +33,12 @@ export const personaDataMap = {
     bestType: "DEFA",
     bestTypeSummary: "밈 감각이 통하는 즐거운 조합",
     bestTypeDescription:
-      "**빠른 템포의 디지털 콘텐츠를 선호하는 조합**이다. DEFP의 짧은 웃음과 DEFA의 확장력이 만나 시너지를 낸다. 감정의 리듬이 완벽히 맞아떨어져 피드에 활기를 불어넣는 **완벽한 궁합**이다.", // ★ 수정
+      "빠른 템포의 디지털 콘텐츠를 선호하는 조합이다. DEFP의 짧은 웃음과 DEFA의 확장력이 만나 시너지를 낸다. 감정의 리듬이 완벽히 맞아떨어져 피드에 활기를 불어넣는 완벽한 궁합이다.", // ★ 수정
 
     worstType: "NEFP",
     worstTypeSummary: "리듬과 깊이의 단절 조합",
     worstTypeDescription:
-      "DEFP는 **낮 시간대에 짧고 빠른 자극**을 추구하는 반면, NEFP는 **새벽의 정적 속에서 감정과 여운**에 머무른다. DEFP가 '지금의 즐거움'에 집중할 때, NEFP는 '기분의 흐름'에 집중하여 **리듬이 단절되는 조합**이다.", // ★ 수정
+      "DEFP는 낮 시간대에 짧고 빠른 자극을 추구하는 반면, NEFP는 새벽의 정적 속에서 감정과 여운에 머무른다. DEFP가 '지금의 즐거움'에 집중할 때, NEFP는 '기분의 흐름'에 집중하여 리듬이 단절되는 조합이다.", // ★ 수정
   },
 
   DMFA: {
@@ -54,11 +54,11 @@ export const personaDataMap = {
     bestType: "NMFA",
     bestTypeSummary: "유머와 감정의 깊이가 비슷한 환상의 조합",
     bestTypeDescription:
-      "감성과 유머의 결이 맞아 대화가 잘 통한다. NMFA는 미묘한 감정을, DMFA는 유머의 구조를 다룬다. **말수는 적지만 감각적 산출물을 통해 깊이 교류**하며, 상호 보완적인 창의적 합이 강하다.", // ★ 수정
+      "감성과 유머의 결이 맞아 대화가 잘 통한다. NMFA는 미묘한 감정을, DMFA는 유머의 구조를 다룬다. 말수는 적지만 감각적 산출물을 통해 깊이 교류하며, 상호 보완적인 창의적 합이 강하다.", // ★ 수정
     worstType: "DEIP",
     worstTypeSummary: "효율적인 정보전달과 풍자적 해석의 온도차.",
     worstTypeDescription:
-      "DMFA는 **재치와 빠른 판단**을, DEIP는 **차분하고 깊은 선별**을 중요시한다. DMFA는 DEIP의 신중함을 답답해하고, DEIP는 DMFA의 반응 속도를 가볍게 느낀다. **콘텐츠를 즐기는 리듬이 전혀 맞지 않는다**.", // ★ 수정
+      "DMFA는 재치와 빠른 판단을, DEIP는 차분하고 깊은 선별을 중요시한다. DMFA는 DEIP의 신중함을 답답해하고, DEIP는 DMFA의 반응 속도를 가볍게 느낀다. 콘텐츠를 즐기는 리듬이 전혀 맞지 않는다.", // ★ 수정
   },
 
   NMFA: {
@@ -74,11 +74,11 @@ export const personaDataMap = {
     bestType: "DMFA",
     bestTypeSummary: "짤 하나로 통하는 웃음 코드, 완벽한 밈 시너지",
     bestTypeDescription:
-      "DMFA는 구조적으로 웃음을 분석하고, NMFA는 감각적으로 타이밍을 포착한다. **짧은 밈 하나에도 공감이 흐르며**, 과한 표현 없이 웃는 순간을 공유한다. **조용하지만 유머와 감정이 교차하는 관계**다.", // ★ 수정
+      "DMFA는 구조적으로 웃음을 분석하고, NMFA는 감각적으로 타이밍을 포착한다. 짧은 밈 하나에도 공감이 흐르며, 과한 표현 없이 웃는 순간을 공유한다. 조용하지만 유머와 감정이 교차하는 관계다.", // ★ 수정
     worstType: "NEIP",
     worstTypeSummary: "소통 방식의 충돌 조합",
     worstTypeDescription:
-      "NEIP는 **언어적 공감**에 집중하는 반면, NMFA는 **말없이 이미지**로 감정을 전달한다. NEIP는 NMFA의 표현을 부족함으로, NMFA는 NEIP의 언어적 정리를 과함으로 느낀다. **같은 감정을 다른 언어로 이야기하며 오해가 쌓이는 조합**이다.", // ★ 수정
+      "NEIP는 언어적 공감에 집중하는 반면, NMFA는 말없이 이미지로 감정을 전달한다. NEIP는 NMFA의 표현을 부족함으로, NMFA는 NEIP의 언어적 정리를 과함으로 느낀다. 같은 감정을 다른 언어로 이야기하며 오해가 쌓이는 조합이다.", // ★ 수정
   },
 
   DMIA: {
@@ -94,11 +94,11 @@ export const personaDataMap = {
     bestType: "DEIA",
     bestTypeSummary: "논리적 재가공과 전달의 완벽한 순환의 조합",
     bestTypeDescription:
-      "DEIA는 빠르고 명료하게 정보를 전파하고, DMIA는 그 데이터를 구조화한다. **불필요한 소음 없이 정확도와 속도가 공존**한다. 둘 다 효율 중심이라 감정보다 정보의 가치에 반응하며, **실질 결과를 만들어내는 팀워크형 궁합**이다.", // ★ 수정
+      "DEIA는 빠르고 명료하게 정보를 전파하고, DMIA는 그 데이터를 구조화한다. 불필요한 소음 없이 정확도와 속도가 공존한다. 둘 다 효율 중심이라 감정보다 정보의 가치에 반응하며, 실질 결과를 만들어내는 팀워크형 궁합이다.", // ★ 수정
     worstType: "NEFA",
     worstTypeSummary: "논리와 감정의 언어가 맞지 않는 조합",
     worstTypeDescription:
-      "DMIA는 **근거와 데이터 중심**을, NEFA는 **감정과 표현**을 중시한다. NEFA의 즉흥적인 업로드는 DMIA에게 산만하게 느껴지고, DMIA의 냉정한 피드백은 NEFA를 위축시킨다. **감정과 논리의 언어가 엇갈려** 대화가 자연스럽게 이어지지 않는다.", // ★ 수정
+      "DMIA는 근거와 데이터 중심을, NEFA는 감정과 표현을 중시한다. NEFA의 즉흥적인 업로드는 DMIA에게 산만하게 느껴지고, DMIA의 냉정한 피드백은 NEFA를 위축시킨다. 감정과 논리의 언어가 엇갈려 대화가 자연스럽게 이어지지 않는다.", // ★ 수정
   },
   DEIP: {
     backgroundColor: "#ABD8D0",
@@ -113,11 +113,11 @@ export const personaDataMap = {
     bestType: "DMFP",
     bestTypeSummary: "시각적 감수성과 맥락 읽기가 자연스럽게 맞닿는 조합.",
     bestTypeDescription:
-      "둘 다 관찰력이 뛰어나며 과도한 표현보다 **맥락을 중요시**한다. DEIP는 정돈된 기준으로 콘텐츠를 선별하고, DMFP는 분위기를 읽는다. **서로의 조용한 리듬을 존중**하며 말없이 공감하는 이상적인 밸런스형 관계다.", // ★ 수정
+      "둘 다 관찰력이 뛰어나며 과도한 표현보다 맥락을 중요시한다. DEIP는 정돈된 기준으로 콘텐츠를 선별하고, DMFP는 분위기를 읽는다. 서로의 조용한 리듬을 존중하며 말없이 공감하는 이상적인 밸런스형 관계다.", // ★ 수정
     worstType: "DMFA",
     worstTypeSummary: "효율적인 정보전달과 풍자적 해석의 온도차.",
     worstTypeDescription:
-      "DMFA는 **재치와 빠른 판단**을, DEIP는 **차분하고 깊은 선별**을 중요시한다. DMFA는 DEIP의 신중함을 답답해하고, DEIP는 DMFA의 반응 속도를 가볍게 느낀다. **콘텐츠를 즐기는 리듬이 전혀 맞지 않는다**.", // ★ 수정
+      "DMFA는 재치와 빠른 판단을, DEIP는 차분하고 깊은 선별을 중요시한다. DMFA는 DEIP의 신중함을 답답해하고, DEIP는 DMFA의 반응 속도를 가볍게 느낀다. 콘텐츠를 즐기는 리듬이 전혀 맞지 않는다.", // ★ 수정
   },
   DEIA: {
     backgroundColor: "#ABD8D0",
@@ -132,11 +132,11 @@ export const personaDataMap = {
     bestType: "DEIA",
     bestTypeSummary: "논리적 재가공과 전달의 완벽한 순환의 조합",
     bestTypeDescription:
-      "DEIA는 빠르고 명료하게 정보를 전파하고, DMIA는 그 데이터를 구조화한다. **불필요한 소음 없이 정확도와 속도가 공존**한다. 둘 다 효율 중심이라 감정보다 정보의 가치에 반응하며, **실질 결과를 만들어내는 팀워크형 궁합**이다.", // ★ 수정
+      "DEIA는 빠르고 명료하게 정보를 전파하고, DMIA는 그 데이터를 구조화한다. 불필요한 소음 없이 정확도와 속도가 공존한다. 둘 다 효율 중심이라 감정보다 정보의 가치에 반응하며, 실질 결과를 만들어내는 팀워크형 궁합이다.", // ★ 수정
     worstType: "NEFA",
     worstTypeSummary: "논리와 감정의 언어가 맞지 않는 조합",
     worstTypeDescription:
-      "DMIA는 **근거와 데이터 중심**을, NEFA는 **감정과 표현**을 중시한다. NEFA의 즉흥적인 업로드는 DMIA에게 산만하게 느껴지고, DMIA의 냉정한 피드백은 NEFA를 위축시킨다. **감정과 논리의 언어가 엇갈려** 대화가 자연스럽게 이어지지 않는다.", // ★ 수정
+      "DMIA는 근거와 데이터 중심을, NEFA는 감정과 표현을 중시한다. NEFA의 즉흥적인 업로드는 DMIA에게 산만하게 느껴지고, DMIA의 냉정한 피드백은 NEFA를 위축시킨다. 감정과 논리의 언어가 엇갈려 대화가 자연스럽게 이어지지 않는다.", // ★ 수정
   },
   NMIA: {
     backgroundColor: "#ABD8D0",
@@ -152,11 +152,11 @@ export const personaDataMap = {
     bestTypeSummary:
       "논리적 재가공과 전달의 구조 설계와 정비가 결합된\n완벽한 구조형 파트너십.",
     bestTypeDescription:
-      "DMIP의 설계 능력은 NMIA의 정비 루틴과 만나 완성도를 높인다. DMIP가 틀을 잡으면 NMIA가 꾸준히 유지·관리한다. **DMIP가 '맥락의 깊이'를 보완**하여 **오래가는 콘텐츠 체계**를 함께 설계한다.", // ★ 수정
+      "DMIP의 설계 능력은 NMIA의 정비 루틴과 만나 완성도를 높인다. DMIP가 틀을 잡으면 NMIA가 꾸준히 유지·관리한다. DMIP가 '맥락의 깊이'를 보완하여 오래가는 콘텐츠 체계를 함께 설계한다.", // ★ 수정
     worstType: "DEFA",
     worstTypeSummary: "함께 있을수록 오히려 피로감이 누적되는 조합",
     worstTypeDescription:
-      "DEFA의 **즉흥적인 피드 업로드**는 NMIA에게 산만하게 느껴지고, NMIA의 **일관성은 DEFA에게 답답함**을 준다. **유지·관리와 파티피플의 충돌**로 함께 있을수록 피로감이 누적된다.", // ★ 수정
+      "DEFA의 즉흥적인 피드 업로드는 NMIA에게 산만하게 느껴지고, NMIA의 일관성은 DEFA에게 답답함을 준다. 유지·관리와 파티피플의 충돌로 함께 있을수록 피로감이 누적된다.", // ★ 수정
   },
   DMIP: {
     backgroundColor: "#AAC7DD",
@@ -171,11 +171,11 @@ export const personaDataMap = {
     bestType: "NMIA",
     bestTypeSummary: "구조 설계와 정비가 결합된\n완벽한 구조형 파트너십.",
     bestTypeDescription:
-      "DMIP의 설계 능력은 NMIA의 정비 루틴과 만나 완성도를 높인다. DMIP가 틀을 잡으면 NMIA가 꾸준히 유지·관리한다. **DMIP가 '맥락의 깊이'를 보완**하여 **오래가는 콘텐츠 체계**를 함께 설계한다.", // ★ 수정
+      "DMIP의 설계 능력은 NMIA의 정비 루틴과 만나 완성도를 높인다. DMIP가 틀을 잡으면 NMIA가 꾸준히 유지·관리한다. DMIP가 '맥락의 깊이'를 보완하여 오래가는 콘텐츠 체계를 함께 설계한다.", // ★ 수정
     worstType: "DEFA",
     worstTypeSummary: "표현의 과잉과 분석의 냉정이 \n부딪히는 조합",
     worstTypeDescription:
-      "DEFA는 **감정적 표현**으로 피드를 채우지만, DMIP는 큰 흥미가 없다. DMIP의 **무관심함이 DEFA의 에너지를 식힌다**. **극단적으로 다른 템포** 때문에 리듬이 어긋나는 조합이다.", // ★ 수정
+      "DEFA는 감정적 표현으로 피드를 채우지만, DMIP는 큰 흥미가 없다. DMIP의 무관심함이 DEFA의 에너지를 식힌다 극단적으로 다른 템포 때문에 리듬이 어긋나는 조합이다.", // ★ 수정
   },
   DMFP: {
     backgroundColor: "#AAC7DD",
@@ -190,12 +190,12 @@ export const personaDataMap = {
     bestType: "DEIP",
     bestTypeSummary: "시각적 감수성과 맥락 읽기가 \n자연스럽게 맞닿는 조합.",
     bestTypeDescription:
-      "둘 다 관찰력이 뛰어나며 과도한 표현보다 **맥락을 중요시**한다. DEIP는 정돈된 기준으로 선별하고, DMFP는 분위기를 읽는다. **서로의 조용한 리듬을 존중**하며 말없이 공감하는 이상적인 밸런스형 관계다.", // ★ 수정
+      "둘 다 관찰력이 뛰어나며 과도한 표현보다 맥락을 중요시한다. DEIP는 정돈된 기준으로 선별하고, DMFP는 분위기를 읽는다. 서로의 조용한 리듬을 존중하며 말없이 공감하는 이상적인 밸런스형 관계다.", // ★ 수정
     worstType: "NEIA",
     worstTypeSummary:
       "감각이 폭발하는 창조형과, 조용히 \n맥락을 읽는 관찰형의 충돌",
     worstTypeDescription:
-      "NEIA는 **새벽 에너지로 감정과 트렌드를 적극 표현**하는 반면, DMFP는 **반응을 절제하고 상황 인지에 집중**한다. NEIA는 DMFP의 침묵을 무관심으로, DMFP는 NEIA의 빠른 감정 변화를 부담스럽게 느낀다. **서로 다른 주파수**로 움직이며 오해가 쌓이는 조합이다.", // ★ 수정
+      "NEIA는 새벽 에너지로 감정과 트렌드를 적극 표현하는 반면, DMFP는 반응을 절제하고 상황 인지에 집중한다. NEIA는 DMFP의 침묵을 무관심으로, DMFP는 NEIA의 빠른 감정 변화를 부담스럽게 느낀다. 서로 다른 주파수로 움직이며 오해가 쌓이는 조합이다.", // ★ 수정
   },
   NMIP: {
     backgroundColor: "#AAC7DD",
@@ -210,11 +210,11 @@ export const personaDataMap = {
     bestType: "NEIA",
     bestTypeSummary: "서로의 리듬을 보완하며 \n영감의 균형을 잡는 조합",
     bestTypeDescription:
-      "NEIA는 감정과 정보 사이를 유영하고, NMIP는 말없이 모든 흐름을 지켜본다. 둘 다 조용한 새벽에 집중하며, 작은 반응에도 의미를 찾는다. **감정과 관찰이 균형을 이루며** **소리 없는 교감**이 아름답게 유지되는 조합이다.", // ★ 수정
+      "NEIA는 감정과 정보 사이를 유영하고, NMIP는 말없이 모든 흐름을 지켜본다. 둘 다 조용한 새벽에 집중하며, 작은 반응에도 의미를 찾는다. 감정과 관찰이 균형을 이루며 소리 없는 교감이 아름답게 유지되는 조합이다.", // ★ 수정
     worstType: "NMFP",
     worstTypeSummary: "현실과 환상 사이의 불협화음",
     worstTypeDescription:
-      "NMIP는 **새벽 정적 속에서 논리적 맥락**을 정리하는 반면, NMFP는 그 시간을 **감각적 유영**으로 보낸다. NMIP에게 NMFP의 활동은 비효율적으로 보이고, NMFP는 NMIP의 질서감이 답답하다. **서로 다른 차원에 머무는 평행선** 같은 조합이다.", // ★ 수정
+      "NMIP는 새벽 정적 속에서 논리적 맥락을 정리하는 반면, NMFP는 그 시간을 감각적 유영으로 보낸다. NMIP에게 NMFP의 활동은 비효율적으로 보이고, NMFP는 NMIP의 질서감이 답답하다. 서로 다른 차원에 머무는 평행선 같은 조합이다.", // ★ 수정
   },
   NEIP: {
     backgroundColor: "#AAC7DD",
@@ -230,11 +230,11 @@ export const personaDataMap = {
     bestTypeSummary:
       "조용히 서로의 리듬을 존중하며, \n같은 시간대의 감각으로 연결되는 새벽형 조합.",
     bestTypeDescription:
-      "둘 다 밤 시간대에 집중력이 높고 내면의 흐름에 몰입한다. NEIP는 감정의 결을 정리하며 기록하고, NMFP는 그 순간의 감각을 흡수해 공감한다. **'공유된 분위기'로 교감**하며, 피드를 예술적 경험으로 확장시키는 조합이다.", // ★ 수정
+      "둘 다 밤 시간대에 집중력이 높고 내면의 흐름에 몰입한다. NEIP는 감정의 결을 정리하며 기록하고, NMFP는 그 순간의 감각을 흡수해 공감한다. 공유된 분위기'로 교감하며, 피드를 예술적 경험으로 확장시키는 조합이다.", // ★ 수정
     worstType: "NMFA",
     worstTypeSummary: "소통 방식의 충돌 조합",
     worstTypeDescription:
-      "NEIP는 **언어적 공감**에 집중하는 반면, NMFA는 **말없이 이미지**로 감정을 전달한다. NEIP는 NMFA의 표현을 부족함으로, NMFA는 NEIP의 언어적 정리를 과함으로 느낀다. **같은 감정을 다른 언어로 이야기하며 오해가 쌓이는 조합**이다.", // ★ 수정
+      "NEIP는 언어적 공감에 집중하는 반면, NMFA는 말없이 이미지로 감정을 전달한다. NEIP는 NMFA의 표현을 부족함으로, NMFA는 NEIP의 언어적 정리를 과함으로 느낀다. 같은 감정을 다른 언어로 이야기하며 오해가 쌓이는 조합이다.", // ★ 수정
   },
   NEFA: {
     backgroundColor: "#D4BDE2",
@@ -250,12 +250,12 @@ export const personaDataMap = {
     bestTypeSummary:
       "보이지 않는 반응 속에서 안정과 \n위로를 주고받는, 말 없는 궁합.",
     bestTypeDescription:
-      "둘 다 말수는 적고 표현은 절제되어 있지만, 감정의 감도와 디지털 감각이 높다. NEFA는 진솔한 서사를, NEFP는 그 정서를 조용히 포착한다. **감정의 리듬이 자연스럽게 맞아** **말 한마디 없이도 내면을 읽는 궁합**이다.", // ★ 수정
+      "둘 다 말수는 적고 표현은 절제되어 있지만, 감정의 감도와 디지털 감각이 높다. NEFA는 진솔한 서사를, NEFP는 그 정서를 조용히 포착한다. 감정의 리듬이 자연스럽게 맞아 말 한마디 없이도 내면을 읽는 궁합이다.", // ★ 수정
     worstType: "DMIA",
     worstTypeSummary:
       "위로를 원한 말에 해결책이 돌아와, \n마음의 리듬이 엇갈리는 관계.",
     worstTypeDescription:
-      "NEFA는 **감정의 결을 공유**하고 싶어 하지만, DMIA는 그 감정을 **분석해 정리**하려 한다. NEFA의 서정적 표현은 DMIA에게 비효율적으로 보여 **위로와 해결의 리듬이 엇갈린다**.", // ★ 수정
+      "NEFA는 감정의 결을 공유하고 싶어 하지만, DMIA는 그 감정을 분석해 정리하려 한다. NEFA의 서정적 표현은 DMIA에게 비효율적으로 보여 위로와 해결의 리듬이 엇갈린다.", // ★ 수정
   }, // URL에 잘못된 타입이 들어왔을 때를 대비한 기본값
   default: {
     backgroundColor: "#333333",
