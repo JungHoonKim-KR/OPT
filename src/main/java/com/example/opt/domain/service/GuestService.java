@@ -17,10 +17,16 @@ public class GuestService {
         guestRepository.save(guest);
     }
 
-    public int findTotalCount(String typeCode) {
+    public int findTotalCount() {
+        return guestRepository.findTotalCount();
+    }
+    public int findTotalCountByType(String typeCode) {
         return guestRepository.findAllByTypeCode(typeCode).size();
     }
-
+    public int findPercentOfGender(String gender, int totalCount) {
+        int count = guestRepository.findTotalGender(gender);
+        return count * 100 / totalCount;
+    }
     public int[] findSurveyListByAge(String typeCode) {
         List<Guest> allByTypeCode = guestRepository.findAllByTypeCode(typeCode);
 

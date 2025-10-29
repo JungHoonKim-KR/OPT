@@ -13,6 +13,9 @@ import java.util.List;
 public class OPTResponseDto {
     private OPT opt;
     private int totalCount;
+    private int totalCountOfType;
+    private int percentOfMan;
+    private int percentOfWomen;
     private int[]surveyListByAge;
     private OPT bestOPT;
     private OPT worstOPT;

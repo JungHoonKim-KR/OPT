@@ -1,6 +1,7 @@
 package com.example.opt.domain.respository;
 
 import com.example.opt.domain.Entity.Guest;
+import jakarta.websocket.server.PathParam;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,4 +14,6 @@ public interface GuestRepository extends JpaRepository<Guest, Long> {
     int findTotalCount();
 
     List<Guest> findAllByTypeCode(String typeCode);
+    @Query("select count(*) from Guest g where g.gender = :gender")
+    int findTotalGender(@PathParam("gender")String gender);
 }

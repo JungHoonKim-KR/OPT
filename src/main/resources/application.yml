@@ -12,7 +12,9 @@ spring:
         physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     # Open-in-View 설정을 비활성화하여 성능 저하 및 예기치 않은 동작 방지 (권장)
     open-in-view: false
-
+service:
+  api:
+    base-url: http://ec2-43-201-179-196.ap-northeast-2.compute.amazonaws.com:80
 # 로그 레벨 설정: JPA가 생성하는 SQL 쿼리의 파라미터 값까지 확인 가능
 logging:
   level:

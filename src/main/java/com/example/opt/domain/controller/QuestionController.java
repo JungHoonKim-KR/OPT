@@ -33,11 +33,15 @@ public class QuestionController {
 
         OPT opt = questionService.createResult(optRequestDto.getQuestionList());
         guestService.save(optRequestDto.getGender(), optRequestDto.getAge(), opt.getTypeCode());
-        int totalCount = guestService.findTotalCount(opt.getTypeCode());
+        int totalCount = guestService.findTotalCount();
+        int totalCountOfType = guestService.findTotalCountByType(opt.getTypeCode());
+        int percentOfMan = guestService.findPercentOfGender("남", totalCountOfType);
+        int percentOfWoman = 100 - percentOfMan;
+
         int[] ageList = guestService.findSurveyListByAge(opt.getTypeCode());
         OPT bestCode = questionService.findByTypeCode(opt.getBestType());
         OPT worstCode = questionService.findByTypeCode(opt.getWorstType());
-        return new OPTResponseDto(opt,totalCount, ageList, bestCode, worstCode);
+        return new OPTResponseDto(opt,totalCount,totalCountOfType, percentOfMan, percentOfWoman,ageList, bestCode, worstCode);
     }
 
 }
