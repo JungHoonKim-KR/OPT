@@ -1,7 +1,7 @@
 spring:
   # 기본으로 활성화할 프로필을 'dev'로 지정
   profiles:
-    active: dev
+    active: prod
   # JPA 공통 설정
   jpa:
     # SQL 쿼리를 콘솔에 예쁘게 포맷하여 출력
