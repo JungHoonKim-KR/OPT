@@ -1,7 +1,11 @@
 <template>
   <div class="result-container">
-    <div class="result-scroll-container" ref="scrollContainerRef">
-      <!-- 1. 타입 소개 패널 -->
+    <div
+      class="result-scroll-container"
+      ref="scrollContainerRef"
+      :style="{ '--bg-color': resultData?.backgroundColor }"
+    >
+      <!-- 1️⃣ 타입 소개 패널 -->
       <section class="panel type-intro-panel" v-if="resultData">
         <div class="type-intro-content">
           <p class="intro-text">{{ resultData.typeName }}</p>
@@ -10,6 +14,7 @@
           <img
             :src="getTypeImage(resultData.typeCode)"
             :alt="resultData.typeCode"
+            class="type-image"
           />
 
           <!-- 캐릭터 GIF -->
@@ -31,73 +36,55 @@
             </div>
           </div>
 
-          <div>{{ resultData.summary }}</div>
+          <p class="summary">{{ resultData.summary }}</p>
           <div class="type-description">{{ resultData.description }}</div>
         </div>
       </section>
 
-      <!-- 2. BEST / WORST MATCH 패널 -->
+      <!-- 2️⃣ BEST / WORST MATCH -->
       <section class="panel match-panel" v-if="resultData">
         <div class="match-content">
           <h3 class="panel-title">BEST / WORST<br />MATCH</h3>
 
           <div class="match-card-container">
             <!-- BEST -->
-            <div class="match-card best-match">
-              <div class="match-info">
-                <div class="match-character">
-                  <div class="match-label">BEST</div>
-                  <img
-                    :src="getCharacterMatchImage(resultData.bestType)"
-                    alt="Best Match"
-                  />
-                </div>
-
-                <div class="match-details">
-                  <img
-                    :src="getCharacterMatchTypeImage(resultData.bestType)"
-                    alt="Best Match Type"
-                  />
-                  <p class="match-description">
-                    {{ resultData.bestTypeDescription }}
-                  </p>
-                </div>
+            <div class="match-card">
+              <div>
+                <div class="match-label">BEST</div>
+                <img
+                  :src="getCharacterMatchImage(resultData.bestType)"
+                  alt="Best Match"
+                />
               </div>
+
+              <p class="match-description">
+                {{ resultData.bestTypeDescription }}
+              </p>
             </div>
 
             <!-- WORST -->
-            <div class="match-card worst-match">
-              <div class="match-info">
-                <div class="match-character">
-                  <div class="match-label">WORST</div>
-                  <img
-                    :src="getCharacterMatchImage(resultData.worstType)"
-                    alt="Worst Match"
-                  />
-                </div>
-
-                <div class="match-details">
-                  <img
-                    :src="getCharacterMatchTypeImage(resultData.worstType)"
-                    alt="Worst Match Type"
-                  />
-                  <p class="match-description">
-                    {{ resultData.worstTypeDescription }}
-                  </p>
-                </div>
+            <div class="match-card">
+              <div>
+                <div class="match-label">WORST</div>
+                <img
+                  :src="getCharacterMatchImage(resultData.worstType)"
+                  alt="Worst Match"
+                />
               </div>
+
+              <p class="match-description">
+                {{ resultData.worstTypeDescription }}
+              </p>
             </div>
           </div>
 
           <!-- 추천 루틴 -->
           <div class="routine-text">ROUTINE SUGGESTION</div>
-          <div class="routine-suggestion">
-            <ul class="routine-list">
-              <li v-for="(routine, index) in routineLines" :key="index">
-                {{ routine }}
-              </li>
-            </ul>
-          </div>
+          <ul class="routine-list">
+            <li v-for="(routine, index) in routineLines" :key="index">
+              {{ routine }}
+            </li>
+          </ul>
         </div>
       </section>
     </div>
@@ -105,26 +92,21 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, nextTick } from "vue";
 import { useRoute } from "vue-router";
-import { personaDataMap } from "../stores/qrData.js"; // 데이터 가져오기
+import { personaDataMap } from "../stores/qrData.js";
 
 const route = useRoute();
 const scrollContainerRef = ref(null);
 
-// URL에서 type 파라미터 추출 (예: /qr/NEFA → "NEFA")
 const typeCode = route.params.type;
-
-// 해당 타입 데이터 가져오기
 const resultData = computed(() => personaDataMap[typeCode]);
 
-// 루틴 텍스트를 줄바꿈 기준으로 분리
 const routineLines = computed(() => {
-  const routineText = resultData.value?.routines || "";
-  return routineText.split("\n").filter((line) => line.trim() !== "");
+  const text = resultData.value?.routines || "";
+  return text.split("\n").filter((line) => line.trim() !== "");
 });
 
-// ===== 이미지 경로 함수들 =====
 function getTypeImage(typeCode) {
   try {
     return new URL(
@@ -135,7 +117,6 @@ function getTypeImage(typeCode) {
     return "";
   }
 }
-
 function getCharacterGif(typeCode) {
   try {
     return new URL(
@@ -146,7 +127,6 @@ function getCharacterGif(typeCode) {
     return "";
   }
 }
-
 function getCharacterMatchImage(typeCode) {
   try {
     return new URL(
@@ -158,487 +138,199 @@ function getCharacterMatchImage(typeCode) {
   }
 }
 
-function getCharacterMatchTypeImage(typeCode) {
-  try {
-    return new URL(
-      `../assets/images/matchCharactersType/${typeCode}.png`,
-      import.meta.url
-    ).href;
-  } catch {
-    return "";
-  }
-}
+// ===== 스크롤 애니메이션: IntersectionObserver를 내부 스크롤 컨테이너를 root로 사용 =====
+onMounted(async () => {
+  // scrollContainerRef가 마운트되고 렌더링된 뒤에 observer를 설정
+  await nextTick();
 
-// ===== 스크롤 애니메이션 =====
-onMounted(() => {
+  const container = scrollContainerRef.value;
+  if (!container) return;
+
   const observerOptions = {
-    threshold: 0.5,
+    root: container, // <<--- 핵심: 내부 스크롤 컨테이너를 루트로 지정
+    threshold: 0.45, // 패널이 약 45% 이상 보이면 활성화
     rootMargin: "0px",
   };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) entry.target.classList.add("visible");
+      const el = entry.target;
+      if (entry.isIntersecting) {
+        el.classList.add("visible");
+      } else {
+        // 원하는 경우 비활성 시 visible을 제거 (다시 애니 재생 원치 않으면 주석처리)
+        el.classList.remove("visible");
+      }
     });
   }, observerOptions);
 
-  const panels = scrollContainerRef.value?.querySelectorAll(".panel");
-  panels?.forEach((panel) => observer.observe(panel));
+  const panels = container.querySelectorAll(".panel");
+  panels.forEach((panel) => observer.observe(panel));
+
+  // cleanup: 컴포넌트 언마운트시 옵저버 해제 (선택적)
+  // onBeforeUnmount(() => panels.forEach(p => observer.unobserve(p)));
 });
 </script>
 
 <style scoped>
+/* 전체 레이아웃 */
 .result-container {
   width: 100vw;
   height: 100vh;
-  background: #000;
   overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .result-scroll-container {
   width: 100%;
-  height: 100%;
-  overflow-y: scroll;
+  height: 100vh; /* 뷰포트 높이로 고정 (패널 스냅이 정확해짐) */
+  overflow-y: auto;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-top: 0;
 }
 
+/* 패널 공통: 화면에 딱 맞게 */
 .panel {
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh; /* 한 패널 = 한 화면 */
   scroll-snap-align: start;
+  scroll-snap-stop: always; /* 스냅 안정화 */
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5vh 5vw;
+  padding: 8vh 6vw;
   box-sizing: border-box;
+
+  /* 애니메이션 초기 스타일 */
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s ease, transform 0.8s ease;
+  will-change: opacity, transform; /* 성능 향상 */
 }
 
+/* 보일 때 동작 (fade + lift) */
 .panel.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* --- 1. 타입 소개 패널 --- */
+/* 1️⃣ 타입 소개 패널 */
 .type-intro-panel {
   background: #101010;
-  color: #fff;
-}
-
-.type-intro-content {
+  color: white;
   text-align: center;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
-
-.intro-text {
-  font-family: Pretendard;
-  font-weight: 700;
-  font-style: Bold;
-  font-size: 70px;
-  color: #aac7dd;
-}
-
-.type-code {
-  font-size: clamp(60px, 12vh, 120px);
-  font-weight: bold;
-  letter-spacing: 0.1em;
+.type-image {
+  width: 50vw;
+  max-width: 150px;
   margin: 2vh 0;
-  background: linear-gradient(45deg, #fff, #aaa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  object-fit: contain;
 }
-
-.type-description {
-  border-radius: 72.51px;
-  padding: 20px 70px;
-  background: transparent;
-  font-family: Pretendard;
-  font-weight: 600;
-  font-style: SemiBold;
-  font-size: 50px;
-  line-height: 155%;
-  letter-spacing: 0.25px;
-  text-align: center;
-
-  color: #aac7dd;
-  border: 2px solid #fff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 4vh;
-  margin-top: 4vh;
+.character-image img {
+  width: 50vw;
+  max-width: 350px;
+  height: auto;
+  object-fit: contain;
+  margin-top: 2vh;
 }
-
-.character-image {
+.intro-text {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  color: var(--bg-color); /* 🔴 수정: 받아온 색상 사용 */
+  font-weight: 700;
+  margin-bottom: 1vh;
 }
-
 .hashtags {
   display: flex;
-  gap: 2vw;
+  flex-wrap: wrap;
+  gap: 3vw;
   justify-content: center;
-  margin-top: 4vh;
+  margin: 2vh 0;
 }
-
 .hashtag {
-  border-radius: 72.51px;
-  white-space: nowrap;
-  /* padding: 1.5vh 4vw; */
-  padding: 20px 70px;
-  background: transparent;
-  font-family: Pretendard;
-  font-weight: 700;
-  font-style: Bold;
-  font-size: 60px;
-  line-height: 140%;
-  letter-spacing: 0.25px;
-  color: #aac7dd;
+  padding: 1.2vh 4vw;
   border: 2px solid #fff;
-  /* font-size: clamp(12px, 2vh, 16px); */
-  cursor: pointer;
-  transition: all 0.3s ease;
+  border-radius: 50px;
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
+  color: var(--bg-color); /* 🔴 수정: 받아온 색상 사용 */
+  line-height: 40%;
+}
+.summary {
+  font-size: 10px;
+  line-height: 40%;
+}
+.type-description {
+  font-size: clamp(0.5rem, 3.5vw, 1rem);
+  line-height: 160%;
+  color: var(--bg-color); /* 🔴 수정: 받아온 색상 사용 */
+  margin-top: 3vh;
 }
 
-.tashtag:hover {
-  background: #fff;
-  color: #000;
-}
-
-/* --- 2. Match 패널 --- */
+/* 2️⃣ 매치 패널 */
 .match-panel {
-  background: #aac7dd;
-}
-
-.match-content {
-  width: 100%;
-}
-
-.panel-title {
-  font-family: Pretendard;
-  font-weight: 900;
-  color: #ffffff;
-  font-size: 70px;
-  line-height: 120%;
-  letter-spacing: 0.25px;
+  background: var(--bg-color); /* 🔴 수정: 받아온 색상 사용 */
+  color: #fff;
   text-align: center;
+}
+.panel-title {
+  font-size: clamp(0.8rem, 4vw, 2.5rem);
+  margin-bottom: 4vh;
+  font-weight: 800;
 }
 .match-card-container {
   display: flex;
   flex-direction: column;
-  gap: 124px;
+  gap: 6vh;
 }
-
 .match-card {
-  border-radius: 72.51px;
-  background: transparent;
-  border: 2px solid #fff;
-  cursor: pointer;
-  padding: 80px;
-  font-family: Pretendard;
-  font-weight: 500;
-  font-size: 33.45px;
-  line-height: 150%;
-  letter-spacing: 0%;
-  color: #fff;
-}
-
-.match-label {
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 50px;
-  line-height: 100%;
-  letter-spacing: 0%;
-  text-align: start;
-  color: #ffffff;
-}
-
-.match-info {
   display: flex;
-  gap: 3vw;
+  border: 2px solid #fff;
+  border-radius: 40px;
+  padding: 3vh 4vw;
   align-items: center;
 }
-
-.match-character {
-  width: 802px;
-  height: 811px;
-  border-radius: 72.51px;
-  background-color: rgba(255, 255, 255, 0.1); /* 배경만 반투명 */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-sizing: border-box;
-  padding: 80px;
-}
-
-.match-details {
-  flex: 1;
-}
-
-.match-type {
-  font-size: clamp(20px, 3.5vh, 32px);
+.match-label {
+  font-size: clamp(0.8rem, 2vw, 2rem);
   font-weight: bold;
-  margin-bottom: 1vh;
+  margin-bottom: 2vh;
+  line-height: 50%;
+  text-align: start;
 }
-
+.match-card img {
+  width: 30vw;
+  max-width: 300px;
+  height: auto;
+  object-fit: contain;
+}
 .match-description {
+  font-size: clamp(0.6rem, 2vw, 1.3rem);
+  line-height: 150%;
+  margin-top: 1.5vh;
 }
+
+/* 루틴 */
 .routine-text {
-  font-family: Pretendard;
-  font-weight: 900;
-  font-size: 70px;
-  line-height: 140%;
-  letter-spacing: 0.25px;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  margin-top: 176px;
-  margin-bottom: 56px;
+  margin-top: 3vh;
+  font-size: clamp(0.8rem, 2vw, 2rem);
+  font-weight: 800;
 }
-
-.routine-suggestion {
-  padding: 3vh 4vw;
-  text-align: center;
-  opacity: 1;
-  border-radius: 85px;
-  border: 5px solid #ffffff;
-}
-
-.routine-icon {
-  font-size: clamp(32px, 5vh, 48px);
-  margin-bottom: 2vh;
-}
-
-.routine-suggestion h5 {
-  font-size: clamp(16px, 2.5vh, 20px);
-  font-weight: bold;
-  margin-bottom: 2vh;
-}
-
 .routine-list {
   list-style: none;
   padding: 0;
-  text-align: left;
+  margin: 2vh 0;
 }
-
 .routine-list li {
-  font-family: Pretendard;
-  font-weight: 600;
-  font-size: 50px;
-  line-height: 187%;
-  letter-spacing: 0.25px;
-  color: #ffffff;
+  font-size: clamp(0.5rem, 3vw, 1.3rem);
+  line-height: 160%;
 }
 
-/* --- 3. 통계 패널 --- */
-.statistics-panel {
-  background: #e8f4fa;
-}
-
-.statistics-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.statistics-title {
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 50px;
-  line-height: 140%;
-  text-align: center;
-  color: #000;
-  margin-bottom: 30px;
-}
-
-.statistics-subtitle {
-  font-family: Pretendard;
-  font-weight: 500;
-  font-size: 40px;
-  line-height: 140%;
-  text-align: center;
-  color: #000;
-  margin-bottom: 20px;
-}
-
-.statistics-detail {
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 45px;
-  line-height: 140%;
-  text-align: center;
-  color: #000;
-  margin-bottom: 60px;
-}
-
-.donut-chart-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-/* 변경 후 */
-.donut-chart {
-  width: 640px; /* 250px → 640px */
-  height: 640px; /* 250px → 640px */
-  margin: 60px auto;
-  /* display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center; */
-}
-
-.donut-segment {
-  transition: stroke-dasharray 1s ease;
-}
-
-.chart-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 40px;
-}
-.chart-label text {
-  white-space: nowrap;
-}
-
-.age-statistics {
-  width: 100%;
-  margin: 40px auto 0;
-}
-
-.age-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 25px;
-  gap: 20px;
-}
-
-.age-label {
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 32px;
-  width: 80px;
-  text-align: left;
-  color: #000;
-  white-space: nowrap;
-}
-
-.circle-dots {
-  display: flex;
-  gap: 8px;
-  flex: 1;
-}
-
-.circle-dot {
-  width: 94px;
-  height: 94px;
-  border-radius: 50%;
-  border: 2px solid #000;
-  background: transparent;
-  transition: background-color 0.3s ease;
-}
-
-.circle-dot.filled {
-  background-color: #000;
-}
-
-.age-percentage {
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 32px;
-  width: 80px;
-  text-align: right;
-  color: #000;
-}
-
-/* --- 4. QR 패널 --- */
-.qr-panel {
-  background: #000;
-  color: #fff;
-}
-
-.qr-content {
-  text-align: center;
-  max-width: 600px;
-  width: 100%;
-}
-
-.qr-title {
-}
-
-.print-section,
-.save-section {
-  margin: 5vh 0;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.print-section:hover,
-.save-section:hover {
-  transform: scale(1.05);
-}
-
-.print-section:active {
-  transform: scale(0.95);
-}
-
-.clipboard-icon,
-.cursor-icon {
-}
-
-.clipboard-icon.printing {
-  animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    border-color: #fff;
-  }
-  50% {
-    transform: scale(1.05);
-    border-color: #ff4444;
-  }
-}
-
-.clipboard-icon img,
-.cursor-icon img {
-  width: 70%;
-  height: 70%;
-  object-fit: contain;
-}
-
-.print-label,
-.save-label {
-  font-size: clamp(18px, 3vh, 28px);
-  font-weight: bold;
-  color: #ff4444;
-}
-
-.print-status {
-  font-size: clamp(14px, 2vh, 18px);
-  color: #ffaa00;
-  margin-top: 1vh;
-}
-
-.print-error {
-  font-size: clamp(12px, 1.8vh, 16px);
-  color: #ff4444;
-  margin-top: 1vh;
-}
-
-/* 스크롤바 숨김 */
-::-webkit-scrollbar {
+/* 스크롤바 숨기기 */
+.result-scroll-container::-webkit-scrollbar {
   display: none;
 }
-
 .result-scroll-container {
   -ms-overflow-style: none;
   scrollbar-width: none;

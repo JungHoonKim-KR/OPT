@@ -60,22 +60,25 @@
 
               <main class="question-card">
                 <div class="card-content">
-                  <span class="question-number"
-                    >Q{{ String(currentQuestionIndex + 1) }}.</span
-                  >
+                  <div class="card-content-top">
+                    <span class="question-number"
+                      >Q{{ String(currentQuestionIndex + 1) }}.</span
+                    >
 
-                  <div class="question-text">
-                    <transition name="fade" mode="out-in">
-                      <p class="korean" :key="currentQuestionIndex + '-ko'">
-                        {{ currentQuestion.text_ko }}
-                      </p>
-                    </transition>
-                    <transition name="fade" mode="out-in">
-                      <p class="english" :key="currentQuestionIndex + '-en'">
-                        {{ currentQuestion.text_en }}
-                      </p>
-                    </transition>
+                    <div class="question-text">
+                      <transition name="fade" mode="out-in">
+                        <p class="korean" :key="currentQuestionIndex + '-ko'">
+                          {{ currentQuestion.text_ko }}
+                        </p>
+                      </transition>
+                      <transition name="fade" mode="out-in">
+                        <p class="english" :key="currentQuestionIndex + '-en'">
+                          {{ currentQuestion.text_en }}
+                        </p>
+                      </transition>
+                    </div>
                   </div>
+
                   <transition name="fade" mode="out-in">
                     <div class="answer-options" :key="currentQuestionIndex">
                       <button
@@ -179,29 +182,29 @@ const quizData = ref([
   {
     id: 1,
     q: "Q1.",
-    text_ko: "온라인 속에서 가장 활발한 시간은 언제인가요?",
-    text_en: "When are you most active online?",
+    text_ko: "온라인 속에서\n가장 활발한 시간은\n언제인가요?",
+    text_en: "When are you most\nactive online?",
     answers: ["DAY", "NIGHT"],
   },
   {
     id: 2,
     q: "Q2.",
-    text_ko: "온라인 속 당신의 커뮤니케이션 스타일은?",
-    text_en: "What is your style of communication when you are online?",
+    text_ko: "온라인 속 당신의\n커뮤니케이션\n스타일은?",
+    text_en: "What is your style of\ncommunication\nwhen you are online?",
     answers: ["MINIMAL", "EXPRESSIVE"],
   },
   {
     id: 3,
     q: "Q3.",
-    text_ko: "당신이 끌리는 콘텐츠는 어떤 유형인가요?",
-    text_en: "What type of content interests you?",
+    text_ko: "당신이 끌리는 콘텐츠는\n어떤 유형인가요?",
+    text_en: "What type of content\ninterests you?",
     answers: ["FUN", "INFORMATIVE"],
   },
   {
     id: 4,
     q: "Q4.",
-    text_ko: "온라인 속 당신의 행동 방식은?",
-    text_en: "How would you describe your online behavior?",
+    text_ko: "온라인 속\n당신의 행동 방식은?",
+    text_en: "How would you describe\nyour online behavior?",
     answers: ["ACTIVE", "PASSIVE"],
   },
   // ... (나머지 퀴즈 데이터가 있다면 여기에)
@@ -642,6 +645,10 @@ async function goBack() {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  justify-content: space-between;
+  padding-top: 300px;
+  padding-left: 150px;
+  padding-right: 150px;
   gap: 5vh;
 }
 
@@ -661,11 +668,6 @@ async function goBack() {
 .question-text {
   text-align: left;
   color: #1a1a1a;
-}
-
-.question-text p {
-  width: 100%;
-  margin: 0;
   font-family: Helvetica;
   font-weight: 700;
   font-style: Bold;
@@ -675,23 +677,43 @@ async function goBack() {
   letter-spacing: 0%;
 }
 
+.question-text p {
+  width: 100%;
+  margin: 0;
+  white-space: pre-line;
+}
+
 .korean {
   font-size: clamp(24px, 5vmin, 50px);
   font-weight: bold;
   line-height: 1.3;
   margin-bottom: 1.5vh;
+  font-family: Helvetica;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 100px;
+  leading-trim: NONE;
+  line-height: 150px;
+  letter-spacing: 0%;
 }
 
 .english {
   font-size: clamp(16px, 3vmin, 28px);
   color: #555;
   line-height: 1.3;
+  font-family: Pretendard;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 70px;
+  line-height: 85px;
+  letter-spacing: 0%;
+  opacity: 0.47;
 }
 
 .answer-options {
   display: flex;
   flex-direction: column;
-  gap: 2.5vh;
+  gap: 1.5vh;
   align-items: flex-start;
   width: 100%;
 }
@@ -704,8 +726,6 @@ async function goBack() {
   font-weight: bold;
   transition: all 0.2s ease;
   text-align: center;
-
-  angle: 0 deg;
   opacity: 1;
   border-radius: 166.35px;
   border-width: 4.16px;
