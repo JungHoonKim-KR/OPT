@@ -252,7 +252,7 @@ const typeColorMap = {
   NMIP: "#AAC7DD",
   NEIP: "#AAC7DD",
   NEFA: "#D4BDE2",
-  NEFP: "#D4BDE2",
+  NEIA: "#D4BDE2",
   NMFP: "#D4BDE2",
   NEFP: "#D4BDE2",
   default: "#D9D9D9", // 기본 색상
@@ -527,7 +527,7 @@ onMounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #aac7dd;
+  color: var(--bg-color);
   border: 2px solid #fff;
   cursor: pointer;
   transition: all 0.3s ease;
