@@ -36,8 +36,12 @@
             </div>
           </div>
 
-          <p class="summary">{{ resultData.summary }}</p>
-          <div class="type-description">{{ resultData.description }}</div>
+          <div class="type-description">
+            <div class="sumarry-description">{{ resultData.summary }}</div>
+
+            {{ resultData.description }}
+          </div>
+
         </div>
       </section>
 
@@ -258,15 +262,44 @@ onMounted(async () => {
   color: var(--bg-color); /* 🔴 수정: 받아온 색상 사용 */
   line-height: 40%;
 }
+
+.sumarry-description {
+  border-radius: 50px;
+  background-color: var(--bg-color);
+  color: #ffffff;
+  font-family: Pretendard;
+  font-weight: 800;
+  font-style: ExtraBold;
+  font-size: 10px;
+  line-height: 40%;
+  letter-spacing: 0.25px;
+  text-align: center;
+  padding: 10px;
+  width: 80%;
+}
 .summary {
   font-size: 10px;
   line-height: 40%;
 }
 .type-description {
-  font-size: clamp(0.5rem, 3.5vw, 1rem);
+  font-size: clamp(0.5rem, 2.0vw, 1rem);
   line-height: 160%;
-  color: var(--bg-color); /* 🔴 수정: 받아온 색상 사용 */
+  color: var(--bg-color); 
   margin-top: 3vh;
+  display: flex;
+  border-radius: 72.51px;
+  background: transparent;
+  font-family: Pretendard;
+  font-style: SemiBold;
+  letter-spacing: 0.25px;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
 }
 
 /* 2️⃣ 매치 패널 */
@@ -279,6 +312,7 @@ onMounted(async () => {
   font-size: clamp(0.8rem, 4vw, 2.5rem);
   margin-bottom: 4vh;
   font-weight: 800;
+  line-height: 100%;
 }
 .match-card-container {
   display: flex;
@@ -316,6 +350,7 @@ onMounted(async () => {
   margin-top: 3vh;
   font-size: clamp(0.8rem, 2vw, 2rem);
   font-weight: 800;
+  line-height: 100%;
 }
 .routine-list {
   list-style: none;
