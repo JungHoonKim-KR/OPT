@@ -231,40 +231,42 @@ const currentQuestion = computed(() => {
   return { q: "", text_ko: "", text_en: "", answers: ["", ""] };
 });
 
-let scrollObserver;
+// let scrollObserver; // ⚠️ 스크롤 옵저버 제거 (주석 처리 또는 삭제)
 
 onMounted(() => {
-  // [수정] Pinia 스토어 값 확인 (URL 쿼리 대신)
+  // [수정] Pinia 스토어 값 확인
   console.log(
     "QuizView - Info from Store:",
     userSelectionStore.gender,
     userSelectionStore.age
   );
 
-  scrollObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(async (entry) => {
-        // 퀴즈 패널이 화면에 보이기 시작하고, 퀴즈가 아직 시작 전(-1)이면
-        if (entry.isIntersecting && currentQuestionIndex.value === -1) {
-          console.log("Quiz panel is intersecting, showing first question.");
-          currentQuestionIndex.value = 0; // 퀴즈 시작
-          if (quizPanelRef.value) {
-            scrollObserver.unobserve(quizPanelRef.value);
-          }
-        }
-      });
-    },
-    { threshold: 0.1 } // 퀴즈 패널이 10% 보였을 때
-  );
+  // --- 🌟 스플래시 화면처럼 일정 시간 후 2번 패널로 자동 전환 로직 추가 🌟 ---
+  // 1. 시작 패널이 잠시(예: 2초) 보여집니다.
+  // 2. 2초 후 퀴즈 패널로 부드럽게 스크롤됩니다.
+  // 3. 스크롤 완료 후 currentQuestionIndex를 0으로 설정하여 퀴즈를 시작합니다.
+  
+  // 💡 참고: 시작 패널(ref="startPanelRef")은 현재 -1 상태에서 보여지고 있습니다.
 
-  // 퀴즈 패널(quizPanelRef)을 감시 대상으로 등록
-  if (quizPanelRef.value) {
-    scrollObserver.observe(quizPanelRef.value);
-  }
+  setTimeout(async () => {
+    // 퀴즈 패널로 부드럽게 스크롤
+    if (quizPanelRef.value) {
+      quizPanelRef.value.scrollIntoView({ behavior: "smooth" });
+    }
+    
+    // 스크롤이 완료될 시간을 고려하여 퀴즈 시작 (예: 500ms 후)
+    await nextTick();
+    setTimeout(() => {
+      console.log("Auto scroll complete. Starting quiz.");
+      currentQuestionIndex.value = 0; // 퀴즈 시작 (Q1 표시)
+    }, 500); // 부드러운 스크롤 시간에 따라 조절
+  }, 1000); // 2초(2000ms) 동안 시작 패널 표시
+
+  // ⚠️ 기존 IntersectionObserver 로직 제거
 });
 
 onUnmounted(() => {
-  if (scrollObserver) scrollObserver.disconnect();
+  // if (scrollObserver) scrollObserver.disconnect(); // ⚠️ 스크롤 옵저버 제거
 });
 
 // 답변 '선택' 함수 (NEXT 버튼용)
@@ -356,17 +358,21 @@ function showCompletionScreen(isSuccess, message) {
   isComplete.value = true;
 }
 
-// 뒤로가기 함수
+// 뒤로가기 함수 (1번 패널로 돌아갈 때 다시 자동 시작되지 않도록 수정)
 async function goBack() {
   if (currentQuestionIndex.value === 0) {
+    // 1번 패널로 스크롤
     startPanelRef.value?.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => {
-      currentQuestionIndex.value = -1;
+      currentQuestionIndex.value = -1; // 퀴즈 미시작 상태로 변경
       selectedAnswerIndex.value = null;
-      if (quizPanelRef.value) {
-        scrollObserver.observe(quizPanelRef.value);
-      }
-    }, 500);
+      
+      // ⚠️ 중요: 1번으로 돌아왔을 때 자동 시작 로직을 다시 호출하거나, 
+      // 현재 로직에서는 1번으로 돌아왔을 때 다시 자동 시작되지 않으므로, 
+      // 만약 다시 퀴즈를 시작하려면 페이지를 리로드하는 것이 더 간단할 수 있습니다.
+      // 여기서는 그냥 -1 상태로 둡니다.
+      
+    }, 500); // 스크롤 시간을 고려한 지연
   } else if (currentQuestionIndex.value > 0) {
     const prevQuestionIndex = currentQuestionIndex.value - 1;
     selectedAnswerIndex.value = userAnswers.value[prevQuestionIndex];
