@@ -566,7 +566,7 @@ onUnmounted(() => {
 .option-group {
   display: flex;
   justify-content: center;
-  gap: clamp(0.5rem, 1.2vw, 1rem); /* 간격 조정 */
+  gap: 67px
 }
 .sex-group{
   margin-top: 294px;

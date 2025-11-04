@@ -65,6 +65,10 @@
                     "
                     alt="Best Match Type"
                   />
+                  <p class="match-summary">
+                    {{resultData.bestOPT?.summary||'최고의 조합'}}
+                  </p>
+
                   <p class="match-description">
                     {{
                       resultData.bestOPT.description ||
@@ -98,6 +102,9 @@
                     "
                     alt="Worst Match Type"
                   />
+                  <p class="match-summary">
+                    {{resultData.worstOPT?.summary||'최악의 조합'}}
+                  </p>
                   <p class="match-description">
                     {{
                       resultData.worstOPT?.description ||
@@ -185,7 +192,8 @@
           <div class="age-statistics">
             <div v-for="(data, index) in ageData" :key="index" class="age-row">
               <span class="age-label">{{ data.label }}</span>
-              <div class="circle-dots">
+              <div class="circle-dots-container">
+                <div class="circle-dots">
                 <span
                   v-for="i in 10"
                   :key="i"
@@ -193,8 +201,12 @@
                   :class="{ filled: i <= data.filledDots }"
                 ></span>
               </div>
-              <span class="age-percentage">{{ data.percentage }}%</span>
+              <div style="margin-left: 36px;">
+                              <span class="age-percentage">{{ data.percentage }}%</span>
+              </div>
             </div>
+              </div>
+              
           </div>
         </div>
       </section>
@@ -747,10 +759,16 @@ text-align: center;
 
 .statistics-detail {
   font-family: Pretendard;
-  font-weight: 700;
-  font-size: 45px;
-  line-height: 140%;
-  text-align: center;
+font-weight: 700;
+font-style: Bold;
+font-size: 70px;
+leading-trim: NONE;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: center;
+
+  margin-top: 154px;
+
   color: #000;
   margin-bottom: 60px;
 }
@@ -793,10 +811,21 @@ text-align: center;
 }
 
 .age-row {
-  display: flex;
+  margin-top: 52px;
   align-items: center;
   margin-bottom: 25px;
   gap: 20px;
+  flex-direction: column;
+}
+.age-row span{
+  font-family: Pretendard;
+font-weight: 700;
+font-style: Bold;
+font-size: 50.46px;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: center;
+
 }
 
 .age-label {
@@ -807,6 +836,12 @@ text-align: center;
   text-align: left;
   color: #000;
   white-space: nowrap;
+}
+.circle-dots-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .circle-dots {
@@ -920,5 +955,27 @@ text-align: center;
 .result-scroll-container {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.match-description{
+  font-family: Pretendard;
+font-weight: 500;
+font-style: Medium;
+font-size: 33.45px;
+leading-trim: CAP_HEIGHT;
+line-height: 150%;
+letter-spacing: 0%;
+
+}
+
+.match-summary{
+  font-family: Pretendard;
+font-weight: 700;
+font-style: Bold;
+font-size: 33.45px;
+leading-trim: CAP_HEIGHT;
+line-height: 147%;
+letter-spacing: 0%;
+
 }
 </style>
