@@ -215,14 +215,14 @@
             <p v-if="printError" class="print-error">{{ printError }}</p>
           </div>
 
-          <!-- 서울숲 저장 섹션
-          <div class="save-section">
-            <div class="cursor-icon">
-              <img :src="cursorGif" alt="Save" />
-            </div>
-            <p class="save-label">서울숲으로</p>
-          </div> -->
+          
         </div>
+        <footer>
+          <div class="save-section" @click="goHome">
+              <img :src="homeImage" alt="처음으로" />
+          </div>
+        </footer>
+        
       </section>
     </div>
   </div>
@@ -230,13 +230,22 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { useUserSelectionStore } from "@/stores/userSelection";
 import titleImage from "@/assets/images/print-title.png";
+import homeImage from "@/assets/images/home-button.png";
 
 const userSelectionStore = useUserSelectionStore();
 const scrollContainerRef = ref(null);
 const isPrinting = ref(false);
 const printError = ref("");
+
+const router = useRouter();
+
+// 홈으로 이동하는 함수
+const goHome = () => {
+  router.push({ name: 'home' }) // 또는 router.push('/')
+}
 
 const typeColorMap = {
   DEFA: "#E7B9C6",
@@ -645,8 +654,6 @@ onMounted(() => {
   margin-bottom: 1vh;
 }
 
-.match-description {
-}
 .routine-text {
   font-family: Pretendard;
   font-weight: 900;
@@ -821,23 +828,29 @@ onMounted(() => {
 .qr-panel {
   background: #000;
   color: #fff;
+  position: relative;
 }
 
 .qr-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 577px;
   text-align: center;
   max-width: 600px;
   width: 100%;
 }
 
-.qr-title {
+
+
+.save-section {
+  position: absolute;
+  bottom: 153px; /* 아래 여백 */
+  right: 153px;  /* 오른쪽 여백 */
+  cursor: pointer;
 }
 
-.print-section,
-.save-section {
-  margin: 5vh 0;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
 
 .print-section:hover,
 .save-section:hover {
@@ -848,9 +861,6 @@ onMounted(() => {
   transform: scale(0.95);
 }
 
-.clipboard-icon,
-.cursor-icon {
-}
 
 .clipboard-icon.printing {
   animation: pulse 1s infinite;
@@ -868,12 +878,7 @@ onMounted(() => {
   }
 }
 
-.clipboard-icon img,
-.cursor-icon img {
-  width: 70%;
-  height: 70%;
-  object-fit: contain;
-}
+
 
 .print-label,
 .save-label {
