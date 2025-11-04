@@ -558,6 +558,7 @@ const personaDataMap = {
     // URL에서 타입 코드 추출
     function getTypeCodeFromUrl() {
       const pathParts = window.location.pathname.split('/');
+      console.log(pathParts)
       const typeIndex = pathParts.indexOf('result');
       if (typeIndex !== -1 && pathParts[typeIndex + 1]) {
         return pathParts[typeIndex + 1].toUpperCase();
