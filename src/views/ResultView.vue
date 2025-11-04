@@ -425,7 +425,7 @@ async function handlePrint() {
     console.log("프린트 성공:", result);
 
     // 성공 피드백
-    alert("인쇄가 시작되었습니다! 🖨️");
+    // alert("인쇄가 시작되었습니다! 🖨️");
   } catch (error) {
     console.error("프린트 오류:", error);
     printError.value =

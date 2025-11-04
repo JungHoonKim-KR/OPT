@@ -29,13 +29,13 @@ const router = createRouter({
       name: "result",
       component: () => import("../views/ResultView.vue"),
     },
-    // {
-    //   // /qr/NMIA, /qr/DMFP 등의 주소로 접근 가능
-    //   path: "/qr/:type",
-    //   name: "qr-view",
-    //   component: () => import("../views/QrView.vue"), // lazy loading 방식으로 통일
-    //   props: true, // URL 파라미터(:type)를 props로 전달
-    // },
+    {
+      // /qr/NMIA, /qr/DMFP 등의 주소로 접근 가능
+      path: "/qr/:type",
+      name: "qr-view",
+      component: () => import("../views/qrView.vue"), // lazy loading 방식으로 통일
+      props: true, // URL 파라미터(:type)를 props로 전달
+    },
   ],
 });
 
