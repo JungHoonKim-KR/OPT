@@ -140,7 +140,7 @@
           <div class="donut-chart-container">
             <!-- 왼쪽 라벨 (남성) -->
             <div class="chart-label">
-              <text class="chart-percentage"> {{ genderPercentage }}% </text>
+              <text class="chart-percentage"> {{ genderPercentage.man }}% </text>
               <text class="chart-text">● 남성</text>
             </div>
 
@@ -163,7 +163,7 @@
                   fill="none"
                   stroke="#000000"
                   stroke-width="20"
-                  :stroke-dasharray="`${genderPercentage * 4.4} 440`"
+                  :stroke-dasharray="`${genderPercentage.man} 440`"
                   stroke-dashoffset="0"
                   transform="rotate(-90 100 100)"
                   class="donut-segment"
@@ -174,7 +174,7 @@
             <!-- 오른쪽 라벨 (여성) -->
             <div class="chart-label">
               <text class="chart-percentage">
-                {{ 100 - genderPercentage }}%
+                {{ genderPercentage.woman }}%
               </text>
               <text class="chart-text">● 여성</text>
             </div>
@@ -281,16 +281,22 @@ const dynamicBackgroundColor = computed(() => {
   return typeColorMap[typeCode] || typeColorMap.default;
 });
 
-// 연령대별 데이터 가공
+// 연령대별 데이터 가공 (서버 값 그대로 매핑)
 const ageData = computed(() => {
   const ageLabels = ["10대", "20대", "30대", "40대", "50대", "기타"];
   const surveyList = resultData.value.surveyListByAge || [0, 0, 0, 0, 0, 0];
+
+  // totalCount가 이미 서버에서 내려온 값이므로 그대로 사용
   const total = Math.max(resultData.value.totalCount, 1);
 
   return ageLabels.map((label, index) => {
     const count = surveyList[index] || 0;
-    const percentage = total > 0 ? Math.round((count / total) * 100) : 0;
-    const filledDots = Math.round(percentage / 10); // 10개 중 몇 개를 채울지
+
+    // 서버에서 이미 총합과 개별값이 있으므로 percentage도 그대로 계산 가능
+    const percentage = count;
+
+    // 10개 중 몇 개 채울지 (그래프용)
+    const filledDots = Math.min(Math.floor(count / 10), 10);
 
     return {
       label,
@@ -301,21 +307,22 @@ const ageData = computed(() => {
   });
 });
 
-// 내 타입의 전체 비율 계산
+// 내 타입의 전체 비율 (surveyListByAge 합계)
 const myTypePercentage = computed(() => {
-  const totalResponses = resultData.value.totalCount || 100;
-  const myTypeCount =
-    resultData.value.surveyListByAge?.reduce((sum, count) => sum + count, 0) ||
-    0;
-  return totalResponses > 0
-    ? Math.round((myTypeCount / totalResponses) * 100)
-    : 0;
+  const totalOfType = resultData.value.totalCountOfType || 0;
+  const total = resultData.value.totalCount || 1; // 0 방지
+  return Math.round((totalOfType / total) * 100);
 });
 
-// 성별 비율 계산
+
+// 성별 비율 계산 (서버에서 이미 내려온 값 활용)
 const genderPercentage = computed(() => {
-  return 60; // 서버에서 성별 데이터가 오면 수정
+  return {
+    man: resultData.value.percentOfMan || 0,
+    woman: resultData.value.percentOfWomen || 0,
+  };
 });
+
 
 function getCharacterMatchImage(typeCode) {
   if (!typeCode) return "";

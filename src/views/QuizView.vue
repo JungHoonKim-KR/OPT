@@ -315,7 +315,7 @@ async function sendSurveyData() {
   // --- 3. 최소 3초 대기와 서버 통신을 병렬 처리 ---
   const minLoadingTime = new Promise((resolve) => setTimeout(resolve, 3000));
 
-  const serverRequest = fetch("/question/survey", {
+  const serverRequest = fetch(`http://ec2-43-201-179-196.ap-northeast-2.compute.amazonaws.com:8080/question/survey`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
