@@ -642,7 +642,7 @@ onUnmounted(() => {
   bottom: 300px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 7rem;
+  font-size: 5rem;
   color: #888;
   opacity: 0.8;
 
