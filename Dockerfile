@@ -18,7 +18,7 @@ RUN gradle build --no-daemon -x test
 # ================= STAGE 2: Runtime =================
 # 더 가벼운 JRE 이미지 사용
 # Dockerfile 20번째 줄 수정
-FROM openjdk:17-jre-slim-bullseye
+FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
