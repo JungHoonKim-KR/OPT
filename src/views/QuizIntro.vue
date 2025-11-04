@@ -90,7 +90,7 @@
             <div class="selection-header">
               <p class="main-text">성별, 연령대를 선택해주세요!</p>
               <p class="sub-text">
-                귀하의 정보는 통계 목적으로만 활용되며, 익명으로 처리됩니다.
+                귀하의 정보는 통계 목적으로만 활용되며,<br></br>익명으로 처리됩니다.
               </p>
             </div>
 
@@ -554,7 +554,7 @@ onUnmounted(() => {
 }
 .sub-text {
   /* font-size: clamp(10px, 1.6vmin, 16px);  */
-  color: #6b6b6b;
+  color: #929191;
   font-family: Pretendard;
   font-weight: 600;
   font-style: SemiBold;
