@@ -94,7 +94,7 @@
               </p>
             </div>
 
-            <div class="option-group">
+            <div class="option-group sex-group">
               <button
                 @click="userSelectionStore.setGender('male')"
                 :class="{ active: userSelectionStore.gender === 'male' }"
@@ -115,55 +115,60 @@
               <button
                 @click="userSelectionStore.setAge('10s')"
                 :class="{ active: userSelectionStore.age === '10s' }"
-                class="option-button"
+                class="option-button option-button-age"
               >
                 10대
               </button>
               <button
                 @click="userSelectionStore.setAge('20s')"
                 :class="{ active: userSelectionStore.age === '20s' }"
-                class="option-button"
+                class="option-button option-button-age"
               >
                 20대
               </button>
               <button
                 @click="userSelectionStore.setAge('30s')"
                 :class="{ active: userSelectionStore.age === '30s' }"
-                class="option-button"
+                class="option-button option-button-age"
               >
                 30대
               </button>
               <button
                 @click="userSelectionStore.setAge('40s')"
                 :class="{ active: userSelectionStore.age === '40s' }"
-                class="option-button"
+                class="option-button option-button-age"
               >
                 40대
               </button>
               <button
                 @click="userSelectionStore.setAge('50s')"
                 :class="{ active: userSelectionStore.age === '50s' }"
-                class="option-button"
+                class="option-button option-button-age"
               >
                 50대
               </button>
               <button
                 @click="userSelectionStore.setAge('etc')"
                 :class="{ active: userSelectionStore.age === 'etc' }"
-                class="option-button"
+                class="option-button option-button-age"
               >
                 기타
               </button>
             </div>
 
-            <button
+            
+          </div>
+          <button
               @click="goToQuiz"
               class="start-button"
               :disabled="!userSelectionStore.gender || !userSelectionStore.age"
             >
-              START
+              <img
+              :src="startButtonImage"
+              alt="설문조사 시작"
+              class="start-button-img"
+            />
             </button>
-          </div>
         </section>
       </div>
     </div>
@@ -179,6 +184,7 @@ import { useUserSelectionStore } from "@/stores/userSelection";
 import backgroundBarImageWhite from "@/assets/images/backgroundBar_white.png";
 import titleImage from "@/assets/images/title_online_persona_type.png";
 import backgroundBarImageBlack from "@/assets/images/footer_plus_black.png";
+import startButtonImage from "@/assets/images/start-button.png";
 
 const router = useRouter();
 // Pinia 스토어 인스턴스 생성
@@ -371,6 +377,9 @@ onUnmounted(() => {
 .title-image {
   height: 35%;
 }
+.start-button-img{
+
+}
 .description {
   font-family: Pretendard;
   font-weight: 500;
@@ -512,8 +521,12 @@ onUnmounted(() => {
 
 /* --- 세 번째 패널 --- */
 .selection-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 274px;
+  padding-top: 736px;
   background-color: #e9f7ff;
-  justify-content: center;
   align-items: center;
 }
 .selection-content {
@@ -555,10 +568,14 @@ onUnmounted(() => {
   justify-content: center;
   gap: clamp(0.5rem, 1.2vw, 1rem); /* 간격 조정 */
 }
+.sex-group{
+  margin-top: 294px;
+  margin-bottom: 383px;
+}
 .age-group {
   display: grid; /* Grid 사용 */
   grid-template-columns: repeat(3, 1fr); /* 3개의 열 */
-  gap: clamp(0.8rem, 1.5vmin, 1.5rem) clamp(0.5rem, 1.2vw, 1rem); /* 세로, 가로 간격 */
+  gap: 133px 68px; /* 세로, 가로 간격 */
   justify-items: center; /* 아이템 가로 중앙 정렬 */
 }
 .option-button {
@@ -566,12 +583,11 @@ onUnmounted(() => {
   font-weight: 700;
   font-style: Bold;
   font-size: 80px;
-  leading-trim: NONE;
   line-height: 100%;
   letter-spacing: 0%;
   padding: 10px 20px;
-  width: 489;
-  height: 244;
+  width: 489px;
+  height: 244px;
   opacity: 1;
   top: 1254px;
   left: 557px;
@@ -587,6 +603,9 @@ onUnmounted(() => {
   transition: all 0.2s ease;
   text-align: center;
 }
+.option-button-age{
+  height: 205px;
+}
 .option-button:hover {
   background: #f0f0f0;
   border-color: #aaa;
@@ -597,18 +616,14 @@ onUnmounted(() => {
   border-color: #1a1a1a;
 }
 .start-button {
+  padding: 70px;
+  border-radius: 200px;
   background: #1a1a1a;
-  color: white;
   border: none;
-  border-radius: 50px;
-  padding: clamp(0.7rem, 1.8vmin, 1.5rem); /* 패딩 조정 */
-  font-size: clamp(14px, 2.5vmin, 25px); /* 크기 조정 */
-  font-weight: bold;
+ 
   cursor: pointer;
   transition: transform 0.2s ease;
-  margin-top: clamp(0.6rem, 1.2vmin, 1.2rem); /* 간격 조정 */
-  width: 100%; /* 너비 100% */
-  max-width: 300px; /* 최대 너비 제한 (선택 사항) */
+  width: 80%; /* 너비 100% */
   align-self: center; /* 중앙 정렬 */
 }
 .start-button:disabled {
