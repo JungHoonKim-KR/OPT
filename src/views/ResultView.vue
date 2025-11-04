@@ -126,7 +126,7 @@
         <div class="statistics-content">
           <div class="statistics-title">
             설문에 참여한<br />
-            <strong>{{ resultData.totalCount }}명</strong> 중
+            <strong>{{ resultData.totalCount }}명</strong> 중<br/><br/>
           </div>
 
           <div class="statistics-subtitle">
@@ -273,7 +273,7 @@ const resultData = computed(() => userSelectionStore.getResult);
 const routineLines = computed(() => {
   const routineText = resultData.value.opt.routineSuggestion || "";
   // \n으로 나누고 빈 줄 제거
-  return routineText.split("\n").filter((line) => line.trim() !== "");
+  return routineText.split("\\n").filter((line) => line.trim() !== "");
 });
 
 const dynamicBackgroundColor = computed(() => {
@@ -721,20 +721,26 @@ onMounted(() => {
 
 .statistics-title {
   font-family: Pretendard;
-  font-weight: 700;
-  font-size: 50px;
-  line-height: 140%;
-  text-align: center;
+font-weight: 700;
+font-style: Bold;
+font-size: 70px;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: center;
   color: #000;
   margin-bottom: 30px;
 }
 
 .statistics-subtitle {
   font-family: Pretendard;
-  font-weight: 500;
-  font-size: 40px;
-  line-height: 140%;
-  text-align: center;
+font-weight: 700;
+font-style: Bold;
+font-size: 70px;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: center;
+
+
   color: #000;
   margin-bottom: 20px;
 }
