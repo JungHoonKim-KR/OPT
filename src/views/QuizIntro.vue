@@ -51,6 +51,7 @@
                 </p>
               </template>
             </div>
+            <div class="scroll-text">아래로 스크롤하세요.</div>
           </main>
           <div class="footer-bars-wrapper">
             <img
@@ -636,6 +637,28 @@ onUnmounted(() => {
   transform: scale(1.05);
 }
 
+.scroll-text {
+  position: absolute;
+  bottom: 300px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 7rem;
+  color: #888;
+  opacity: 0.8;
+
+  /* ✨ 깜빡이는 효과 추가 */
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+/* 🔁 깜빡임 애니메이션 정의 */
+@keyframes blink {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
 @keyframes fadeIn {
   from {
     opacity: 0;
