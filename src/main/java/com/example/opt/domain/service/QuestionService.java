@@ -32,12 +32,13 @@ public class QuestionService {
         MAPPING_SECTORS.add(Map.of(0, "F", 1, "I")); // Purpose: Fun / Informative
 
         // 질문 4번 섹터: 0 -> "P", 1 -> "A"
-        MAPPING_SECTORS.add(Map.of(0, "P", 1, "A")); // Activity: Passive / Active
+        MAPPING_SECTORS.add(Map.of(0, "A", 1, "P")); // Activity: Active / Passive
     }
 
     public OPT createResult(List<Integer> answers) {
         String resultCode = createOPTCode(answers);
         return questionRepository.findByTypeCode(resultCode);
+
     }
 
     public OPT findByTypeCode(String typeCode){

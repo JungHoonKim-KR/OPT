@@ -29,6 +29,7 @@ public class QuestionController {
     private final GuestService guestService;
     @Operation(summary = "설문 결과 응답", description = "4가지 설문의 응답 데이터를 받고 이에 따른 결과값 반환")
     @PostMapping("/survey")
+    @CrossOrigin(origins  ="*")
     public OPTResponseDto survey(@RequestBody OPTRequestDto optRequestDto) {
 
         OPT opt = questionService.createResult(optRequestDto.getQuestionList());
